@@ -55,6 +55,7 @@ class RandomSelector(base_selector.BaseSelector):
             connector = sqlite3.connect(database)
             cursor = connector.cursor()
             cursor.execute('SELECT md5, file_ext FROM image '
+                         + self._get_where(sys.argv)
                          + 'ORDER BY RANDOM() '
                          + 'LIMIT ' + wallpaper_number)
             cursor_result = cursor.fetchall()
@@ -63,6 +64,26 @@ class RandomSelector(base_selector.BaseSelector):
                 src_path = image + '/' + file_name
                 dst_path = wallpaper_path + '/' + file_name
                 yield (src_path, dst_path)
+
+    def _get_where(self, argv):
+        """WHERE문 제작
+        """
+        # 인자 처리
+        if len(argv) < 2:
+            rating_argv = 'sqe'
+        else:
+            rating_argv = str.join('', argv[1:])
+        # WHERE문 처리
+        result = ''
+        for rating_index in ['s', 'q', 'e']:
+            if rating_index in rating_argv:
+                if not 'WHERE' in result:
+                    result = result + 'WHERE '
+                if 'rating' in result:
+                    result = result + 'or '
+                result = result + 'rating="' + rating_index + '" '
+        # WHERE문 반환
+        return result
 
 
 def main(argv):
