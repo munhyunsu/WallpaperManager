@@ -9,6 +9,7 @@ import logging # 로깅
 import configparser # configParser
 import sqlite3 # SQL
 import shutil # copyfile
+import argparse # argparse
 
 INIFILE = 'random_selector.ini'
 
@@ -29,6 +30,8 @@ class RandomSelector(base_selector.BaseSelector):
         # 설정 파일 확인
         if not check_ini.check_ini(self.config):
             sys.exit(0)
+        # 내부 변수 초기화
+        self._rating = 'sqe'
 
     def _prepare_copy(self):
         """복사 준비
@@ -55,7 +58,7 @@ class RandomSelector(base_selector.BaseSelector):
             connector = sqlite3.connect(database)
             cursor = connector.cursor()
             cursor.execute('SELECT md5, file_ext FROM image '
-                         + self._get_where(sys.argv)
+                         + self._get_where()
                          + 'ORDER BY RANDOM() '
                          + 'LIMIT ' + wallpaper_number)
             cursor_result = cursor.fetchall()
@@ -65,18 +68,19 @@ class RandomSelector(base_selector.BaseSelector):
                 dst_path = wallpaper_path + '/' + file_name
                 yield (src_path, dst_path)
 
-    def _get_where(self, argv):
+    def set_rating(self, rating):
+        """등급 설정
+        """
+        self._rating = rating
+
+    def _get_where(self):
         """WHERE문 제작
         """
-        # 인자 처리
-        if len(argv) < 2:
-            rating_argv = 'sqe'
-        else:
-            rating_argv = str.join('', argv[1:])
+        rating = self._rating
         # WHERE문 처리
         result = ''
         for rating_index in ['s', 'q', 'e']:
-            if rating_index in rating_argv:
+            if rating_index in rating:
                 if not 'WHERE' in result:
                     result = result + 'WHERE '
                 if 'rating' in result:
@@ -87,7 +91,13 @@ class RandomSelector(base_selector.BaseSelector):
 
 
 def main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-r', '--rating', nargs='?', help='s/q/e 조합',
+            default='seq', type=str)
+    args = vars(parser.parse_args(argv[1:]))
+
     wallpaper_random_selector = RandomSelector(INIFILE)
+    wallpaper_random_selector.set_rating(args['rating'])
     wallpaper_random_selector.start_copy()
 
 if __name__ == '__main__':

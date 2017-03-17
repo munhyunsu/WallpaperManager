@@ -33,8 +33,8 @@ class RandomChanger(object):
         if not self._set_logging():
             sys.exit(0)
         # 내부 변수 초기화
-        self.rating = str()
-        self.sleep_time = None
+        self._rating = 'sqe'
+        self._sleep_time = 60
 
     def _set_logging(self):
         """로그 시스템 셋업
@@ -77,15 +77,15 @@ class RandomChanger(object):
             image_path = 'file://' + image_path
             yield image_path
 
-    def set_where(self, rating):
+    def set_rating(self, rating):
         """WHERE문 제작용 변수 저장
         """
-        self.rating = rating
+        self._rating = rating
 
     def _get_where(self):
         """WHERE문 제작
         """
-        rating = self.rating
+        rating = self._rating
         # WHERE문 처리
         result = ''
         for rating_index in ['s', 'q', 'e']:
@@ -101,13 +101,13 @@ class RandomChanger(object):
     def set_sleep(self, sleep_time):
         """Sleep용 변수 저장
         """
-        self.sleep_time = int(sleep_time)
+        self._sleep_time = int(sleep_time)
 
     def start_change(self):
         """배경화면 변경 시작
         """
         config = self.config
-        sleep_time = self.sleep_time
+        sleep_time = self._sleep_time
         image_path_generator = self._get_image_path()
         try:
             logging.info('배경화면 변경 시작: 종료하려면 Ctrl + C')
@@ -144,7 +144,7 @@ def main(argv):
     args = vars(parser.parse_args(argv[1:]))
 
     wallpaper_random_changer = RandomChanger(INIFILE)
-    wallpaper_random_changer.set_where(args['rating'])
+    wallpaper_random_changer.set_rating(args['rating'])
     wallpaper_random_changer.set_sleep(args['sleep'])
     wallpaper_random_changer.start_change()
 
