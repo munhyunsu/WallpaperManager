@@ -10,6 +10,7 @@ import sqlite3 # SQL
 import subprocess # change background
 import time # sleep
 import random # choice
+import argparse # argparse
 
 INIFILE = 'random_changer.ini'
 
@@ -31,6 +32,9 @@ class RandomChanger(object):
         # 로깅 시스템 셋업
         if not self._set_logging():
             sys.exit(0)
+        # 내부 변수 초기화
+        self.rating = str()
+        self.sleep_time = None
 
     def _set_logging(self):
         """로그 시스템 셋업
@@ -62,7 +66,7 @@ class RandomChanger(object):
             connector = sqlite3.connect(database)
             cursor = connector.cursor()
             cursor.execute('SELECT md5, file_ext FROM image '
-                         + self._get_where(sys.argv)
+                         + self._get_where()
                          + 'ORDER BY RANDOM() '
                          + 'LIMIT 1')
             cursor_result = cursor.fetchone()
@@ -73,18 +77,19 @@ class RandomChanger(object):
             image_path = 'file://' + image_path
             yield image_path
 
-    def _get_where(self, argv):
+    def set_where(self, rating):
+        """WHERE문 제작용 변수 저장
+        """
+        self.rating = rating
+
+    def _get_where(self):
         """WHERE문 제작
         """
-        # 인자 처리
-        if len(argv) < 2:
-            rating_argv = 'sqe'
-        else:
-            rating_argv = str.join('', argv[1:])
+        rating = self.rating
         # WHERE문 처리
         result = ''
         for rating_index in ['s', 'q', 'e']:
-            if rating_index in rating_argv:
+            if rating_index in rating:
                 if not 'WHERE' in result:
                     result = result + 'WHERE '
                 if 'rating' in result:
@@ -93,11 +98,16 @@ class RandomChanger(object):
         # WHERE문 반환
         return result
 
+    def set_sleep(self, sleep_time):
+        """Sleep용 변수 저장
+        """
+        self.sleep_time = int(sleep_time)
+
     def start_change(self):
         """배경화면 변경 시작
         """
         config = self.config
-        sleep_time = int(config['wallpaper']['sleep'])
+        sleep_time = self.sleep_time
         image_path_generator = self._get_image_path()
         try:
             logging.info('배경화면 변경 시작: 종료하려면 Ctrl + C')
@@ -126,7 +136,16 @@ class RandomChanger(object):
 
 
 def main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-r', '--rating', nargs='?', help='s/q/e 조합',
+            default='sqe', type=str)
+    parser.add_argument('-s', '--sleep', nargs='?', help='전환 시간',
+            default='60', type=str)
+    args = vars(parser.parse_args(argv[1:]))
+
     wallpaper_random_changer = RandomChanger(INIFILE)
+    wallpaper_random_changer.set_where(args['rating'])
+    wallpaper_random_changer.set_sleep(args['sleep'])
     wallpaper_random_changer.start_change()
 
 if __name__ == '__main__':
