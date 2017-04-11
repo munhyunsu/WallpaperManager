@@ -132,7 +132,7 @@ class BooruCrawler(object):
         opener = self.opener
         image_path = self._get_image_path(post)
         image_url = self._get_image_url(post)
-        response = opener.open(image_url)
+        response = opener.open(image_url, timeout = 10)
         image_file = open(image_path, 'wb')
         image_file.write(response.read())
         logging.info('저장 완료 {0}'.format(image_path))

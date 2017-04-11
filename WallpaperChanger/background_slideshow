@@ -3,4 +3,4 @@
 cd ${HOME}/Github/WallpaperManager
 source ./bin/activate
 cd ./WallpaperChanger
-python3 random_changer_mint_cinnamon.py $1
+python3 random_changer_mint_cinnamon.py $@
