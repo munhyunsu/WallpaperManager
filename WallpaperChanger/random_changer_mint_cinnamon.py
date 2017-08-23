@@ -95,6 +95,13 @@ class RandomChanger(object):
                 if 'rating' in result:
                     result = result + 'or '
                 result = result + 'rating="' + rating_index + '" '
+                #result = result + 'AND tag_string LIKE "%love_live!%" '
+                #result = result + 'AND tag_string LIKE "%matsuura_kanan%" '
+                #result = result + 'AND tag_string LIKE "%toujou_nozomi%" '
+                #result = result + 'AND tag_string LIKE "%pokemon%" '
+                #result = result + 'AND (tag_string LIKE "%pokemon%" OR tag_string LIKE "%love_live!%") '
+                #result = result + 'AND tag_string LIKE "%pantyhose%" '
+                #result = result + 'AND tag_string LIKE "%ass%" '
         # WHERE문 반환
         return result
 
@@ -129,9 +136,41 @@ class RandomChanger(object):
                                 'scaled'])
                 logging.info('배경화면 변경: {0}'.format(image_path))
                 time.sleep(sleep_time)
-                
         except KeyboardInterrupt:
+            subprocess.run(['gsettings',
+                            'set',
+                            'org.cinnamon.desktop.background',
+                            'picture-uri',
+                            'file:///usr/share/backgrounds/linuxmint/edesigner_linuxmint.png'])
+            subprocess.run(['gsettings',
+                            'set',
+                            'org.cinnamon.desktop.background',
+                            'picture-opacity',
+                            '100'])
+            subprocess.run(['gsettings',
+                            'set',
+                            'org.cinnamon.desktop.background',
+                            'picture-options',
+                            'scaled'])
             logging.info('배경화면 변경 종료')
+            return 0
+        except:
+            subprocess.run(['gsettings',
+                            'set',
+                            'org.cinnamon.desktop.background',
+                            'picture-uri',
+                            'file:///usr/share/backgrounds/linuxmint/sele_linuxmint.png'])
+            subprocess.run(['gsettings',
+                            'set',
+                            'org.cinnamon.desktop.background',
+                            'picture-opacity',
+                            '100'])
+            subprocess.run(['gsettings',
+                            'set',
+                            'org.cinnamon.desktop.background',
+                            'picture-options',
+                            'scaled'])
+            logging.info('배경화면 변경 강제 종료')
             return 0
 
 
