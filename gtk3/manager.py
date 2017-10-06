@@ -10,28 +10,46 @@ from gi.repository import Gtk
 
 import downloader
 
-class MainMenu(Gtk.Window):
+class MainMenu(object):
     def __init__(self):
-        Gtk.Window.__init__(self, title = 'Wallpaper Manager')
+        self.window = Gtk.Window()
+        self.window.set_title('Wallpaper Manager')
+        self.window.connect_after('destroy', self.destroy)
 
-        self.button = Gtk.Button(label = 'Download wallpapers')
-        self.button.connect('clicked', self.on_button_clicked)
-        self.add(self.button)
+        grid = Gtk.Grid(row_homogeneous = False, 
+                        column_homogeneous = True)
+        grid.set_row_spacing(10)
+        grid.set_column_spacing(4)
+        self.window.add(grid)
+        self.grid = grid
+
+        bt_start = Gtk.Button(label = 'View new wallpaper')
+        bt_start.connect_after('clicked', self.on_button_clicked)
+        bt_ban = Gtk.Button(label = 'Ban')
+        bt_save = Gtk.Button(label = 'Save')
+        bt_pass = Gtk.Button(label = 'Pass')
+
+        grid.attach(bt_start, 0, 0, 6, 1)
+        grid.attach(bt_ban, 0, 1, 1, 1)
+        grid.attach_next_to(bt_save, bt_ban, Gtk.PositionType.RIGHT, 3, 1)
+        grid.attach_next_to(bt_pass, bt_save, Gtk.PositionType.RIGHT, 2, 1)
+
+        self.window.show_all()
 
     def on_button_clicked(self, widget):
         image = downloader.get_image()
-        self.remove(self.button)
         self.image = Gtk.Image()
         self.image.set_from_file(image)
-        self.add(self.image)
-        self.show_all()
+        self.window.remove(self.grid)
+        self.window.add(self.image)
+        self.window.show_all()
         print('Hello world')
 
+    def destroy(self, window):
+        Gtk.main_quit()
 
 def main(argv):
     win = MainMenu()
-    win.connect("delete-event", Gtk.main_quit)
-    win.show_all()
     Gtk.main()
     
 
