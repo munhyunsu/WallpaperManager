@@ -17,11 +17,21 @@ def main(argv):
     user_input = None
 
     # TODO(LuHa): junction loop according users' input
-    while(user_input != 'q'):
+    while(True):
         print_menu()
         user_input = input('User input: ')
-        if(user_input is not None):
-            user_input = user_input.lower()
+        if(user_input is None):
+            continue
+        user_input = user_input.lower()
+        # TODO(LuHa): jump to function
+        if(user_input == '1'):
+            edit_danbooru_tags()
+        elif(user_input == '2'):
+            edit_yandere_tags()
+        elif(user_input == '3'):
+            start_download()
+        elif(user_input == 'q'):
+            break
 
     # TODO(LuHa): print message about program termination
     print('Terminate wallpaper manager')
@@ -38,6 +48,22 @@ def print_menu():
     print('----+----+----+----+----+----+----+----+')
 
 
+def edit_danbooru_tags():
+    """
+    """
+    print('danbooru')
+
+
+def edit_yandere_tags():
+    """
+    """
+    print('yandere')
+
+
+def start_download():
+    """
+    """
+    print('download')
 
 
 
