@@ -15,6 +15,9 @@ image/
 *.sqlite
 sqlite3
 
+# personal
+*.secret
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

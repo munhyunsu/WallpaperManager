@@ -17,8 +17,8 @@ def main(argv):
     print('[WM] Execute wallpaper manager')
 
     # TODO(LuHa): restore tags
-    if os.path.isfile('tags'):
-        with open('tags', 'r') as fp_tags:
+    if os.path.isfile('tags.secret'):
+        with open('tags.secret', 'r') as fp_tags:
             tags = json.load(fp_tags)
     else:
         tags = dict()
@@ -77,7 +77,7 @@ def edit_tags(tags, key):
         if user_input == 'b':
             break
     # TODO(LuHa): save tags
-    with open('tags', 'w') as fp_tags:
+    with open('tags.secret', 'w') as fp_tags:
         tags[key].sort()
         json.dump(tags, fp_tags,
                   indent = 4,
@@ -87,7 +87,10 @@ def edit_tags(tags, key):
 def start_download():
     """
     """
-    subprocess.run(['python3', 'image_downloader.py'])
+    #subprocess.run(['python3', 'danbooru_downloader.py'])
+    #with subprocess.Popen(['python3', 'danbooru_downloader.py']) as proc:
+    #    print(proc.stdout.read())
+    subprocess.Popen(['python3', 'danbooru_downloader.py'])
 
 
 if __name__ == '__main__':
