@@ -14,7 +14,7 @@ def main(argv):
     main loop
     """
     # TODO(LuHa): print message about program execution
-    print('[WM] Execute wallpaper manager')
+    print('[WallpaperManagerCLI] Execute wallpaper manager')
 
     # TODO(LuHa): restore tags
     if os.path.isfile('tags.secret'):
@@ -27,7 +27,8 @@ def main(argv):
 
     # TODO(LuHa): junction loop according users' input
     while True:
-        print('\n----+----+----+ Main menu ----+----+----+')
+        print('\n----+----+ Wallpaper Manager CLI ----+----+')
+        print('----+----+----+ Main menu ----+----+----+')
         print('1. Edit danbooru search tags')
         print(tags['danbooru'])
         print('2. Edit yandere search tags')
@@ -51,7 +52,7 @@ def main(argv):
             break
 
     # TODO(LuHa): print message about program termination
-    print('[WM] Terminate wallpaper manager')
+    print('[WallpaperManagerCLI] Terminate wallpaper manager')
     
 
 
@@ -91,10 +92,11 @@ def edit_tags(tags, key):
 
 def start_download():
     """
+    start download image from site each.
+    if we use subprocess.Popen, then we can execute it parallel.
+    if we do not want mixing the standard output, 
+      then we have to use subprocess.run
     """
-    #subprocess.run(['python3', 'danbooru_downloader.py'])
-    #with subprocess.Popen(['python3', 'danbooru_downloader.py']) as proc:
-    #    print(proc.stdout.read())
     subprocess.Popen(['python3', 'danbooru_downloader.py'])
     subprocess.Popen(['python3', 'yandere_downloader.py'])
 
@@ -102,10 +104,14 @@ def start_download():
 
 def check_wallpaper():
     """
+    change mode to wallpaper changer.
+    that module have indivitual menu and input handler.
+    so, we use subprocess.run
     """
     subprocess.run(['python3', 'wallchanger.py'])
 
 
 
+# maybe it is good thing, right?
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
