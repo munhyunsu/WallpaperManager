@@ -1,57 +1,32 @@
-# 배경화면 관리자
+# Wallpaper manager
 
-## 목표
-- Booru 계열 서비스 배경화면 수집기
-- Wallpaper 계열 서비스 배경화면 수집기
-- 수집한 배경화면 관리
-- 수집한 배경화면 샘플링을 이용해 슬라이드쇼 지원
+## Propose
+- Scrap image at Booru-site
+- Scrap image at Wallpaper haven
+- Manage downloaded image
+  - Check downloaded image: Ban/Save image
 
-## 사용법
+## Usage
 
-### BooruCrawler
-- Booru 계열 배경화면 수집기 기본 클래스
+### main/manager\_cli.py
+- python3 manager\_cli.py
 
-### DanbooruCrawler
-- Danbooru 배경화면 수집기
 
-### YandereCrawler
-- Yandere 배경화면 수집기
+## The feature that need contributon
 
-### BaseSelector
-- 배경화면 선택기 기본 클래스
-
-### WallpaperSelector
-- 배경화면 선택기
-  - 인자로 s / q / e 의 조합을 받음
-
-### WallpaperChanger
-- 배경화면 변경기
-  - 인자로 s / q / e 의 조합을 받음
-  - 170317 현재 Linux Mint Cinnamon 에서만 동작
-
-## 추가 예정 혹은 기여 대기 기능
-
-### 추가 예정
+### The TODO feature
 - https://alpha.wallhaven.cc/ 수집 및 관리
 - GUI 기반 시스템 제작
-```none
-[MAIN]
-----+ 배경화면 관리기 by LuHa ----+
-|----+----+----+----+----+----+---|
-|| 배경화면 슬라이드쇼 시작/중지 ||
-|----+----+----+----+----+----+---|
-|           ----+---              |
-|           | 종료 |              |
-|           ----+---              |
-----+----+----+----+----+----+----+
 
-
-```
-
-### 기여 대기 기능
+### The contributed feature(or incoming)
 - None
 
-## 버전 히스토리
+## Version history
+
+### 171016: 1.1.0
+- Launch Wallpaper manager cli!
+- Change language Korean to English
+  - README, Source code comment
 
 ### 170317: 1.0.1a
 - 배경화면 변경기 인자 옵션 추가
