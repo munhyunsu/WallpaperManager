@@ -20,10 +20,14 @@ def main(argv):
     if os.path.isfile('tags.secret'):
         with open('tags.secret', 'r') as fp_tags:
             tags = json.load(fp_tags)
+            tags['danbooru'] = tags.get('danbooru', list())
+            tags['yandere'] = tags.get('yandere', list())
+            tags['wallhaven'] = tags.get('wallhaven', list())
     else:
         tags = dict()
         tags['danbooru'] = list()
         tags['yandere'] = list()
+        tags['wallhaven'] = list()
 
     # TODO(LuHa): junction loop according users' input
     while True:
@@ -33,8 +37,10 @@ def main(argv):
         print(tags['danbooru'])
         print('2. Edit yandere search tags')
         print(tags['yandere'])
-        print('3. Start download wallpaper')
-        print('4. Check downloaded wallpaper')
+        print('3. Edit wallhaven search tags')
+        print(tags['wallhaven'])
+        print('c. Check downloaded wallpaper')
+        print('s. Start download wallpaper')
         print('q. Terminate programm')
         print('----+----+----+----+----+----+----+----+')
         user_input = input('User input: ')
@@ -45,8 +51,10 @@ def main(argv):
         elif user_input == '2':
             edit_tags(tags, 'yandere')
         elif user_input == '3':
+            edit_tags(tags, 'wallhaven')
+        elif user_input == 's':
             start_download()
-        elif user_input == '4':
+        elif user_input == 'c':
             check_wallpaper()
         elif user_input == 'q':
             break
@@ -77,7 +85,7 @@ def edit_tags(tags, key):
             tags[key].append(user_input)
         if user_input == 'd':
             user_input = input('Tag to delete: ')
-            if user_input in tags:
+            if user_input in tags[key]:
                 tags[key].remove(user_input)
         if user_input == 'b':
             break
@@ -99,6 +107,7 @@ def start_download():
     """
     subprocess.Popen(['python3', 'danbooru_downloader.py'])
     subprocess.Popen(['python3', 'yandere_downloader.py'])
+    subprocess.Popen(['python3', 'wallhaven_downloader.py'])
 
 
 

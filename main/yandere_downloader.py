@@ -19,6 +19,9 @@ def main(argv):
     print('[Yandere] Execute yandere downloader')
 
     # TODO(LuHa): create downloads directory
+    # actually, this code use only downloads directory.
+    # but to ensure execution of source code,
+    #   make save directory.
     os.makedirs('./downloads', exist_ok = True)
     os.makedirs('./save', exist_ok = True)
 
@@ -29,7 +32,6 @@ def main(argv):
             ban_db['yandere'] = set(ban_db['yandere'])
     else:
         ban_db = dict()
-        ban_db['danbooru'] = set()
         ban_db['yandere'] = set()
     
     # TODO(LuHa): read pre-downloaded image
@@ -90,7 +92,7 @@ def main(argv):
         posts = json.loads(response.read().decode('utf-8'))
 
         # TODO(LuHa): loop download by posts
-        # get 20 images at one time in dandooru
+        # get 40 images at one time in yandere
         for post in posts:
             # skip target image is already downloaded
             if int(post['id']) in downloaded:
@@ -109,8 +111,8 @@ def main(argv):
                         + str(post['id'])
                         + '.'
                         + post['file_ext'])
-            image_file = open(image_path, 'wb')
-            image_file.write(response.read())
+            with open(image_path, 'wb') as f:
+                f.write(response.read())
             print('[Yandere] Downloaded {0}'.format(image_path))
 
     # TODO(LuHa): print message about program terminaion

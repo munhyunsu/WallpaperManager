@@ -10,6 +10,9 @@ import subprocess
 import random
 # json
 import json
+# move
+import shutil
+
 
 def main(argv):
     """
@@ -64,7 +67,7 @@ def main(argv):
 
         # TODO(LuHa): print menu and handle user's input
         image_name = cursor.split('/')[-1]
-        print('----+----+ {0} image left ----+----+'.format(
+        print('\n----+----+ {0} image left ----+----+'.format(
                                                         len(downloaded)))
         print('b. Ban image')
         print('d. Delete image')
@@ -87,7 +90,7 @@ def main(argv):
             print('[Changer] Save image {0}'.format(image_name))
             src_path = './downloads/' + image_name
             dst_path = './save/' + image_name
-            os.replace(src_path, dst_path)
+            shutil.move(src_path, dst_path)
         elif user_input == 'q':
             break
 
