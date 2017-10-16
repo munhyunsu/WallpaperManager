@@ -33,6 +33,7 @@ def main(argv):
         print('2. Edit yandere search tags')
         print(tags['yandere'])
         print('3. Start download wallpaper')
+        print('4. Check downloaded wallpaper')
         print('q. Terminate programm')
         print('----+----+----+----+----+----+----+----+')
         user_input = input('User input: ')
@@ -44,12 +45,15 @@ def main(argv):
             edit_tags(tags, 'yandere')
         elif user_input == '3':
             start_download()
+        elif user_input == '4':
+            check_wallpaper()
         elif user_input == 'q':
             break
 
     # TODO(LuHa): print message about program termination
     print('[WM] Terminate wallpaper manager')
     
+
 
 def edit_tags(tags, key):
     """
@@ -84,6 +88,7 @@ def edit_tags(tags, key):
                   sort_keys = True)
 
 
+
 def start_download():
     """
     """
@@ -91,6 +96,15 @@ def start_download():
     #with subprocess.Popen(['python3', 'danbooru_downloader.py']) as proc:
     #    print(proc.stdout.read())
     subprocess.Popen(['python3', 'danbooru_downloader.py'])
+    subprocess.Popen(['python3', 'yandere_downloader.py'])
+
+
+
+def check_wallpaper():
+    """
+    """
+    subprocess.run(['python3', 'wallchanger.py'])
+
 
 
 if __name__ == '__main__':

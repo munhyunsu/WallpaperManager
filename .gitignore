@@ -17,6 +17,7 @@ sqlite3
 
 # personal
 *.secret
+gtk3/save
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
