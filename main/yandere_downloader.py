@@ -88,7 +88,7 @@ def main(argv):
                      + '/post.json?tags='
                      + tag
                      + '+order:random')
-        response = opener.open(request_url)
+        response = opener.open(request_url, timeout = 60)
         posts = json.loads(response.read().decode('utf-8'))
 
         # TODO(LuHa): loop download by posts
@@ -105,7 +105,7 @@ def main(argv):
                 downloaded.add(int(post['id']))
 
             request_url = post['file_url']
-            response = opener.open(request_url)
+            response = opener.open(request_url, timeout = 60)
             image_path = ('./downloads'
                         + '/yandere-'
                         + str(post['id'])

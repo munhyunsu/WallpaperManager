@@ -105,7 +105,7 @@ def main(argv):
                      + '/search?q='
                      + tag
                      + '&categories=010&purity=111&sorting=random')
-        response = opener.open(request_url)
+        response = opener.open(request_url, timeout = 60)
         id_parser.feed(response.read().decode('utf-8'))
 
         # TODO(LuHa): loop parse image path
@@ -125,14 +125,14 @@ def main(argv):
             request_url = (base_url
                          + '/wallpaper/'
                          + image_id)
-            response = opener.open(request_url)
+            response = opener.open(request_url, timeout = 60)
             uri_parser.feed(response.read().decode('utf-8'))
 
         # TODO(LuHa): loop download by posts
         for image_uri in uri_parser.get_uris():
             request_url = ('https:'
                          + image_uri)
-            response = opener.open(request_url)
+            response = opener.open(request_url, timeout = 60)
             image_path = ('./downloads/'
                         + image_uri.split('/')[-1])
             with open(image_path, 'wb') as f:
