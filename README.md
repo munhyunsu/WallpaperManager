@@ -15,13 +15,16 @@
 ## The feature that need contributon
 
 ### The TODO feature
-- https://alpha.wallhaven.cc/ 수집 및 관리
 - GUI 기반 시스템 제작
 
 ### The contributed feature(or incoming)
 - None
 
 ## Version history
+
+### 171017: 1.1.1
+- (TODO) added alpha.Wallhaven.cc as image source
+- Request timeout exception control (Graceful termination)
 
 ### 171016: 1.1.0
 - Launch Wallpaper manager cli!
