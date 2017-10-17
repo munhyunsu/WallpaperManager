@@ -4,11 +4,11 @@
 import sys
 # json
 import json
-# makedir, path
+# exists, makedirs, path
 import os
 # urlencode
 import urllib.parse
-# request
+# openner
 import urllib.request
 # html.parser
 import html.parser

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-# exit
+# exit, argv
 import sys
 # json
 import json
-# exists
+# exists, makedirs, path
 import os
 # b64encode
 import base64
@@ -120,8 +120,6 @@ def main(argv):
     print('[Danbooru] Terminate danbooru downloader')
 
 
-
-
-
+# Maybe it is good, right?
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
