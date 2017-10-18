@@ -28,12 +28,14 @@ def main(argv):
     if os.path.exists('ban.secret'):
         with open('ban.secret', 'r') as f_db:
             ban_db = json.load(f_db)
-            ban_db['danbooru'] = set(ban_db['danbooru'])
-            ban_db['yandere'] = set(ban_db['yandere'])
+            ban_db['danbooru'] = set(ban_db.get('danbooru', list()))
+            ban_db['yandere'] = set(ban_db.get('yandere', list()))
+            ban_db['wallhaven'] = set(ban_db.get('wallhaven', list()))
     else:
         ban_db = dict()
         ban_db['danbooru'] = set()
         ban_db['yandere'] = set()
+        ban_db['wallhaven'] = set()
 
     # TODO(LuHa): get all of downloaded images
     downloaded = list()
@@ -100,6 +102,8 @@ def main(argv):
         ban_db['danbooru'].sort()
         ban_db['yandere'] = list(ban_db['yandere'])
         ban_db['yandere'].sort()
+        ban_db['wallhaven'] = list(ban_db['wallhaven'])
+        ban_db['wallhaven'].sort()
         json.dump(ban_db,
                   f_ban,
                   indent = 4,

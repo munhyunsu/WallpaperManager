@@ -123,4 +123,7 @@ def check_wallpaper():
 
 # maybe it is good thing, right?
 if __name__ == '__main__':
+    if sys.version_info.major != 3:
+        print('[WallpaperManagerCLI] Need python3')
+        sys.exit()
     sys.exit(main(sys.argv))

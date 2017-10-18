@@ -130,4 +130,7 @@ def main(argv):
 
 # Maybe it is good, right?
 if __name__ == '__main__':
+    if sys.version_info.major != 3:
+        print('[Danbooru] Need python3')
+        sys.exit()
     sys.exit(main(sys.argv))
