@@ -39,22 +39,38 @@ def main(argv):
 
     # TODO(LuHa): read pre-downloaded image
     downloaded = set()
-    with os.scandir('./downloads') as it:
-        for entry in it:
+    if sys.version_info.minor < 6:
+        for entry in os.scandir('./downloads'):
             if entry.is_file():
                 if (entry.name).startswith('wallhaven'):
                     image_id = (entry.name).split('-')[1]
                     image_id = (image_id).split('.')[0]
                     image_id = int(image_id)
                     downloaded.add(image_id)
-    with os.scandir('./save') as it:
-        for entry in it:
+        for entry in os.scandir('./save'):
             if entry.is_file():
                 if (entry.name).startswith('wallhaven'):
                     image_id = (entry.name).split('-')[1]
                     image_id = (image_id).split('.')[0]
                     image_id = int(image_id)
                     downloaded.add(image_id)
+    else:
+        with os.scandir('./downloads') as it:
+            for entry in it:
+                if entry.is_file():
+                    if (entry.name).startswith('wallhaven'):
+                        image_id = (entry.name).split('-')[1]
+                        image_id = (image_id).split('.')[0]
+                        image_id = int(image_id)
+                        downloaded.add(image_id)
+        with os.scandir('./save') as it:
+            for entry in it:
+                if entry.is_file():
+                    if (entry.name).startswith('wallhaven'):
+                        image_id = (entry.name).split('-')[1]
+                        image_id = (image_id).split('.')[0]
+                        image_id = int(image_id)
+                        downloaded.add(image_id)
 
     # TODO(LuHa): load tags
     if os.path.exists('tags.secret'):

@@ -22,6 +22,10 @@
 
 ## Version history
 
+### 171019: 1.1.1a
+- Compatitable to python 3.5.x
+  - split os.scandir flow by python minor version
+
 ### 171017: 1.1.1
 - (TODO) added alpha.Wallhaven.cc as image source
 - Request timeout exception control (Graceful termination)

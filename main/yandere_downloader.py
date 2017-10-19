@@ -29,29 +29,45 @@ def main(argv):
     if os.path.exists('ban.secret'):
         with open('ban.secret', 'r') as f_ban:
             ban_db = json.load(f_ban)
-            ban_db['yandere'] = set(ban_db['yandere'])
+            ban_db['yandere'] = set(ban_db.get('yandere', list()))
     else:
         ban_db = dict()
         ban_db['yandere'] = set()
     
     # TODO(LuHa): read pre-downloaded image
     downloaded = set()
-    with os.scandir('./downloads') as it:
-        for entry in it:
+    if sys.version_info.minor < 6:
+        for entry in os.scandir('./downloads'):
             if entry.is_file():
                 if (entry.name).startswith('yandere'):
                     image_id = (entry.name).split('-')[1]
                     image_id = (image_id).split('.')[0]
                     image_id = int(image_id)
                     downloaded.add(image_id)
-    with os.scandir('./save') as it:
-        for entry in it:
+        for entry in os.scandir('./save'):
             if entry.is_file():
                 if (entry.name).startswith('yandere'):
                     image_id = (entry.name).split('-')[1]
                     image_id = (image_id).split('.')[0]
                     image_id = int(image_id)
                     downloaded.add(image_id)
+    else:            
+        with os.scandir('./downloads') as it:
+            for entry in it:
+                if entry.is_file():
+                    if (entry.name).startswith('yandere'):
+                        image_id = (entry.name).split('-')[1]
+                        image_id = (image_id).split('.')[0]
+                        image_id = int(image_id)
+                        downloaded.add(image_id)
+        with os.scandir('./save') as it:
+            for entry in it:
+                if entry.is_file():
+                    if (entry.name).startswith('yandere'):
+                        image_id = (entry.name).split('-')[1]
+                        image_id = (image_id).split('.')[0]
+                        image_id = int(image_id)
+                        downloaded.add(image_id)
 
     # TODO(LuHa): load tags
     if os.path.exists('tags.secret'):
