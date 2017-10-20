@@ -9,6 +9,11 @@ import json
 # subprocess
 import subprocess
 
+# manage list of available image source
+IMAGESOURCES = ['danbooru',
+                'yandere',
+                'wallhaven']
+
 def main(argv):
     """
     main loop
@@ -20,14 +25,12 @@ def main(argv):
     if os.path.isfile('tags.secret'):
         with open('tags.secret', 'r') as fp_tags:
             tags = json.load(fp_tags)
-            tags['danbooru'] = tags.get('danbooru', list())
-            tags['yandere'] = tags.get('yandere', list())
-            tags['wallhaven'] = tags.get('wallhaven', list())
+            for source in IMAGESOURCES:
+                tags[source] = tags.get(source, list())
     else:
         tags = dict()
-        tags['danbooru'] = list()
-        tags['yandere'] = list()
-        tags['wallhaven'] = list()
+        for source in IMAGESOURCES:
+            tags[source] = tags.get(source, list())
 
     # TODO(LuHa): junction loop according users' input
     while True:
