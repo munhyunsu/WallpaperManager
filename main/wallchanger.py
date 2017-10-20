@@ -13,6 +13,10 @@ import json
 # move
 import shutil
 
+# manage list of available image source
+IMAGESOURCES = ['danbooru',
+                'yandere',
+                'wallhaven']
 
 def main(argv):
     """
@@ -28,21 +32,24 @@ def main(argv):
     if os.path.exists('ban.secret'):
         with open('ban.secret', 'r') as f_db:
             ban_db = json.load(f_db)
-            ban_db['danbooru'] = set(ban_db.get('danbooru', list()))
-            ban_db['yandere'] = set(ban_db.get('yandere', list()))
-            ban_db['wallhaven'] = set(ban_db.get('wallhaven', list()))
+            for source in IMAGESOURCES:
+                ban_db[source] = set(ban_db.get(source, list()))
     else:
         ban_db = dict()
-        ban_db['danbooru'] = set()
-        ban_db['yandere'] = set()
-        ban_db['wallhaven'] = set()
+        for source in IMAGESOURCES:
+            ban_db[source] = set(ban_db.get(source, list()))
 
     # TODO(LuHa): get all of downloaded images
     downloaded = list()
-    with os.scandir('./downloads') as it:
-        for entry in it:
+    if sys.version_info.minor < 6:
+        for entry in os.scandir('./downloads'):
             if entry.is_file():
-                downloaded.append(os.path.abspath(entry))
+                downloaded.append(os.path.abspath(entry.path))
+    else:
+        with os.scandir('./downloads') as it:
+            for entry in it:
+                if entry.is_file():
+                    downloaded.append(os.path.abspath(entry))
     random.shuffle(downloaded)    
 
     # TODO(LuHa): loop images
@@ -98,12 +105,9 @@ def main(argv):
 
     # TODO(LuHa): save ban database
     with open('ban.secret' ,'w') as f_ban:
-        ban_db['danbooru'] = list(ban_db['danbooru'])
-        ban_db['danbooru'].sort()
-        ban_db['yandere'] = list(ban_db['yandere'])
-        ban_db['yandere'].sort()
-        ban_db['wallhaven'] = list(ban_db['wallhaven'])
-        ban_db['wallhaven'].sort()
+        for source in IMAGESOURCES:
+            ban_db[source] = list(ban_db[source])
+            ban_db[source].sort()
         json.dump(ban_db,
                   f_ban,
                   indent = 4,
@@ -111,9 +115,12 @@ def main(argv):
 
     # TODO(LuHa): print message about program termination
     print('[Changer] Terminate wallpaper changer')
-    
 
 
 
+# Maybe it is good, right?
 if __name__ == '__main__':
+    if sys.version_info.major != 3:
+        print('[Changer] Need python3')
+        sys.exit()
     sys.exit(main(sys.argv))

@@ -109,7 +109,11 @@ def main(argv):
         except socket.timeout:
             print('[Yandere] Request timeout')
             return
-        posts = json.loads(response.read().decode('utf-8'))
+        try:
+            posts = json.loads(response.read().decode('utf-8'))
+        except socket.timeout:
+            print('[Yandere] Response timeout')
+            return
 
         # TODO(LuHa): loop download by posts
         # get 40 images at one time in yandere
@@ -136,7 +140,11 @@ def main(argv):
                         + '.'
                         + post['file_ext'])
             with open(image_path, 'wb') as f:
-                f.write(response.read())
+                try:
+                    f.write(response.read())
+                except socket.timeout:
+                    print('[Yandere] Response timeout')
+                    return
             print('[Yandere] Downloaded {0}'.format(image_path))
 
     # TODO(LuHa): print message about program terminaion

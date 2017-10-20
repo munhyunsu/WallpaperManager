@@ -126,7 +126,12 @@ def main(argv):
         except socket.timeout:
             print('[Wallhaven] Request timeout')
             return
-        id_parser.feed(response.read().decode('utf-8'))
+        try:
+            id_parser.feed(response.read().decode('utf-8'))
+        except socket.timeout:
+            print('[Wallhaven] Response timeout')
+            return
+
 
         # TODO(LuHa): loop parse image path
         # get 24 images at one time in wallhaven
@@ -150,7 +155,11 @@ def main(argv):
             except socket.timeout:
                 print('[Wallhaven] Request timeout')
                 return
-            uri_parser.feed(response.read().decode('utf-8'))
+            try:
+                uri_parser.feed(response.read().decode('utf-8'))
+            except socket.timeout:
+                print('[Wallhaven] Response timeout')
+                return
 
         # TODO(LuHa): loop download by posts
         for image_uri in uri_parser.get_uris():
@@ -164,7 +173,11 @@ def main(argv):
             image_path = ('./downloads/'
                         + image_uri.split('/')[-1])
             with open(image_path, 'wb') as f:
-                f.write(response.read())
+                try:
+                    f.write(response.read())
+                except socket.timeout:
+                    print('[Wallhaven] Response timeout')
+                    return
             print('[Wallhaven] Downloaded {0}'.format(image_path))
 
     # TODO(Luha): print message about program termination

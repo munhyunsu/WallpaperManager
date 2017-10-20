@@ -109,7 +109,11 @@ def main(argv):
         except socket.timeout:
             print('[Danbooru] Request timeout')
             return
-        posts = json.loads(response.read().decode('utf-8'))
+        try:
+            posts = json.loads(response.read().decode('utf-8'))
+        except socket.timeout:
+            print('[Danbooru] Response timeout')
+            return
 
         # TODO(LuHa): loop download by posts
         # get 20 images at one time in dandooru
@@ -137,7 +141,11 @@ def main(argv):
                         + '.'
                         + post['file_ext'])
             with open(image_path, 'wb') as f:
-                f.write(response.read())
+                try:
+                    f.write(response.read())
+                except socket.timeout:
+                    print('[Danbooru] Response timeout')
+                    return
             print('[Danbooru] Downloaded {0}'.format(image_path))
 
     # TODO(LuHa): print message about program terminaion
