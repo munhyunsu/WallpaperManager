@@ -108,9 +108,9 @@ def start_download():
     if we do not want mixing the standard output, 
       then we have to use subprocess.run
     """
-    subprocess.Popen(['python3', 'danbooru_downloader.py'])
-    subprocess.Popen(['python3', 'yandere_downloader.py'])
-    subprocess.Popen(['python3', 'wallhaven_downloader.py'])
+    for source in IMAGESOURCES:
+        downloader = (source + '_downloader.py')
+        subprocess.Popen(['python3', downloader])
 
 
 
