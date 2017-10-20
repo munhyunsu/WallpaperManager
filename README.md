@@ -15,7 +15,10 @@
 ## The feature that need contributon
 
 ### The TODO feature
-- GUI 기반 시스템 제작
+- The wallpaper manager GUI version
+- The slideshow using downloaded images
+  - It can receive sleep time from user
+
 
 ### The contributed feature(or incoming)
 - None
