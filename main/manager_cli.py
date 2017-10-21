@@ -44,6 +44,7 @@ def main(argv):
         print(tags['wallhaven'])
         print('c. Check downloaded wallpaper')
         print('s. Start download wallpaper')
+        print('r. Random slideshow using downloaded wallpaper(unchecked)')
         print('q. Terminate programm')
         print('----+----+----+----+----+----+----+----+')
         user_input = input('User input: ')
@@ -55,10 +56,12 @@ def main(argv):
             edit_tags(tags, 'yandere')
         elif user_input == '3':
             edit_tags(tags, 'wallhaven')
-        elif user_input == 's':
-            start_download()
         elif user_input == 'c':
             check_wallpaper()
+        elif user_input == 's':
+            start_download()
+        elif user_input == 'r':
+            random_slideshow()
         elif user_input == 'q':
             break
 
@@ -122,6 +125,14 @@ def check_wallpaper():
     """
     subprocess.run(['python3', 'wallchanger.py'])
 
+
+
+def random_slideshow():
+    """
+    start slideshow using downloaded images
+    but, those images are unchecked
+    """
+    subprocess.run(['python3', 'random_slideshow.py'])
 
 
 # maybe it is good thing, right?
