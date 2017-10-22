@@ -36,12 +36,10 @@ def main(argv):
     while True:
         print('\n----+----+ Wallpaper Manager CLI ----+----+')
         print('----+----+----+ Main menu ----+----+----+')
-        print('1. Edit danbooru search tags')
-        print(tags['danbooru'])
-        print('2. Edit yandere search tags')
-        print(tags['yandere'])
-        print('3. Edit wallhaven search tags')
-        print(tags['wallhaven'])
+        for index in range(0, len(IMAGESOURCES)):
+            print('{0}. Edit {1} search tags'.format(
+                      index+1, IMAGESOURCES[index]))
+            print(tags[IMAGESOURCES[index]])
         print('c. Check downloaded wallpaper')
         print('s. Start download wallpaper')
         print('r. Random slideshow using downloaded wallpaper(unchecked)')
@@ -50,12 +48,11 @@ def main(argv):
         user_input = input('User input: ')
         user_input = user_input.lower()
         # TODO(LuHa): jump to function
-        if user_input == '1':
-            edit_tags(tags, 'danbooru')
-        elif user_input == '2':
-            edit_tags(tags, 'yandere')
-        elif user_input == '3':
-            edit_tags(tags, 'wallhaven')
+        if user_input.isdecimal():
+            if int(user_input) < 1:
+                continue
+            if int(user_input) < len(tags)+1:
+                edit_tags(tags, IMAGESOURCES[int(user_input)-1])
         elif user_input == 'c':
             check_wallpaper()
         elif user_input == 's':
