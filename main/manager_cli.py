@@ -21,25 +21,31 @@ def main(argv):
     # TODO(LuHa): print message about program execution
     print('[WallpaperManagerCLI] Execute wallpaper manager')
 
+    # TODO(LuHa): manage image source
+    sources = IMAGESOURCES
+    sources.sort()
+    # adding dumy data for indexing convenience
+    sources.insert(0, 'dumy')
+
     # TODO(LuHa): restore tags
     if os.path.isfile('tags.secret'):
         with open('tags.secret', 'r') as fp_tags:
             tags = json.load(fp_tags)
-            for source in IMAGESOURCES:
+            for source in sources:
                 tags[source] = tags.get(source, list())
     else:
         tags = dict()
-        for source in IMAGESOURCES:
+        for source in sources:
             tags[source] = tags.get(source, list())
 
     # TODO(LuHa): junction loop according users' input
     while True:
         print('\n----+----+ Wallpaper Manager CLI ----+----+')
         print('----+----+----+ Main menu ----+----+----+')
-        for index in range(0, len(IMAGESOURCES)):
+        for index in range(1, len(sources)):
             print('{0}. Edit {1} search tags'.format(
-                      index+1, IMAGESOURCES[index]))
-            print(tags[IMAGESOURCES[index]])
+                      index, sources[index]))
+            print(tags[sources[index]])
         print('c. Check downloaded wallpaper')
         print('s. Start download wallpaper')
         print('r. Random slideshow using downloaded wallpaper(unchecked)')
@@ -49,10 +55,11 @@ def main(argv):
         user_input = user_input.lower()
         # TODO(LuHa): jump to function
         if user_input.isdecimal():
-            if int(user_input) < 1:
+            user_input = int(user_input)
+            if user_input < 1:
                 continue
-            if int(user_input) < len(tags)+1:
-                edit_tags(tags, IMAGESOURCES[int(user_input)-1])
+            if user_input < len(tags):
+                edit_tags(tags, sources[user_input])
         elif user_input == 'c':
             check_wallpaper()
         elif user_input == 's':
@@ -73,7 +80,7 @@ def edit_tags(tags, key):
     """
     # TODO(LuHa): junction loop
     while(True):
-        print('\n----+----+ Edit tags ----+----+')
+        print('\n----+----+ Edit {0} tags ----+----+'.format(key))
         print('Current tag list')
         print(tags[key])
         print('a. Add tag')
