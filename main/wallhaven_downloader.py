@@ -13,6 +13,8 @@ import urllib.request
 # html.parser
 import html.parser
 
+# file util
+import util_file
 
 def main(argv):
     """
@@ -38,39 +40,40 @@ def main(argv):
         ban_db['wallhaven'] = set()
 
     # TODO(LuHa): read pre-downloaded image
-    downloaded = set()
-    if sys.version_info.minor < 6:
-        for entry in os.scandir('./downloads'):
-            if entry.is_file():
-                if (entry.name).startswith('wallhaven'):
-                    image_id = (entry.name).split('-')[1]
-                    image_id = (image_id).split('.')[0]
-                    image_id = int(image_id)
-                    downloaded.add(image_id)
-        for entry in os.scandir('./save'):
-            if entry.is_file():
-                if (entry.name).startswith('wallhaven'):
-                    image_id = (entry.name).split('-')[1]
-                    image_id = (image_id).split('.')[0]
-                    image_id = int(image_id)
-                    downloaded.add(image_id)
-    else:
-        with os.scandir('./downloads') as it:
-            for entry in it:
-                if entry.is_file():
-                    if (entry.name).startswith('wallhaven'):
-                        image_id = (entry.name).split('-')[1]
-                        image_id = (image_id).split('.')[0]
-                        image_id = int(image_id)
-                        downloaded.add(image_id)
-        with os.scandir('./save') as it:
-            for entry in it:
-                if entry.is_file():
-                    if (entry.name).startswith('wallhaven'):
-                        image_id = (entry.name).split('-')[1]
-                        image_id = (image_id).split('.')[0]
-                        image_id = int(image_id)
-                        downloaded.add(image_id)
+    downloaded = util_file.get_downloaded_images('wallhaven')
+#    downloaded = set()
+#    if sys.version_info.minor < 6:
+#        for entry in os.scandir('./downloads'):
+#            if entry.is_file():
+#                if (entry.name).startswith('wallhaven'):
+#                    image_id = (entry.name).split('-')[1]
+#                    image_id = (image_id).split('.')[0]
+#                    image_id = int(image_id)
+#                    downloaded.add(image_id)
+#        for entry in os.scandir('./save'):
+#            if entry.is_file():
+#                if (entry.name).startswith('wallhaven'):
+#                    image_id = (entry.name).split('-')[1]
+#                    image_id = (image_id).split('.')[0]
+#                    image_id = int(image_id)
+#                    downloaded.add(image_id)
+#    else:
+#        with os.scandir('./downloads') as it:
+#            for entry in it:
+#                if entry.is_file():
+#                    if (entry.name).startswith('wallhaven'):
+#                        image_id = (entry.name).split('-')[1]
+#                        image_id = (image_id).split('.')[0]
+#                        image_id = int(image_id)
+#                        downloaded.add(image_id)
+#        with os.scandir('./save') as it:
+#            for entry in it:
+#                if entry.is_file():
+#                    if (entry.name).startswith('wallhaven'):
+#                        image_id = (entry.name).split('-')[1]
+#                        image_id = (image_id).split('.')[0]
+#                        image_id = int(image_id)
+#                        downloaded.add(image_id)
 
     # TODO(LuHa): load tags
     if os.path.exists('tags.secret'):
