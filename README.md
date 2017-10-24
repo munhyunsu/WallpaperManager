@@ -16,14 +16,15 @@
 
 ### The TODO feature
 - The wallpaper manager GUI version
-- The slideshow using downloaded images
-  - It can receive sleep time from user
-
 
 ### The contributed feature(or incoming)
 - None
 
 ## Version history
+
+### 171024: 1.1.1b
+- The slideshow using only downloaded images
+  - It can receive sleep time from user
 
 ### 171019: 1.1.1a
 - Compatitable to python 3.5.x
