@@ -16,6 +16,7 @@
 
 ### The TODO feature
 - The wallpaper manager GUI version
+- Display the number of images in downloads directory
 
 ### The contributed feature(or incoming)
 - None
