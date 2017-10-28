@@ -63,7 +63,8 @@ def main(argv):
         elif user_input == 'c':
             check_wallpaper()
         elif user_input == 's':
-            start_download()
+            for index in range(1, len(sources)):
+                start_download(sources[index])
         elif user_input == 'r':
             random_slideshow()
         elif user_input == 'q':
@@ -108,16 +109,15 @@ def edit_tags(tags, key):
 
 
 
-def start_download():
+def start_download(source):
     """
     start download image from site each.
     if we use subprocess.Popen, then we can execute it parallel.
     if we do not want mixing the standard output, 
       then we have to use subprocess.run
     """
-    for source in IMAGESOURCES:
-        downloader = (source + '_downloader.py')
-        subprocess.Popen(['python3', downloader])
+    downloader = (source + '_downloader.py')
+    subprocess.Popen(['python3', downloader])
 
 
 
