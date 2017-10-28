@@ -16,8 +16,13 @@
 
 ### The TODO feature
 - The wallpaper manager GUI version
-- Display the number of images in downloads directory
+- (Pending) Display the number of images in downloads directory
   - It has some performance issue, so it pend until someone request it.
+- function to Handle exception on RandomChanger
+  - IndexError occured when no files in downloads directory
+- Mute category
+  - It just image mute, until mute clear
+  - Mute function is used, when user want temporary do not show that
 
 ### The contributed feature(or incoming)
 - None
