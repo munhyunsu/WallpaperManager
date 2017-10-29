@@ -10,6 +10,8 @@ import os
 import base64
 # openner
 import urllib.request
+# timeout
+import socket
 
 # file util
 import util_file

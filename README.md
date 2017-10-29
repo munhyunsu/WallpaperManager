@@ -27,7 +27,8 @@
   - This happends because of dummy
 - (Bugfix) SIGTERM message is also going to parent process not only child.
   - Expecially to terminate random changer, the user press SIGTERM
-
+- (Bugfix) socket.timeout library
+  - missing socket.timeout
 
 ### The contributed feature(or incoming)
 - None

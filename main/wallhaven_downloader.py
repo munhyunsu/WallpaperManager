@@ -12,6 +12,8 @@ import urllib.parse
 import urllib.request
 # html.parser
 import html.parser
+# timeout
+import socket
 
 # file util
 import util_file
