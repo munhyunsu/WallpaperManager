@@ -23,17 +23,20 @@
 - (Feature request) Mute category
   - It just image mute, until mute clear
   - Mute function is used, when user want temporary do not show that
-- (Bugfix) Execute dummy\_downloader.py
-  - This happends because of dummy
 - (Bugfix) SIGTERM message is also going to parent process not only child.
   - Expecially to terminate random changer, the user press SIGTERM
-- (Bugfix) socket.timeout library
-  - missing socket.timeout
 
 ### The contributed feature(or incoming)
 - None
 
 ## Version history
+
+### 171029: 1.1.1c
+- (Bugfix) add import socket.timeout
+  - occure library missing error when the request is timeout
+- (Bugfix) change start\_download function behavior
+  - It changed to call subprocess by paramater from by global variable
+  - From now, dummy error is not showing
 
 ### 171024: 1.1.1b
 - The slideshow using only downloaded images
