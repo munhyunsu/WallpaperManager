@@ -20,9 +20,14 @@
   - It has some performance issue, so it pend until someone request it.
 - function to Handle exception on RandomChanger
   - IndexError occured when no files in downloads directory
-- Mute category
+- (Feature request) Mute category
   - It just image mute, until mute clear
   - Mute function is used, when user want temporary do not show that
+- (Bugfix) Execute dummy\_downloader.py
+  - This happends because of dummy
+- (Bugfix) SIGTERM message is also going to parent process not only child.
+  - Expecially to terminate random changer, the user press SIGTERM
+
 
 ### The contributed feature(or incoming)
 - None
