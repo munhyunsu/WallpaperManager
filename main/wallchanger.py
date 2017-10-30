@@ -39,6 +39,17 @@ def main(argv):
         for source in IMAGESOURCES:
             ban_db[source] = set(ban_db.get(source, list()))
 
+    # TODO(LuHa): load mute database
+    if os.path.exists('mute.secret'):
+        with open('mute.secret', 'r') as f_db:
+            mute_db = json.load(f_db)
+            for source in IMAGESOURCES:
+                mute_db[source] = set(mute_db.get(source, list()))
+    else:
+        mute_db = dict()
+        for source in IMAGESOURCES:
+            mute_db[source] = set(mute_db.get(source, list()))
+
     # TODO(LuHa): get all of downloaded images
     downloaded = list()
     if sys.version_info.minor < 6:
@@ -80,6 +91,7 @@ def main(argv):
                                                         len(downloaded)))
         print('b. Ban image')
         print('d. Delete image')
+        print('m. Mute image')
         print('s. Save image')
         print('q. Quit')
         print('Current image name: {0}'.format(image_name))
@@ -95,6 +107,11 @@ def main(argv):
         elif user_input == 'd':
             print('[Changer] Delete image {0}'.format(image_name))
             os.remove(cursor)
+        elif user_input == 'm':
+            print('[Changer] Mute image {0}'.format(image_name))
+            [site, number] = image_name.split('-')
+            number = number.split('.')[0]
+            mute_db[site].add(int(number))
         elif user_input == 's':
             print('[Changer] Save image {0}'.format(image_name))
             src_path = './downloads/' + image_name
@@ -110,6 +127,16 @@ def main(argv):
             ban_db[source].sort()
         json.dump(ban_db,
                   f_ban,
+                  indent = 4,
+                  sort_keys = True)
+
+    # TODO(LuHa): save mute database
+    with open('mute.secret' ,'w') as f_mute:
+        for source in IMAGESOURCES:
+            mute_db[source] = list(mute_db[source])
+            mute_db[source].sort()
+        json.dump(mute_db,
+                  f_mute,
                   indent = 4,
                   sort_keys = True)
 

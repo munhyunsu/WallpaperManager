@@ -30,7 +30,7 @@ def main(argv):
     os.makedirs('./downloads', exist_ok = True)
     os.makedirs('./save', exist_ok = True)
 
-    # TODO(LuHa): load image database
+    # TODO(LuHa): load ban database
     if os.path.exists('ban.secret'):
         with open('ban.secret', 'r') as f_ban:
             ban_db = json.load(f_ban)
@@ -39,6 +39,15 @@ def main(argv):
         ban_db = dict()
         ban_db['yandere'] = set()
     
+    # TODO(LuHa): load mute database
+    if os.path.exists('mute.secret'):
+        with open('mute.secret', 'r') as f_mute:
+            mute_db = json.load(f_mute)
+            mute_db['yandere'] = set(mute_db.get('yandere', list()))
+    else:
+        mute_db = dict()
+        mute_db['yandere'] = set()
+
     # TODO(LuHa): read pre-downloaded image
     downloaded = util_file.get_downloaded_images('yandere')
 #    downloaded = set()
@@ -130,6 +139,9 @@ def main(argv):
                 continue
             elif int(post['id']) in ban_db['yandere']:
                 print('[Yandere] Ban downloaded {0}'.format(post['id']))
+                continue
+            elif int(post['id']) in mute_db['yandere']:
+                print('[Yandere] Mute downloaded {0}'.format(post['id']))
                 continue
             else:
                 downloaded.add(int(post['id']))
