@@ -136,7 +136,12 @@ def random_slideshow():
     start slideshow using downloaded images
     but, those images are unchecked
     """
-    subprocess.run(['python3', 'random_slideshow.py'])
+    # Handling SIGTERM that sended to child process not parent process
+    try:
+        subprocess.run(['python3', 'random_slideshow.py'])
+    except KeyboardInterrupt:
+        pass
+
 
 
 # maybe it is good thing, right?
