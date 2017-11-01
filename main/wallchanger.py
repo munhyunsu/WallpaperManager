@@ -12,6 +12,8 @@ import random
 import json
 # move
 import shutil
+# select
+import select
 
 # manage list of available image source
 IMAGESOURCES = ['danbooru',
@@ -63,6 +65,12 @@ def main(argv):
                     downloaded.append(os.path.abspath(entry))
     random.shuffle(downloaded)    
 
+    # TODO(LuHa): get user preference about enable or disable auto change
+    print('If you want to enable auto-change input the sleep time')
+    print('If you type 0 then disable zuto-change feature')
+    sleep_time = input('User input about sleep time: ')
+    sleep_time = int(sleep_time)
+
     # TODO(LuHa): loop images
     while len(downloaded) > 0:
         cursor = downloaded.pop()
@@ -96,8 +104,20 @@ def main(argv):
         print('q. Quit')
         print('Current image name: {0}'.format(image_name))
         print('----+----+----+----+')
-        user_input = input('User input: ')
-        user_input = user_input.lower()
+        print('User input:', end = ' ', flush = True)
+        if sleep_time > 0:
+            (r, w, e) = select.select([sys.stdin], [], [], sleep_time)
+            if r:
+                user_input = sys.stdin.readline().strip()
+                user_input = user_input.lower()
+            else:
+                downloaded.insert(0, cursor)
+                print('Auto-change')
+                continue
+        else:
+            user_input = input('')
+            user_input = user_input.lower()
+
         if user_input == 'b':
             print('[Changer] Ban image {0}'.format(image_name))
             os.remove(cursor)

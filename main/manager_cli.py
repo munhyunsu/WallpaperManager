@@ -48,7 +48,7 @@ def main(argv):
             print(tags[sources[index]])
         print('c. Check downloaded wallpaper')
         print('s. Start download wallpaper')
-        print('r. Random slideshow using downloaded wallpaper(unchecked)')
+        #print('r. Random slideshow using downloaded wallpaper(unchecked)')
         print('q. Terminate programm')
         print('----+----+----+----+----+----+----+----+')
         user_input = input('User input: ')
@@ -65,8 +65,8 @@ def main(argv):
         elif user_input == 's':
             for index in range(1, len(sources)):
                 start_download(sources[index])
-        elif user_input == 'r':
-            random_slideshow()
+        #elif user_input == 'r':
+        #    random_slideshow()
         elif user_input == 'q':
             break
 
@@ -131,16 +131,16 @@ def check_wallpaper():
 
 
 
-def random_slideshow():
-    """
-    start slideshow using downloaded images
-    but, those images are unchecked
-    """
-    # Handling SIGTERM that sended to child process not parent process
-    try:
-        subprocess.run(['python3', 'random_slideshow.py'])
-    except KeyboardInterrupt:
-        pass
+#def random_slideshow():
+#    """
+#    start slideshow using downloaded images
+#    but, those images are unchecked
+#    """
+#    # Handling SIGTERM that sended to child process not parent process
+#    try:
+#        subprocess.run(['python3', 'random_slideshow.py'])
+#    except KeyboardInterrupt:
+#        pass
 
 
 
