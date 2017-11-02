@@ -128,10 +128,10 @@ def main(argv):
 
         if user_input == 'b':
             print('[Changer] Ban image {0}'.format(image_name))
-            os.remove(cursor)
             [site, number] = image_name.split('-')
             number = number.split('.')[0]
             ban_db[site].add(int(number))
+            os.remove(cursor)
         elif user_input == 'd':
             print('[Changer] Delete image {0}'.format(image_name))
             os.remove(cursor)
@@ -140,6 +140,7 @@ def main(argv):
             [site, number] = image_name.split('-')
             number = number.split('.')[0]
             mute_db[site].add(int(number))
+            os.remove(cursor)
         elif user_input == 's':
             print('[Changer] Save image {0}'.format(image_name))
             src_path = './downloads/' + image_name
