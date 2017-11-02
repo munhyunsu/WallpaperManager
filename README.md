@@ -26,6 +26,7 @@
 - (Optimization) modify timeout try-except state range
   - After several times usage the timeout exception is called at response wait
   - The timeout occured at low-speed network environment
+- (GUI) The colored text for better visibility
 
 ### The contributed feature(or incoming)
 - None

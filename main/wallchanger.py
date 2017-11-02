@@ -104,18 +104,26 @@ def main(argv):
         print('q. Quit')
         print('Current image name: {0}'.format(image_name))
         print('----+----+----+----+')
-        print('User input:', end = ' ', flush = True)
         if sleep_time > 0:
-            (r, w, e) = select.select([sys.stdin], [], [], sleep_time)
-            if r:
-                user_input = sys.stdin.readline().strip()
-                user_input = user_input.lower()
-            else:
+            left_time = sleep_time
+            print('\x1B[31C\x1B[s\x1B[31D', end = '')
+            while left_time > 0:
+                print('User input({0:5} second left): \x1B[u'.format(left_time),
+                      end = '', flush = True)
+                (r, w, e) = select.select([sys.stdin], [], [], 1)
+                if r:
+                    user_input = sys.stdin.readline().strip()
+                    user_input = user_input.lower()
+                    break
+                else:
+                    left_time = left_time-1
+                    print('\x1B[s\x1B[1F')
+            if left_time == 0:
                 downloaded.insert(0, cursor)
                 print('Auto-change')
                 continue
         else:
-            user_input = input('')
+            user_input = input('User input: ')
             user_input = user_input.lower()
 
         if user_input == 'b':

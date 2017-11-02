@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# colored text hint: https://en.wikipedia.org/wiki/ANSI_escape_code
 
 # exit
 import sys
@@ -40,7 +41,9 @@ def main(argv):
 
     # TODO(LuHa): junction loop according users' input
     while True:
-        print('\n----+----+ Wallpaper Manager CLI ----+----+')
+        print('\x1B[38;5;3m'
+            + '\n----+----+ Wallpaper Manager CLI ----+----+'
+            + '\x1B[0m')
         print('----+----+----+ Main menu ----+----+----+')
         for index in range(1, len(sources)):
             print('{0}. Edit {1} search tags'.format(
