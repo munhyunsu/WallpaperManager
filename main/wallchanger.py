@@ -70,6 +70,22 @@ def main(argv):
     print('If you type 0 then disable zuto-change feature')
     sleep_time = input('User input about sleep time: ')
     sleep_time = int(sleep_time)
+    
+    # TODO(LuHa): get user preference about enable or disable auto delete
+    if sleep_time > 0:
+        print('If you want to enable auto-delete at auto-changing')
+        print('input the y or press any key')
+        auto_remove = input('User input about auto delete: ')
+        auto_remove = auto_remove.lower()
+        if auto_remove == 'y':
+            auto_remove = True
+        else:
+            auto_remove = False
+
+    # TODO(LuHa): print messages about user preference for convinient
+    print('[Changer] Setup complete: '
+        + '(sleep time: {0}, auto remove: {1})'.format(
+                sleep_time, auto_remove))
 
     # TODO(LuHa): loop images
     while len(downloaded) > 0:
@@ -119,9 +135,13 @@ def main(argv):
                     left_time = left_time-1
                     print('\x1B[s\x1B[1F')
             if left_time == 0:
-                downloaded.insert(0, cursor)
-                print('Auto-change')
-                continue
+                if auto_remove:
+                    print('\x1B[31CAuto-change and Auto-delete')
+                    user_input = 'd'
+                else:
+                    downloaded.insert(0, cursor)
+                    print('\x1B[31CAuto-change')
+                    continue
         else:
             user_input = input('User input: ')
             user_input = user_input.lower()

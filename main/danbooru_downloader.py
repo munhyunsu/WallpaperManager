@@ -21,7 +21,7 @@ def main(argv):
     main flow
     """
     # TODO(LuHa): print message about program execution
-    print('[Danbooru] Execute danbooru downloader')
+    print('\x1B[38;5;5m[Danbooru] Execute danbooru downloader\x1B[0m')
 
     # TODO(LuHa): create downloads directory
     # actually, this code use only downloads directory.
@@ -119,15 +119,11 @@ def main(argv):
                      + '/posts.json?tags='
                      + tag
                      + '&random=true')
-        try:
-            response = opener.open(request_url, timeout = 60)
-        except socket.timeout:
-            print('[Danbooru] Request timeout')
-            return
+        response = opener.open(request_url, timeout = 60)
         try:
             posts = json.loads(response.read().decode('utf-8'))
         except socket.timeout:
-            print('[Danbooru] Response timeout')
+            print('\x1B[38;5;5m[Danbooru] Response timeout\x1B[0m')
             return
 
         # TODO(LuHa): loop download by posts
@@ -162,12 +158,12 @@ def main(argv):
                 try:
                     f.write(response.read())
                 except socket.timeout:
-                    print('[Danbooru] Response timeout')
+                    print('\x1B[38;5;5m[Danbooru] Response timeout\x1B[0m')
                     return
             print('[Danbooru] Downloaded {0}'.format(image_path))
 
     # TODO(LuHa): print message about program terminaion
-    print('[Danbooru] Terminate danbooru downloader')
+    print('\x1B[38;5;5m[Danbooru] Terminate danbooru downloader\x1B[0m')
 
 
 # Maybe it is good, right?

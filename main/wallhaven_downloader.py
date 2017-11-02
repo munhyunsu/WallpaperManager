@@ -23,7 +23,7 @@ def main(argv):
     main flow
     """
     # TODO(LuHa): print message about program execution
-    print('[Wallhaven] Execute wallhaven downloader')
+    print('\x1B[38;5;5m[Wallhaven] Execute wallhaven downloader\x1B[0m')
 
     # TODO(LuHa): create downloads directory
     # actually, this code use only downloads directory.
@@ -135,15 +135,11 @@ def main(argv):
                      + '/search?q='
                      + tag
                      + '&categories=010&purity=111&sorting=random')
-        try:
-            response = opener.open(request_url, timeout = 60)
-        except socket.timeout:
-            print('[Wallhaven] Request timeout')
-            return
+        response = opener.open(request_url, timeout = 60)
         try:
             id_parser.feed(response.read().decode('utf-8'))
         except socket.timeout:
-            print('[Wallhaven] Response timeout')
+            print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
             return
 
 
@@ -167,38 +163,30 @@ def main(argv):
             request_url = (base_url
                          + '/wallpaper/'
                          + image_id)
-            try:
                 response = opener.open(request_url, timeout = 60)
-            except socket.timeout:
-                print('[Wallhaven] Request timeout')
-                return
             try:
                 uri_parser.feed(response.read().decode('utf-8'))
             except socket.timeout:
-                print('[Wallhaven] Response timeout')
+                print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
                 return
 
         # TODO(LuHa): loop download by posts
         for image_uri in uri_parser.get_uris():
             request_url = ('https:'
                          + image_uri)
-            try:
-                response = opener.open(request_url, timeout = 60)
-            except socket.timeout:
-                print('[Wallhaven] Request timeout')
-                return
+            response = opener.open(request_url, timeout = 60)
             image_path = ('./downloads/'
                         + image_uri.split('/')[-1])
             with open(image_path, 'wb') as f:
                 try:
                     f.write(response.read())
                 except socket.timeout:
-                    print('[Wallhaven] Response timeout')
+                    print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
                     return
             print('[Wallhaven] Downloaded {0}'.format(image_path))
 
     # TODO(Luha): print message about program termination
-    print('[Wallhaven] Terminate wallhaven downloader')
+    print('\x1B[38;5;5m[Wallhaven] Terminate wallhaven downloader\x1B[0m')
 
 
 class ImageIdParser(html.parser.HTMLParser):
