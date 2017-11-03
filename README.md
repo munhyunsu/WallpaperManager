@@ -18,8 +18,16 @@
 - The wallpaper manager GUI version
 - (Pending) Display the number of images in downloads directory
   - It has some performance issue, so it pend until someone request it.
-- function to Handle exception on RandomChanger
-  - IndexError occured when no files in downloads directory
+
+### The contributed feature(or incoming)
+- None
+
+## Version history
+
+### 171103: 1.1.2
+- (Bugfix) Exception handling
+  - function to Handle exception on RandomChanger
+    - IndexError occured when no files in downloads directory
 - (Feature request) Mute category
   - It just image mute, until mute clear
   - Mute function is used, when user want temporary do not show that
@@ -27,11 +35,11 @@
   - After several times usage the timeout exception is called at response wait
   - The timeout occured at low-speed network environment
 - (GUI) The colored text for better visibility
-
-### The contributed feature(or incoming)
-- None
-
-## Version history
+- Auto-delete feature added
+  - When the wallpaper change to new one, the old one is deleted
+- Merge check wallpaper and random wallpaper
+  - After now, auto-change feature is available in check wallpaper
+  - The random wallpaper is deleted
 
 ### 171031: 1.1.1d
 - (Bugfix) SIGTERM messages are sended only to child process when running random changer
