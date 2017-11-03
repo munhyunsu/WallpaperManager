@@ -163,7 +163,7 @@ def main(argv):
             request_url = (base_url
                          + '/wallpaper/'
                          + image_id)
-                response = opener.open(request_url, timeout = 60)
+            response = opener.open(request_url, timeout = 60)
             try:
                 uri_parser.feed(response.read().decode('utf-8'))
             except socket.timeout:
