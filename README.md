@@ -18,6 +18,9 @@
 - The wallpaper manager GUI version
 - (Pending) Display the number of images in downloads directory
   - It has some performance issue, so it pend until someone request it.
+- (Optimization) Set sleep interval beteen image request
+  - It keep network bandwith for the server and prevent block of server.
+- (Optimization) The common code like load tags, search downloaded images, and so on are functionalized.
 
 ### The contributed feature(or incoming)
 - None
@@ -31,7 +34,7 @@
 - (Feature request) Mute category
   - It just image mute, until mute clear
   - Mute function is used, when user want temporary do not show that
-- (Optimization) modify timeout try-except state range
+- (Optimization) Modify timeout try-except state range
   - After several times usage the timeout exception is called at response wait
   - The timeout occured at low-speed network environment
 - (GUI) The colored text for better visibility
