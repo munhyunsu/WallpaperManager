@@ -15,10 +15,8 @@ import shutil
 # select
 import select
 
-# manage list of available image source
-IMAGESOURCES = ['danbooru',
-                'yandere',
-                'wallhaven']
+# global_variable
+from global_variable import IMAGESOURCES
 
 def main(argv):
     """
@@ -30,26 +28,29 @@ def main(argv):
     os.makedirs('./downloads', exist_ok = True)
     os.makedirs('./save', exist_ok = True)
 
+    # TODO(LuHa): manage image source
+    sources = IMAGESOURCES
+
     # TODO(LuHa): load ban database
     if os.path.exists('ban.secret'):
         with open('ban.secret', 'r') as f_db:
             ban_db = json.load(f_db)
-            for source in IMAGESOURCES:
+            for source in sources:
                 ban_db[source] = set(ban_db.get(source, list()))
     else:
         ban_db = dict()
-        for source in IMAGESOURCES:
+        for source in sources:
             ban_db[source] = set(ban_db.get(source, list()))
 
     # TODO(LuHa): load mute database
     if os.path.exists('mute.secret'):
         with open('mute.secret', 'r') as f_db:
             mute_db = json.load(f_db)
-            for source in IMAGESOURCES:
+            for source in sources:
                 mute_db[source] = set(mute_db.get(source, list()))
     else:
         mute_db = dict()
-        for source in IMAGESOURCES:
+        for source in sources:
             mute_db[source] = set(mute_db.get(source, list()))
 
     # TODO(LuHa): get all of downloaded images
@@ -171,7 +172,7 @@ def main(argv):
 
     # TODO(LuHa): save ban database
     with open('ban.secret' ,'w') as f_ban:
-        for source in IMAGESOURCES:
+        for source in sources:
             ban_db[source] = list(ban_db[source])
             ban_db[source].sort()
         json.dump(ban_db,
@@ -181,7 +182,7 @@ def main(argv):
 
     # TODO(LuHa): save mute database
     with open('mute.secret' ,'w') as f_mute:
-        for source in IMAGESOURCES:
+        for source in sources:
             mute_db[source] = list(mute_db[source])
             mute_db[source].sort()
         json.dump(mute_db,

@@ -10,10 +10,8 @@ import json
 # subprocess
 import subprocess
 
-# manage list of available image source
-IMAGESOURCES = ['danbooru',
-                'yandere',
-                'wallhaven']
+# global_variable
+from global_variable import IMAGESOURCES
 
 def main(argv):
     """

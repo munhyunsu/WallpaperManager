@@ -27,6 +27,11 @@
 
 ## Version history
 
+### 1.1.3
+- (Refactoring) The list of image source disttach from each sources.
+  - It can more efficient management using global\_variable
+  - Maybe it used sleep time also.
+
 ### 171103: 1.1.2
 - (Bugfix) Exception handling
   - function to Handle exception on RandomChanger
