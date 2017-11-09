@@ -18,8 +18,6 @@
 - The wallpaper manager GUI version
 - (Pending) Display the number of images in downloads directory
   - It has some performance issue, so it pend until someone request it.
-- (Optimization) Set sleep interval beteen image request
-  - It keep network bandwith for the server and prevent block of server.
 - (Optimization) The common code like load tags, search downloaded images, and so on are functionalized.
 
 ### The contributed feature(or incoming)
@@ -27,10 +25,13 @@
 
 ## Version history
 
-### 1.1.3
+### scheduled: 1.1.3
 - (Refactoring) The list of image source disttach from each sources.
   - It can more efficient management using global\_variable
   - Maybe it used sleep time also.
+- (Optimization) Set sleep interval beteen image request
+  - It keep network bandwith for the server and prevent block of server.
+
 
 ### 171103: 1.1.2
 - (Bugfix) Exception handling

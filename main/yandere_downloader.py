@@ -12,9 +12,13 @@ import base64
 import urllib.request
 # timeout
 import socket
+# sleep
+import time
 
 # file util
 import util_file
+# sleep time
+from global_variable import SLEEPTIME
 
 def main(argv):
     """
@@ -22,6 +26,9 @@ def main(argv):
     """
     # TODO(LuHa): print message about program execution
     print('\x1B[38;5;5m[Yandere] Execute yandere downloader\x1B[0m')
+
+    # TODO(LuHa): load sleep time from global variable
+    sleep_time = SLEEPTIME
 
     # TODO(LuHa): create downloads directory
     # actually, this code use only downloads directory.
@@ -50,39 +57,6 @@ def main(argv):
 
     # TODO(LuHa): read pre-downloaded image
     downloaded = util_file.get_downloaded_images('yandere')
-#    downloaded = set()
-#    if sys.version_info.minor < 6:
-#        for entry in os.scandir('./downloads'):
-#            if entry.is_file():
-#                if (entry.name).startswith('yandere'):
-#                    image_id = (entry.name).split('-')[1]
-#                    image_id = (image_id).split('.')[0]
-#                    image_id = int(image_id)
-#                    downloaded.add(image_id)
-#        for entry in os.scandir('./save'):
-#            if entry.is_file():
-#                if (entry.name).startswith('yandere'):
-#                    image_id = (entry.name).split('-')[1]
-#                    image_id = (image_id).split('.')[0]
-#                    image_id = int(image_id)
-#                    downloaded.add(image_id)
-#    else:            
-#        with os.scandir('./downloads') as it:
-#            for entry in it:
-#                if entry.is_file():
-#                    if (entry.name).startswith('yandere'):
-#                        image_id = (entry.name).split('-')[1]
-#                        image_id = (image_id).split('.')[0]
-#                        image_id = int(image_id)
-#                        downloaded.add(image_id)
-#        with os.scandir('./save') as it:
-#            for entry in it:
-#                if entry.is_file():
-#                    if (entry.name).startswith('yandere'):
-#                        image_id = (entry.name).split('-')[1]
-#                        image_id = (image_id).split('.')[0]
-#                        image_id = int(image_id)
-#                        downloaded.add(image_id)
 
     # TODO(LuHa): load tags
     if os.path.exists('tags.secret'):
@@ -161,6 +135,8 @@ def main(argv):
                     print('\x1B[38;5;5m[Yandere] Response timeout\x1B[0m')
                     return
             print('[Yandere] Downloaded {0}'.format(image_path))
+            # sleep for prevent block
+            time.sleep(sleep_time)
 
     # TODO(LuHa): print message about program terminaion
     print('\x1B[38;5;5m[Yandere] Terminate yandere downloader\x1B[0m')
