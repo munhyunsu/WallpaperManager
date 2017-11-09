@@ -14,13 +14,11 @@ import urllib.request
 import html.parser
 # timeout
 import socket
-# sleep
-import time
+# shuffle
+import random
 
-# file util
-import util_file
-# sleep time
-from global_variable import SLEEPTIME
+# utils
+import utils
 
 def main(argv):
     """
@@ -28,9 +26,6 @@ def main(argv):
     """
     # TODO(LuHa): print message about program execution
     print('\x1B[38;5;5m[Wallhaven] Execute wallhaven downloader\x1B[0m')
-
-    # TODO(LuHa): load sleep time from global variable
-    sleep_time = SLEEPTIME
 
     # TODO(LuHa): create downloads directory
     # actually, this code use only downloads directory.
@@ -58,7 +53,7 @@ def main(argv):
         mute_db['wallhaven'] = set()
 
     # TODO(LuHa): read pre-downloaded image
-    downloaded = util_file.get_downloaded_images('wallhaven')
+    downloaded = utils.get_downloaded_images('wallhaven')
 
     # TODO(LuHa): load tags
     if os.path.exists('tags.secret'):
@@ -101,6 +96,8 @@ def main(argv):
     base_url = 'https://alpha.wallhaven.cc'
     id_parser = ImageIdParser()
     uri_parser = ImageURIParser()
+    # for fun
+    random.shuffle(tags)
     for tag in tags:
         id_parser.clear_ids()
         uri_parser.clear_uris()
@@ -144,7 +141,7 @@ def main(argv):
                 print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
                 return
             # sleep for prevent blocking
-            time.sleep(sleep_time)
+            utils.dynamic_sleep()
 
         # TODO(LuHa): loop download by posts
         for image_uri in uri_parser.get_uris():
@@ -161,7 +158,7 @@ def main(argv):
                     return
             print('[Wallhaven] Downloaded {0}'.format(image_path))
             # sleep for prevent blocking
-            time.sleep(sleep_time)
+            utils.dynamic_sleep()
 
     # TODO(Luha): print message about program termination
     print('\x1B[38;5;5m[Wallhaven] Terminate wallhaven downloader\x1B[0m')

@@ -4,6 +4,11 @@
 import sys
 # scandir
 import os
+# sleep
+import time
+# randint
+import random
+
 
 def get_downloaded_images(source):
     """
@@ -38,4 +43,13 @@ def get_downloaded_images(source):
                             downloaded.add(image_id)
 
     return downloaded
-                    
+
+
+
+def dynamic_sleep(minimum = 0, maximum = 5):
+    """
+    sleep dynamic duration
+    """
+    time.sleep(random.randint(minimum, maximum))
+
+    return None
