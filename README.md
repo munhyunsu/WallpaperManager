@@ -30,6 +30,7 @@
   - It can more efficient management using global\_variable
 - (Optimization) Set sleep interval beteen image request
   - It keep network bandwith for the server and prevent block of server.
+- (Optimization) Remove unsed code (commented already) in manager\_cli.py
 
 ### 171103: 1.1.2
 - (Bugfix) Exception handling

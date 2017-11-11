@@ -49,7 +49,6 @@ def main(argv):
             print(tags[sources[index]])
         print('c. Check downloaded wallpaper')
         print('s. Start download wallpaper')
-        #print('r. Random slideshow using downloaded wallpaper(unchecked)')
         print('q. Terminate programm')
         print('----+----+----+----+----+----+----+----+')
         user_input = input('User input: ')
@@ -129,19 +128,6 @@ def check_wallpaper():
     so, we use subprocess.run
     """
     subprocess.run(['python3', 'wallchanger.py'])
-
-
-
-#def random_slideshow():
-#    """
-#    start slideshow using downloaded images
-#    but, those images are unchecked
-#    """
-#    # Handling SIGTERM that sended to child process not parent process
-#    try:
-#        subprocess.run(['python3', 'random_slideshow.py'])
-#    except KeyboardInterrupt:
-#        pass
 
 
 
