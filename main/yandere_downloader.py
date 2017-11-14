@@ -33,22 +33,24 @@ def main(argv):
     os.makedirs('./save', exist_ok = True)
 
     # TODO(LuHa): load ban database
-    if os.path.exists('ban.secret'):
-        with open('ban.secret', 'r') as f_ban:
-            ban_db = json.load(f_ban)
-            ban_db['yandere'] = set(ban_db.get('yandere', list()))
-    else:
-        ban_db = dict()
-        ban_db['yandere'] = set()
+    ban_db = utils.get_database('ban.secret')
+#    if os.path.exists('ban.secret'):
+#        with open('ban.secret', 'r') as f_ban:
+#            ban_db = json.load(f_ban)
+#            ban_db['yandere'] = set(ban_db.get('yandere', list()))
+#    else:
+#        ban_db = dict()
+#        ban_db['yandere'] = set()
     
     # TODO(LuHa): load mute database
-    if os.path.exists('mute.secret'):
-        with open('mute.secret', 'r') as f_mute:
-            mute_db = json.load(f_mute)
-            mute_db['yandere'] = set(mute_db.get('yandere', list()))
-    else:
-        mute_db = dict()
-        mute_db['yandere'] = set()
+    mute_db = utils.get_database('mute.secret')
+#    if os.path.exists('mute.secret'):
+#        with open('mute.secret', 'r') as f_mute:
+#            mute_db = json.load(f_mute)
+#            mute_db['yandere'] = set(mute_db.get('yandere', list()))
+#    else:
+#        mute_db = dict()
+#        mute_db['yandere'] = set()
 
     # TODO(LuHa): read pre-downloaded image
     downloaded = utils.get_downloaded_images('yandere')

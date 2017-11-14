@@ -18,7 +18,6 @@
 - (Pending) Display the number of images in downloads directory
   - It has some performance issue, so it pend until someone request it.
 - (Optimization) The common code like load tags, search downloaded images, and so on are functionalized.
-- (Optimization) The code about the load ban database is utilized in utils.py.
 
 ### The contributed feature(or incoming)
 - None
@@ -31,6 +30,7 @@
 - (Optimization) Set sleep interval beteen image request
   - It keep network bandwith for the server and prevent block of server.
 - (Optimization) Remove unsed code (commented already) in manager\_cli.py
+- (Optimization) The code about the load ban database is utilized in utils.py.
 
 ### 171103: 1.1.2
 - (Bugfix) Exception handling

@@ -10,7 +10,7 @@ import json
 # subprocess
 import subprocess
 
-# global_variable
+# global variable
 from global_variable import IMAGESOURCES
 
 def main(argv):
