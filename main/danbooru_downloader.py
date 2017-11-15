@@ -34,23 +34,9 @@ def main(argv):
 
     # TODO(LuHa): load ban database
     ban_db = utils.get_database('ban.secret')
-#    if os.path.exists('ban.secret'):
-#        with open('ban.secret', 'r') as f_ban:
-#            ban_db = json.load(f_ban)
-#            ban_db['danbooru'] = set(ban_db.get('danbooru', list()))
-#    else:
-#        ban_db = dict()
-#        ban_db['danbooru'] = set()
 
     # TODO(LuHa): load mute database
     mute_db = utils.get_database('mute.secret')
-#    if os.path.exists('mute.secret'):
-#        with open('mute.secret', 'r') as f_mute:
-#            mute_db = json.load(f_mute)
-#            mute_db['danbooru'] = set(mute_db.get('danbooru', list()))
-#    else:
-#        mute_db = dict()
-#        mute_db['danbooru'] = set()
     
     # TODO(LuHa): read pre-downloaded image
     downloaded = utils.get_downloaded_images('danbooru')
