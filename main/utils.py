@@ -65,7 +65,7 @@ def dynamic_sleep(minimum = 0, maximum = 5):
 # TODO(LuHa): the function to load database
 def get_database(db_name):
     """
-    read ban database
+    read database
     """
     # global variable
     sources = IMAGESOURCES
@@ -75,12 +75,36 @@ def get_database(db_name):
     for source in sources:
         database[source] = set()
 
-    # load ban
+    # load database
     if os.path.exists(db_name):
-        with open(db_name, 'r') as f_ban:
-            database = json.load(f_ban)
+        with open(db_name, 'r') as f_database:
+            database = json.load(f_database)
             for source in sources:
                 database[source] = set(database.get(source, list()))
 
     # return
     return database
+
+
+
+# TODO(LuHa): the function to save database
+def set_database(db_name, db_object):
+    """
+    write database
+    """
+    # global variable
+    sources = IMAGESOURCES
+
+    # initialize
+    db_target = dict()
+    for source in sources:
+        db_target[source] = list(db_object[source])
+        db_target[source].sort()
+
+    # save database
+    with open(db_name, 'w') as f_database:
+        json.dump(db_target,
+                  f_database,
+                  indent = 4,
+                  sort_keys = True)
+

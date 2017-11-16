@@ -10,6 +10,8 @@ import json
 # subprocess
 import subprocess
 
+# utils
+import utils
 # global variable
 from global_variable import IMAGESOURCES
 
@@ -27,15 +29,16 @@ def main(argv):
     sources.insert(0, 'dumy')
 
     # TODO(LuHa): restore tags
-    if os.path.isfile('tags.secret'):
-        with open('tags.secret', 'r') as fp_tags:
-            tags = json.load(fp_tags)
-            for source in sources:
-                tags[source] = tags.get(source, list())
-    else:
-        tags = dict()
-        for source in sources:
-            tags[source] = tags.get(source, list())
+    tags = utils.get_database('tags.secret')
+    #if os.path.isfile('tags.secret'):
+    #    with open('tags.secret', 'r') as fp_tags:
+    #        tags = json.load(fp_tags)
+    #        for source in sources:
+    #            tags[source] = tags.get(source, list())
+    #else:
+    #    tags = dict()
+    #    for source in sources:
+    #        tags[source] = tags.get(source, list())
 
     # TODO(LuHa): junction loop according users' input
     while True:
@@ -93,7 +96,7 @@ def edit_tags(tags, key):
         # TODO(LuHa): processing user's input
         if user_input == 'a':
             user_input = input('Tag to add: ')
-            tags[key].append(user_input)
+            tags[key].add(user_input)
         if user_input == 'd':
             user_input = input('Tag to delete: ')
             if user_input in tags[key]:
@@ -101,11 +104,12 @@ def edit_tags(tags, key):
         if user_input == 'b':
             break
     # TODO(LuHa): save tags
-    with open('tags.secret', 'w') as fp_tags:
-        tags[key].sort()
-        json.dump(tags, fp_tags,
-                  indent = 4,
-                  sort_keys = True)
+    utils.set_database('tags.secret', tags)
+    #with open('tags.secret', 'w') as fp_tags:
+    #    tags[key].sort()
+    #    json.dump(tags, fp_tags,
+    #              indent = 4,
+    #              sort_keys = True)
 
 
 
