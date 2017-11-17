@@ -30,15 +30,6 @@ def main(argv):
 
     # TODO(LuHa): restore tags
     tags = utils.get_database('tags.secret')
-    #if os.path.isfile('tags.secret'):
-    #    with open('tags.secret', 'r') as fp_tags:
-    #        tags = json.load(fp_tags)
-    #        for source in sources:
-    #            tags[source] = tags.get(source, list())
-    #else:
-    #    tags = dict()
-    #    for source in sources:
-    #        tags[source] = tags.get(source, list())
 
     # TODO(LuHa): junction loop according users' input
     while True:
@@ -105,11 +96,6 @@ def edit_tags(tags, key):
             break
     # TODO(LuHa): save tags
     utils.set_database('tags.secret', tags)
-    #with open('tags.secret', 'w') as fp_tags:
-    #    tags[key].sort()
-    #    json.dump(tags, fp_tags,
-    #              indent = 4,
-    #              sort_keys = True)
 
 
 

@@ -15,6 +15,8 @@ import shutil
 # select
 import select
 
+# utils
+import utils
 # global_variable
 from global_variable import IMAGESOURCES
 
@@ -172,25 +174,9 @@ def main(argv):
 
     # TODO(LuHa): save ban database
     utils.set_database('ban.secret', ban_db)
-    #with open('ban.secret' ,'w') as f_ban:
-    #    for source in sources:
-    #        ban_db[source] = list(ban_db[source])
-    #        ban_db[source].sort()
-    #    json.dump(ban_db,
-    #              f_ban,
-    #              indent = 4,
-    #              sort_keys = True)
 
     # TODO(LuHa): save mute database
     utils.set_database('mute.secret', mute_db)
-    #with open('mute.secret' ,'w') as f_mute:
-    #    for source in sources:
-    #        mute_db[source] = list(mute_db[source])
-    #        mute_db[source].sort()
-    #    json.dump(mute_db,
-    #              f_mute,
-    #              indent = 4,
-    #              sort_keys = True)
 
     # TODO(LuHa): print message about program termination
     print('[Changer] Terminate wallpaper changer')
