@@ -59,8 +59,6 @@ def main(argv):
         elif user_input == 's':
             for index in range(1, len(sources)):
                 start_download(sources[index])
-        #elif user_input == 'r':
-        #    random_slideshow()
         elif user_input == 'q':
             break
 
