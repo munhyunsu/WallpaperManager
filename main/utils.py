@@ -108,3 +108,26 @@ def set_database(db_name, db_object):
                   indent = 4,
                   sort_keys = True)
 
+
+
+def change_wallpaper(image_path):
+    """
+    change wallpaper
+    for now, it change just Linux Mint Cinnamon
+    """
+    image_path = 'file://' + cursor
+    subprocess.run(['gsettings',
+                    'set',
+                    'org.cinnamon.desktop.background',
+                    'picture-uri',
+                    image_path])
+    subprocess.run(['gsettings',
+                    'set',
+                    'org.cinnamon.desktop.background',
+                    'picture-opacity',
+                    '100'])
+    subprocess.run(['gsettings',
+                    'set',
+                    'org.cinnamon.desktop.background',
+                    'picture-options',
+                    'scaled'])

@@ -95,22 +95,23 @@ def main(argv):
         cursor = downloaded.pop()
 
         # TODO(LuHa): change wallpaper
-        image_path = 'file://' + cursor
-        subprocess.run(['gsettings',
-                        'set',
-                        'org.cinnamon.desktop.background',
-                        'picture-uri',
-                        image_path])
-        subprocess.run(['gsettings',
-                        'set',
-                        'org.cinnamon.desktop.background',
-                        'picture-opacity',
-                        '100'])
-        subprocess.run(['gsettings',
-                        'set',
-                        'org.cinnamon.desktop.background',
-                        'picture-options',
-                        'scaled'])
+        utils.change_wallpaper(cursor)
+        #image_path = 'file://' + cursor
+        #subprocess.run(['gsettings',
+        #                'set',
+        #                'org.cinnamon.desktop.background',
+        #                'picture-uri',
+        #                image_path])
+        #subprocess.run(['gsettings',
+        #                'set',
+        #                'org.cinnamon.desktop.background',
+        #                'picture-opacity',
+        #                '100'])
+        #subprocess.run(['gsettings',
+        #                'set',
+        #                'org.cinnamon.desktop.background',
+        #                'picture-options',
+        #                'scaled'])
 
         # TODO(LuHa): print menu and handle user's input
         image_name = cursor.split('/')[-1]

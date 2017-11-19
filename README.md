@@ -32,6 +32,7 @@
 - (Optimization) Remove unsed code (commented already) in manager\_cli.py
 - (Optimization) The code about the load ban database is utilized in utils.py.
 - (Optimization) The load database function is unified at utils.py
+- (Optimization) The change wallpaper function is moved to utils.py
 
 ### 171103: 1.1.2
 - (Bugfix) Exception handling

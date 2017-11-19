@@ -57,8 +57,7 @@ def main(argv):
         elif user_input == 'c':
             check_wallpaper()
         elif user_input == 's':
-            for index in range(1, len(sources)):
-                start_download(sources[index])
+            start_download()
         elif user_input == 'q':
             break
 
@@ -97,15 +96,20 @@ def edit_tags(tags, key):
 
 
 
-def start_download(source):
+def start_download():
     """
     start download image from site each.
     if we use subprocess.Popen, then we can execute it parallel.
     if we do not want mixing the standard output, 
       then we have to use subprocess.run
     """
-    downloader = (source + '_downloader.py')
-    subprocess.Popen(['python3', downloader])
+    # global_variable
+    sources = IMAGESOURCES
+
+    # execute downloader
+    for index in range(1, len(sources)):
+        downloader = (sources[index] + '_downloader.py')
+        subprocess.Popen(['python3', downloader])
 
 
 
