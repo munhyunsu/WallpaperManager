@@ -18,6 +18,7 @@
 - (Pending) Display the number of images in downloads directory
   - It has some performance issue, so it pend until someone request it.
 - (Optimization) The common code like load tags, search downloaded images, and so on are functionalized.
+- (Optimization) Move current working directory from execution location to source code location.
 
 ### The contributed feature(or incoming)
 - None

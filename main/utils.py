@@ -10,6 +10,8 @@ import time
 import random
 # json
 import json
+# subprocess
+import subprocess
 
 # global variable
 from global_variable import IMAGESOURCES
@@ -115,7 +117,7 @@ def change_wallpaper(image_path):
     change wallpaper
     for now, it change just Linux Mint Cinnamon
     """
-    image_path = 'file://' + cursor
+    image_path = 'file://' + image_path
     subprocess.run(['gsettings',
                     'set',
                     'org.cinnamon.desktop.background',
