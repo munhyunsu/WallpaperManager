@@ -6,3 +6,5 @@ import random
 IMAGESOURCES = ['danbooru',
                 'yandere',
                 'wallhaven']
+#                'wallhaven',
+#                'pixiv']
