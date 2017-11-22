@@ -18,7 +18,7 @@ import socket
 import random
 
 # utils
-import utils
+#import utils
 
 def main(argv):
     """
@@ -52,7 +52,38 @@ def main(argv):
 #        print('[Pixiv] Need tags in file named tags.secret')
 #        return
 
-    # TODO(LuHa):
+    # TODO(LuHa): load API keys
+    if os.path.exists('pixiv_api.secret'):
+        print('[Pixiv] API key exists')
+        with open('pixiv_api.secret', 'r') as f_api:
+            api_key = json.load(f_api)
+            user_id = api_key['id'].strip()
+            user_passwd = api_key['passwd'].strip()
+    else:
+        print('[Pixiv] Need User ud and passwd file '
+            + 'named pixiv_api.secret')
+        print('[Pixiv] The format is below')
+        print('{')
+        print('    "id": "ID",')
+        print('    "passwd": "PASSWD"')
+        print('}')
+        return
+
+    # TODO(LuHa): create opener
+    cookie = urllib.request.HTTPCookieProcessor()
+    opener = urllib.request.build_opener(cookie)
+    opener.addheaders = [('User-agent', 'Mozilla/5.0'), 
+                         ('Referer', 'login.php?return_to=0')]
+    base_url = 'https://accounts.pixiv.net/login'
+    auth = {'pixiv_id': user_id,
+            'password': user_passwd,
+            'return_to': 'https://www.pixiv.net/',
+            'post_key'}
+    auth = urllib.parse.urlencode(auth)
+    auth = auth.encode('ascii')
+    opener.open(base_url, data = auth)
+
+    print(opener)
 
     # TODO(LuHa): print message about program termination
     print('\x1B[38;5;5m[Pixiv] Terminate pixiv downloader\x1B[0m')
