@@ -72,21 +72,52 @@ def main(argv):
     # TODO(LuHa): create opener
     cookie = urllib.request.HTTPCookieProcessor()
     opener = urllib.request.build_opener(cookie)
-    opener.addheaders = [('User-agent', 'Mozilla/5.0'), 
-                         ('Referer', 'login.php?return_to=0')]
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+
+    # TODO(LuHa) get login hidden value
+    ltp = LoginTagParser()
     base_url = 'https://accounts.pixiv.net/login'
+    response = opener.open(base_url)
+    ltp.feed(response.read().decode('utf-8'))
+    hidden = ltp.get_hidden()
+    #for key in hidden.keys():
+    #    opener.addheaders = [(key, hidden[key])]
+
+    # TODO(LuHa): login
+    #print(dir(opener))
     auth = {'pixiv_id': user_id,
             'password': user_passwd,
-            'return_to': 'https://www.pixiv.net/',
-            'post_key'}
+            'post_key': hidden['post_key'],
+            'return_to': hidden['return_to']}
     auth = urllib.parse.urlencode(auth)
     auth = auth.encode('ascii')
-    opener.open(base_url, data = auth)
-
-    print(opener)
+    response = opener.open(base_url, data = auth)
+    print(response.read())
+    #print(opener)
 
     # TODO(LuHa): print message about program termination
     print('\x1B[38;5;5m[Pixiv] Terminate pixiv downloader\x1B[0m')
+
+
+
+class LoginTagParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.hidden = dict()
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'input':
+            return
+        if ('type', 'hidden') != attrs[0]:
+            return
+        if 'name' == attrs[1][0]:
+            self.hidden[attrs[1][1]] = attrs[2][1]
+
+    def get_hidden(self):
+        return self.hidden
+
+    def clear_hidden(self):
+        self.hidden.clear()
 
 
 
