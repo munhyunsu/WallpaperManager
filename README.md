@@ -3,6 +3,7 @@
 ## Propose
 - Scrap image at Booru-site
 - Scrap image at Wallpaper haven
+- Scrap image at pixiv
 - Manage downloaded image
   - Check downloaded image: Ban/Save image
 
