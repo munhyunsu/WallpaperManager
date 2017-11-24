@@ -79,16 +79,14 @@ def main(argv):
     base_url = 'https://accounts.pixiv.net/login'
     response = opener.open(base_url)
     ltp.feed(response.read().decode('utf-8'))
-    hidden = ltp.get_hidden()
+    auth = ltp.get_hidden()
     #for key in hidden.keys():
     #    opener.addheaders = [(key, hidden[key])]
 
     # TODO(LuHa): login
     #print(dir(opener))
-    auth = {'pixiv_id': user_id,
-            'password': user_passwd,
-            'post_key': hidden['post_key'],
-            'return_to': hidden['return_to']}
+    auth['pixiv_id'] = user_id
+    auth['password'] = user_passwd
     auth = urllib.parse.urlencode(auth)
     auth = auth.encode('ascii')
     response = opener.open(base_url, data = auth)
