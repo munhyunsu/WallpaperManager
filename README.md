@@ -21,6 +21,7 @@
 - (Optimization) The common code like load tags, search downloaded images, and so on are functionalized.
 - (Optimization) Move current working directory from execution location to source code location.
 - (Feature) Add a pixiv to the image source.
+  - The user can select artist, daily/monthly/yealy rank. tag as image search keyword
 
 ### The contributed feature(or incoming)
 - None
