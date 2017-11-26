@@ -87,10 +87,11 @@ def main(argv):
     #print(dir(opener))
     auth['pixiv_id'] = user_id
     auth['password'] = user_passwd
+    print(auth)
     auth = urllib.parse.urlencode(auth)
     auth = auth.encode('ascii')
     response = opener.open(base_url, data = auth)
-    print(response.read())
+    #print(response.read().decode('utf-8'))
     #print(opener)
 
     # TODO(LuHa): print message about program termination
