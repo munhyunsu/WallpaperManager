@@ -16,12 +16,11 @@ import html.parser
 import socket
 # shuffle
 import random
-
 # pickle
 import pickle
 
 # utils
-#import utils
+import utils
 
 def main(argv):
     """
@@ -34,26 +33,26 @@ def main(argv):
     # actually, this code use only downloads directory.
     # but to ensure execution of source code,
     #   make save directory.
-#    os.makedirs('./downloads', exist_ok = True)
-#    os.makedirs('./save', exist_ok = True)
+    os.makedirs('./downloads', exist_ok = True)
+    os.makedirs('./save', exist_ok = True)
 
     # TODO(LuHa): load ban database
-#    ban_db = utils.get_database('ban.secret')
+    ban_db = utils.get_database('ban.secret')
 
     # TODO(LuHa): load mute database
-#    mute_db = utils.get_database('mute.secret')
+    mute_db = utils.get_database('mute.secret')
 
     # TODO(LuHa): read pre-downloaded image
-#    downloaded = utils.get_downloaded_images('pixiv')
+    downloaded = utils.get_downloaded_images('pixiv')
 
     # TODO(LuHa): load tags
-#    if os.path.exists('tags.secret'):
-#        with open('tags.secret', 'r') as f_tags:
-#            tags = json.load(f_tags)
-#            tags = tags['pixiv']
-#    else:
-#        print('[Pixiv] Need tags in file named tags.secret')
-#        return
+    if os.path.exists('tags.secret'):
+        with open('tags.secret', 'r') as f_tags:
+            tags = json.load(f_tags)
+            tags = tags['pixiv']
+    else:
+        print('[Pixiv] Need tags in file named tags.secret')
+        return
 
     # TODO(LuHa): load API keys
     if os.path.exists('pixiv_api.secret'):
@@ -106,7 +105,30 @@ def main(argv):
     request_url = base_url + page_url
     response = opener.open(request_url)
 
-    save_html(response)
+    # TODO(LuHa): get page uri
+    id_parser = ImageIdParser()
+    id_parser.feed(response.read().decode('utf-8'))
+    page_url = id_parser.get_ids()[0]
+
+    # TODO(LuHa): get image uri
+    request_url = base_url + page_url
+    response = opener.open(request_url)
+    uri_parser = ImageURIParser()
+    uri_parser.feed(response.read().decode('utf-8'))
+
+    print(uri_parser.get_uris())
+    
+    file_name = uri_parser.get_uris()[0].split('/')[-1]
+    with open(file_name, 'wb') as f:
+        ref = 'https://www.pixiv.net/member_illust.php?mode=medium&illust_id='
+        ref = ref + file_name.split('_')[0]
+        opener.addheaders = [('User-agent', 'Mozilla/5.0'),
+                             ('Referer', ref)]
+        response = opener.open(uri_parser.get_uris()[0])
+        f.write(response.read())
+
+
+    #save_html(response)
 
 
 
@@ -127,6 +149,8 @@ class LoginTagParser(html.parser.HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag != 'input':
             return
+        if len(attrs) < 2:
+            return
         if ('type', 'hidden') != attrs[0]:
             return
         if 'name' == attrs[1][0]:
@@ -137,6 +161,50 @@ class LoginTagParser(html.parser.HTMLParser):
 
     def clear_hidden(self):
         self.hidden.clear()
+
+
+
+class ImageIdParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.ids = list()
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'a':
+            return
+        if len(attrs) < 2:
+            return
+        if ('class', 'title') != attrs[1]:
+            return
+        self.ids.append(attrs[0][1])
+
+    def get_ids(self):
+        return self.ids
+
+    def clear_ids(self):
+        self.ids.clear()
+
+
+
+class ImageURIParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.uris = list()
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'img':
+            return
+        if len(attrs) < 4:
+            return
+        if ('class', 'original-image') != attrs[4]:
+            return
+        self.uris.append(attrs[3][1])
+
+    def get_uris(self):
+        return self.uris
+
+    def clear_uris(self):
+        self.uris.clear()
 
 
 
