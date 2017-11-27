@@ -17,6 +17,9 @@ import socket
 # shuffle
 import random
 
+# pickle
+import pickle
+
 # utils
 #import utils
 
@@ -69,29 +72,47 @@ def main(argv):
         print('}')
         return
 
+    # TODO(LuHa): load cookie from file
+    if os.path.exists('pixiv_cookie.secret'):
+        with open('pixiv_cookie.secret', 'rb') as f_cookie:
+            cookie = pickle.load(f_cookie)
+    else:
+        cookie = urllib.request.HTTPCookieProcessor()
+
     # TODO(LuHa): create opener
-    cookie = urllib.request.HTTPCookieProcessor()
     opener = urllib.request.build_opener(cookie)
     opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 
-    # TODO(LuHa) get login hidden value
+    # TODO(LuHa) get hidden value for login
     hidden_parser = LoginTagParser()
-    base_url = 'https://accounts.pixiv.net/login'
-    response = opener.open(base_url)
+    base_url = 'https://accounts.pixiv.net/'
+    page_url = 'login'
+    request_url = base_url + page_url
+    response = opener.open(request_url)
     hidden_parser.feed(response.read().decode('utf-8'))
     auth = hidden_parser.get_hidden()
 
-    # TODO(LuHa): login
-    auth['pixiv_id'] = user_id
-    auth['password'] = user_passwd
-    auth = urllib.parse.urlencode(auth)
-    auth = auth.encode('ascii')
-    response = opener.open(base_url, data = auth)
+    # TODO(LuHa): if the cookie is not login, login with cookie
+    if 'post_key' in auth.keys():
+        auth['pixiv_id'] = user_id
+        auth['password'] = user_passwd
+        auth = urllib.parse.urlencode(auth)
+        auth = auth.encode('ascii')
+        opener.open(request_url, data = auth)
 
     # TODO(LuHa): query to daily rank
-    base_url = 'https://www.pixiv.net/ranking.php?mode=daily'
-    response = opener.open(base_url)
-    html_save(response)
+    base_url = 'https://www.pixiv.net/'
+    page_url = 'ranking.php?mode=daily'
+    request_url = base_url + page_url
+    response = opener.open(request_url)
+
+    save_html(response)
+
+
+
+    # TODO(LuHa): save cookie to file
+    with open('pixiv_cookie.secret', 'wb') as f_cookie:
+        pickle.dump(cookie, f_cookie)
 
     # TODO(LuHa): print message about program termination
     print('\x1B[38;5;5m[Pixiv] Terminate pixiv downloader\x1B[0m')
@@ -119,11 +140,17 @@ class LoginTagParser(html.parser.HTMLParser):
 
 
 
-def html_save(response):
+def save_html(response):
+    result = response.read().decode('utf-8')
     with open('temp.html', 'w') as f:
-        f.write(response.read().decode('utf-8'))
+        f.write(result)
+    return result
     
 
+def print_html(response):
+    result = response.read().decode('utf-8')
+    print(result)
+    return result
 
 
 # Maybe it is good, right?
