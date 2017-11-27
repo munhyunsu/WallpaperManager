@@ -108,27 +108,27 @@ def main(argv):
     # TODO(LuHa): get page uri
     id_parser = ImageIdParser()
     id_parser.feed(response.read().decode('utf-8'))
-    page_url = id_parser.get_ids()[0]
+    #page_urls = id_parser.get_ids()
 
     # TODO(LuHa): get image uri
-    request_url = base_url + page_url
-    response = opener.open(request_url)
-    uri_parser = ImageURIParser()
-    uri_parser.feed(response.read().decode('utf-8'))
+    for page_url in id_parser.get_ids():
+        request_url = base_url + page_url
+        response = opener.open(request_url)
+        uri_parser = ImageURIParser()
+        uri_parser.feed(response.read().decode('utf-8'))
 
-    print(uri_parser.get_uris())
-    
-    file_name = uri_parser.get_uris()[0].split('/')[-1]
-    with open(file_name, 'wb') as f:
-        ref = 'https://www.pixiv.net/member_illust.php?mode=medium&illust_id='
-        ref = ref + file_name.split('_')[0]
-        opener.addheaders = [('User-agent', 'Mozilla/5.0'),
-                             ('Referer', ref)]
-        response = opener.open(uri_parser.get_uris()[0])
-        f.write(response.read())
+    # TODO(LuHa): download images
+    for image_url = in uri_parser.get_uris():
+        
 
+#    filea_name = uri_parser.get_uris()[0].split('/')[-1]
+#    with open(file_name, 'wb') as f:
+#        ref = 'https://www.pixiv.net/member_illust.php?mode=medium&illust_id='
+#        ref = ref + file_name.split('_')[0]
+#        opener.addheaders.append(('Referer', ref))
+#        response = opener.open(uri_parser.get_uris()[0])
+#        f.write(response.read())
 
-    #save_html(response)
 
 
 
@@ -192,13 +192,16 @@ class ImageURIParser(html.parser.HTMLParser):
         self.uris = list()
 
     def handle_starttag(self, tag, attrs):
-        if tag != 'img':
-            return
-        if len(attrs) < 4:
-            return
-        if ('class', 'original-image') != attrs[4]:
-            return
-        self.uris.append(attrs[3][1])
+        if tag == 'img':
+            if len(attrs) < 5:
+                return
+            if ('class', 'original-image') == attrs[4]:
+                self.uris.append(attrs[3][1])
+        if tag == 'a':
+            if len(attrs) < 3:
+                return
+            if ('class', ' _work manga multiple ') == attrs[2]:
+                self.uris.append(attrs[0][1])
 
     def get_uris(self):
         return self.uris
