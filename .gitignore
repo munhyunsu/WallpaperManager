@@ -11,6 +11,9 @@ image/
 # configuration files
 *.ini
 
+# practice
+/practice/*.html
+
 # sqlite files
 *.sqlite
 sqlite3

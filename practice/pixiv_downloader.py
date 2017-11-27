@@ -75,24 +75,23 @@ def main(argv):
     opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 
     # TODO(LuHa) get login hidden value
-    ltp = LoginTagParser()
+    hidden_parser = LoginTagParser()
     base_url = 'https://accounts.pixiv.net/login'
     response = opener.open(base_url)
-    ltp.feed(response.read().decode('utf-8'))
-    auth = ltp.get_hidden()
-    #for key in hidden.keys():
-    #    opener.addheaders = [(key, hidden[key])]
+    hidden_parser.feed(response.read().decode('utf-8'))
+    auth = hidden_parser.get_hidden()
 
     # TODO(LuHa): login
-    #print(dir(opener))
     auth['pixiv_id'] = user_id
     auth['password'] = user_passwd
-    print(auth)
     auth = urllib.parse.urlencode(auth)
     auth = auth.encode('ascii')
     response = opener.open(base_url, data = auth)
-    #print(response.read().decode('utf-8'))
-    #print(opener)
+
+    # TODO(LuHa): query to daily rank
+    base_url = 'https://www.pixiv.net/ranking.php?mode=daily'
+    response = opener.open(base_url)
+    html_save(response)
 
     # TODO(LuHa): print message about program termination
     print('\x1B[38;5;5m[Pixiv] Terminate pixiv downloader\x1B[0m')
@@ -117,6 +116,13 @@ class LoginTagParser(html.parser.HTMLParser):
 
     def clear_hidden(self):
         self.hidden.clear()
+
+
+
+def html_save(response):
+    with open('temp.html', 'w') as f:
+        f.write(response.read().decode('utf-8'))
+    
 
 
 
