@@ -100,6 +100,8 @@ def main(argv):
         opener.open(request_url, data = auth)
 
     # TODO(LuHa): query to daily rank
+    # rank start url:
+    #   https://www.pixiv.net/ranking.php?mode=daily&date=20070913
     base_url = 'https://www.pixiv.net/'
     page_url = 'ranking.php?mode=daily'
     request_url = base_url + page_url
