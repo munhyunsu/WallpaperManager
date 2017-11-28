@@ -108,29 +108,48 @@ def main(argv):
     # TODO(LuHa): get page uri
     id_parser = ImageIdParser()
     id_parser.feed(response.read().decode('utf-8'))
-    #page_urls = id_parser.get_ids()
 
-    # TODO(LuHa): get image uri
+    # TODO(LuHa): get image uri, but remain multiple page
+    uri_parser = ImageURIParser()
+    c = 0
     for page_url in id_parser.get_ids():
         request_url = base_url + page_url
         response = opener.open(request_url)
-        uri_parser = ImageURIParser()
         uri_parser.feed(response.read().decode('utf-8'))
+        c = c+1
+        if c > 2:
+            break
 
-    # TODO(LuHa): download images
-    for image_url = in uri_parser.get_uris():
-        
+    # TODO(LuHa): get multiple image uri
+    image_uris = uri_parser.get_uris()
+    multi_parser = MultiURIParser()
+    multi_page_parser = MultiPageParser()
+    final_uris = list()
+    for image_url in image_uris:
+        if image_url.startswith('https://'):
+            final_uris.append(image_url)
+            continue
+        multi_page_parser.clear_uris()
+        request_url = 'https://www.pixiv.net/' + image_url
+        response = opener.open(request_url)
+        multi_parser.feed(response.read().decode('utf-8'))
+        for page_url in multi_parser.get_uris():
+            request_url = 'https://www.pixiv.net' + page_url
+            response = opener.open(request_url)
+            multi_page_parser.feed(response.read().decode('utf-8'))
+        final_uris.extend(multi_page_parser.get_uris())
 
-#    filea_name = uri_parser.get_uris()[0].split('/')[-1]
-#    with open(file_name, 'wb') as f:
-#        ref = 'https://www.pixiv.net/member_illust.php?mode=medium&illust_id='
-#        ref = ref + file_name.split('_')[0]
-#        opener.addheaders.append(('Referer', ref))
-#        response = opener.open(uri_parser.get_uris()[0])
-#        f.write(response.read())
-
-
-
+    # TODO(LuHa): download image
+    for image_url in final_uris:
+        file_name = image_url.split('/')[-1]
+        with open(file_name, 'wb') as f:
+            ref = 'https://www.pixiv.net/member_illust.php'
+            ref = ref + '?mode=medium&illust_id='
+            ref = ref + file_name.split('_')[0]
+            opener.addheaders = [('User-agent', 'Mozilla/5.0'),
+                                 ('Referer', ref)]
+            response = opener.open(image_url)
+            f.write(response.read())
 
     # TODO(LuHa): save cookie to file
     with open('pixiv_cookie.secret', 'wb') as f_cookie:
@@ -200,8 +219,55 @@ class ImageURIParser(html.parser.HTMLParser):
         if tag == 'a':
             if len(attrs) < 3:
                 return
-            if ('class', ' _work manga multiple ') == attrs[2]:
+            if 'class' != attrs[2][0]:
+                return
+            if 'multiple' in attrs[2][1]:
                 self.uris.append(attrs[0][1])
+
+    def get_uris(self):
+        return self.uris
+
+    def clear_uris(self):
+        self.uris.clear()
+
+
+
+class MultiURIParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.uris = list()
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'a':
+            return
+        if len(attrs) < 3:
+            return
+        if 'class' != attrs[2][0]:
+            return
+        if 'full-size-container' in attrs[2][1]:
+            self.uris.append(attrs[0][1])
+
+    def get_uris(self):
+        return self.uris
+
+    def clear_uris(self):
+        self.uris.clear()
+
+
+
+class MultiPageParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.uris = list()
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'img':
+            return
+        if len(attrs) < 2:
+            return
+        if 'src' != attrs[0][0]:
+            return
+        self.uris.append(attrs[0][1])
 
     def get_uris(self):
         return self.uris
