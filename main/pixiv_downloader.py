@@ -118,6 +118,7 @@ def main(argv):
             request_url = base_url + image_page
             response = opener.open(request_url)
             image_url_parser.feed(response.read().decode('utf-8'))
+        print('[Pixiv] Get ranking page')
 
         # TODO(LuHa): get multiple image uri
         image_urls = image_url_parser.get_urls() 
@@ -137,6 +138,7 @@ def main(argv):
                 response = opener.open(request_url)
                 multi_url_parser.feed(response.read().decode('utf-8'))
             final_urls.extend(multi_url_parser.get_urls())
+        print('[Pixiv] Get URLs of all images in ranking')
 
         # TODO(LuHa): download image
         for image_url in final_urls:
