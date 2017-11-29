@@ -16,6 +16,8 @@ import html.parser
 import socket
 # shuffle
 import random
+# pickle
+import pickle
 
 # utils
 import utils
@@ -35,13 +37,13 @@ def main(argv):
     os.makedirs('./save', exist_ok = True)
 
     # TODO(LuHa): load ban database
-    ban_db = utils.get_database('ban.secret')
+    #ban_db = utils.get_database('ban.secret')
 
     # TODO(LuHa): load mute database
-    mute_db = utils.get_database('mute.secret')
+    #mute_db = utils.get_database('mute.secret')
 
     # TODO(LuHa): read pre-downloaded image
-    downloaded = utils.get_downloaded_images('pixiv')
+    #downloaded = utils.get_downloaded_images('pixiv')
 
     # TODO(LuHa): load tags
     if os.path.exists('tags.secret'):
@@ -52,8 +54,231 @@ def main(argv):
         print('[Pixiv] Need tags in file named tags.secret')
         return
 
-    # TODO(Luha): print message about program termination
+    # TODO(LuHa): load API keys
+    if os.path.exists('pixiv_api.secret'):
+        print('[Pixiv] API key exists')
+        with open('pixiv_api.secret', 'r') as f_api:
+            api_key = json.load(f_api)
+            user_id = api_key['id'].strip()
+            user_passwd = api_key['passwd'].strip()
+    else:
+        print('[Pixiv] Need User ud and passwd file '
+            + 'named pixiv_api.secret')
+        print('[Pixiv] The format is below')
+        print('{')
+        print('    "id": "ID",')
+        print('    "passwd": "PASSWD"')
+        print('}')
+        return
+
+    # TODO(LuHa): load cookie from file
+    if os.path.exists('pixiv_cookie.secret'):
+        with open('pixiv_cookie.secret', 'rb') as f_cookie:
+            cookie = pickle.load(f_cookie)
+    else:
+        cookie = urllib.request.HTTPCookieProcessor()
+
+    # TODO(LuHa): create opener
+    opener = urllib.request.build_opener(cookie)
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+
+    # TODO(LuHa) get hidden value for login
+    hidden_parser = LoginTagParser()
+    base_url = 'https://accounts.pixiv.net/'
+    page_url = 'login'
+    request_url = base_url + page_url
+    response = opener.open(request_url)
+    hidden_parser.feed(response.read().decode('utf-8'))
+    auth = hidden_parser.get_hidden()
+
+    # TODO(LuHa): if the cookie is not login, login with cookie
+    if 'post_key' in auth.keys():
+        auth['pixiv_id'] = user_id
+        auth['password'] = user_passwd
+        auth = urllib.parse.urlencode(auth)
+        auth = auth.encode('ascii')
+        opener.open(request_url, data = auth)
+
+    # TODO(LuHa): query to daily rank
+    # rank start url:
+    #    https://www.pixiv.net/ranking.php?mode=daily&date=20070913
+    for tag in tags:
+        base_url = 'https://www.pixiv.net/'
+        page_url = 'ranking.php?mode=' + tag
+        request_url = base_url + page_url
+        response = opener.open(request_url)
+
+        # TODO(LuHa): get page uri
+        image_page_parser = ImagePageParser()
+        image_page_parser.feed(response.read().decode('utf-8'))
+
+        # TODO(LuHa): get image uri, but remain multiple page
+        image_url_parser = ImageURLParser()
+        for image_page in image_page_parser.get_pages():
+            request_url = base_url + image_page
+            response = opener.open(request_url)
+            image_url_parser.feed(response.read().decode('utf-8'))
+
+        # TODO(LuHa): get multiple image uri
+        image_urls = image_url_parser.get_urls() 
+        multi_page_parser = MultiPageParser()
+        multi_url_parser = MultiURLParser()
+        final_urls = list()
+        for image_url in image_urls:
+            if image_url.startswith('https://'):
+                final_urls.append(image_url)
+                continue
+            multi_url_parser.clear_urls()
+            request_url = 'https://www.pixiv.net/' + image_url
+            response = opener.open(request_url)
+            multi_page_parser.feed(response.read().decode('utf-8'))
+            for multi_page in multi_page_parser.get_pages():
+                request_url = 'https://www.pixiv.net' + multi_page
+                response = opener.open(request_url)
+                multi_url_parser.feed(response.read().decode('utf-8'))
+            final_urls.extend(multi_url_parser.get_urls())
+
+        # TODO(LuHa): download image
+        for image_url in final_urls:
+            file_name = ('./downloads'
+                       + '/pixiv-'
+                       + image_url.split('/')[-1])
+            if os.path.exists(file_name):
+                print('[Pixiv] Already downloaded {0}'.format(file_name))
+                continue
+            with open(file_name, 'wb') as f:
+                referer = 'https://www.pixiv.net/member_illust.php'
+                referer = referer + '?mode=medium&illust_id='
+                referer = referer + file_name.split('_')[0]
+                opener.addheaders = [('User-agent', 'Mozilla/5.0'),
+                                     ('Referer', referer)]
+                response = opener.open(image_url)
+                f.write(response.read())
+            print('[Pixiv] Downloaded {0}'.format(file_name))
+
+    # TODO(LuHa): save cookie to file
+    with open('pixiv_cookie.secret', 'wb') as f_cookie:
+        pickle.dump(cookie, f_cookie)
+
+    # TODO(LuHa): print message about program termination
     print('\x1B[38;5;5m[Pixiv] Terminate pixiv downloader\x1B[0m')
+
+
+
+class LoginTagParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.hidden = dict()
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'input':
+            return
+        if len(attrs) < 2:
+            return
+        if ('type', 'hidden') != attrs[0]:
+            return
+        if 'name' == attrs[1][0]:
+            self.hidden[attrs[1][1]] = attrs[2][1]
+
+    def get_hidden(self):
+        return self.hidden
+
+    def clear_hidden(self):
+        self.hidden.clear()
+
+
+
+class ImagePageParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.pages = list()
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'a':
+            return
+        if len(attrs) < 2:
+            return
+        if ('class', 'title') != attrs[1]:
+            return
+        self.pages.append(attrs[0][1])
+
+    def get_pages(self):
+        return self.pages
+
+    def clear_pages(self):
+        self.pages.clear()
+
+
+
+class ImageURLParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.urls = list()
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'img':
+            if len(attrs) < 5:
+                return
+            if ('class', 'original-image') == attrs[4]:
+                self.urls.append(attrs[3][1])
+        if tag == 'a':
+            if len(attrs) < 3:
+                return
+            if 'class' != attrs[2][0]:
+                return
+            if 'multiple' in attrs[2][1]:
+                self.urls.append(attrs[0][1])
+
+    def get_urls(self):
+        return self.urls
+
+    def clear_urls(self):
+        self.urls.clear()
+
+
+
+class MultiPageParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.pages = list()
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'a':
+            return
+        if len(attrs) < 3:
+            return
+        if 'class' != attrs[2][0]:
+            return
+        if 'full-size-container' in attrs[2][1]:
+            self.pages.append(attrs[0][1])
+
+    def get_pages(self):
+        return self.pages
+
+    def clear_pages(self):
+        self.pages.clear()
+
+
+
+class MultiURLParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.urls = list()
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'img':
+            return
+        if len(attrs) < 2:
+            return
+        if 'src' != attrs[0][0]:
+            return
+        self.urls.append(attrs[0][1])
+
+    def get_urls(self):
+        return self.urls
+
+    def clear_urls(self):
+        self.urls.clear()
 
 
 
