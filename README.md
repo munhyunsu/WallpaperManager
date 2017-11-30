@@ -38,7 +38,7 @@
 - (Optimization) The load database function is unified at utils.py
 - (Optimization) The change wallpaper function is moved to utils.py
 - (Feature) The feature that delete file size 0
-  - This feature implemented in wallchanger.py
+  - This feature implemented in manager\_cli.py
 
 ### 171103: 1.1.2
 - (Bugfix) Exception handling

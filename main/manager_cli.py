@@ -42,6 +42,7 @@ def main(argv):
                       index, sources[index]))
             print(tags[sources[index]])
         print('c. Check downloaded wallpaper')
+        print('d. Delete file size 0')
         print('s. Start download wallpaper')
         print('q. Terminate programm')
         print('----+----+----+----+----+----+----+----+')
@@ -56,6 +57,8 @@ def main(argv):
                 edit_tags(tags, sources[user_input])
         elif user_input == 'c':
             check_wallpaper()
+        elif user_input == 'd':
+            delete_file_size0()
         elif user_input == 's':
             start_download()
         elif user_input == 'q':
@@ -120,6 +123,26 @@ def check_wallpaper():
     so, we use subprocess.run
     """
     subprocess.run(['python3', 'wallchanger.py'])
+
+
+
+def delete_file_size0():
+    """
+    delete file size 0
+    """
+    # TODO(LuHa): delete file size 0
+    if sys.version_info.minor < 6:
+        for entry in os.scandir('./downloads'):
+            if entry.is_file():
+                if os.path.getsize(os.path.abspath(entry.path)) == 0:
+                    os.remove(os.path.abspath(entry.path))
+                    
+    else:
+        with os.scandir('./downloads') as it:
+            for entry in it:
+                if entry.is_file():
+                    if os.path.getsize(os.path.abspath(entry.path)) == 0:
+                        os.remove(os.path.abspath(entry.path))
 
 
 
