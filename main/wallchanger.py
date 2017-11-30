@@ -55,6 +55,20 @@ def main(argv):
         for source in sources:
             mute_db[source] = set(mute_db.get(source, list()))
 
+    # TODO(LuHa): delete file size 0
+    if sys.version_info.minor < 6:
+        for entry in os.scandir('./downloads'):
+            if entry.is_file():
+                if os.path.getsize(os.path.abspath(entry.path)) == 0:
+                    os.remove(os.path.abspath(entry.path))
+                    
+    else:
+        with os.scandir('./downloads') as it:
+            for entry in it:
+                if entry.is_file():
+                    if os.path.getsize(os.path.abspath(entry.path)) == 0:
+                        os.remove(os.path.abspath(entry.path))
+
     # TODO(LuHa): get all of downloaded images
     downloaded = list()
     if sys.version_info.minor < 6:
