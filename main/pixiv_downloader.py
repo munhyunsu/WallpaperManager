@@ -118,6 +118,7 @@ def main(argv):
             request_url = base_url + image_page
             response = opener.open(request_url)
             image_url_parser.feed(response.read().decode('utf-8'))
+            #print('[P] image url ready {0}'.format(len(image_url_parser.get_urls())))
         print('[Pixiv] Get ranking page')
 
         # TODO(LuHa): get multiple image uri
@@ -126,10 +127,12 @@ def main(argv):
         multi_url_parser = MultiURLParser()
         final_urls = list()
         for image_url in image_urls:
+            #print('[P] final URL ready {0}'.format(len(final_urls)))
             if image_url.startswith('https://'):
                 final_urls.append(image_url)
                 continue
             multi_url_parser.clear_urls()
+            multi_page_parser.clear_pages()
             request_url = 'https://www.pixiv.net/' + image_url
             response = opener.open(request_url)
             multi_page_parser.feed(response.read().decode('utf-8'))
