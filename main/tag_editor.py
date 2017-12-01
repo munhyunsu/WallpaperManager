@@ -28,6 +28,8 @@ def main(argv):
         edit_yandere(tags)
     elif source == 'wallhaven':
         edit_wallhaven(tags)
+    elif source == 'pixiv':
+        edit_wallhaven(tags)
     else:
         print('[TagEditor] Unknown image source')
         return
