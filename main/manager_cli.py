@@ -22,11 +22,8 @@ def main(argv):
     # TODO(LuHa): print message about program execution
     print('[WallpaperManagerCLI] Execute wallpaper manager')
 
-    # TODO(LuHa): manage image source
+    # TODO(LuHa): image source of global variable
     sources = IMAGESOURCES
-    sources.sort()
-    # adding dumy data for indexing convenience
-    sources.insert(0, 'dumy')
 
     # TODO(LuHa): restore tags
     tags = utils.get_database('tags.secret')
@@ -37,30 +34,36 @@ def main(argv):
             + '\n----+----+ Wallpaper Manager CLI ----+----+'
             + '\x1B[0m')
         print('----+----+----+ Main menu ----+----+----+')
-        for index in range(1, len(sources)):
-            print('{0}. Edit {1} search tags'.format(
-                      index, sources[index]))
-            print(tags[sources[index]])
+        print('1. Edit danbooru search tags')
+        print('2. Edit yandere search tags')
+        print('3. Edit wallhaven search tags')
+        print('4. Edit pixiv search tags(not available now)')
         print('c. Check downloaded wallpaper')
-        print('d. Delete file size 0')
-        print('s. Start download wallpaper')
+        print('d. Delete file with size 0')
+        print('p. Start wallpaper downloading in parallel')
+        print('s. Start wallpaper downloading in sequential')
         print('q. Terminate programm')
         print('----+----+----+----+----+----+----+----+')
         user_input = input('User input: ')
+        user_input = user_input.strip()
         user_input = user_input.lower()
         # TODO(LuHa): jump to function
-        if user_input.isdecimal():
-            user_input = int(user_input)
-            if user_input < 1:
-                continue
-            if user_input < len(tags):
-                edit_tags(tags, sources[user_input])
+        if user_input == '1':
+            edit_tags('danbooru')
+        elif user_input == '2':
+            edit_tags('yandere')
+        elif user_input == '3':
+            edit_tags('wallhaven')
+        elif user_input == '4':
+            edit_tags('pixiv')
         elif user_input == 'c':
             check_wallpaper()
         elif user_input == 'd':
             delete_file_size0()
+        elif user_input == 'p':
+            start_download(mode = 'parallel')
         elif user_input == 's':
-            start_download()
+            start_download(mode = 'sequential')
         elif user_input == 'q':
             break
 
@@ -69,50 +72,75 @@ def main(argv):
     
 
 
-def edit_tags(tags, key):
+def edit_tags(source):
     """
     edit tag function
     """
-    # TODO(LuHa): junction loop
-    while(True):
-        print('\n----+----+ Edit {0} tags ----+----+'.format(key))
-        print('Current tag list')
-        print(tags[key])
-        print('a. Add tag')
-        print('d. Delete tag')
-        print('b. back')
-        print('----+----+----+----+')
-        user_input = input('User input: ')
-        user_input = user_input.lower()
-        # TODO(LuHa): processing user's input
-        if user_input == 'a':
-            user_input = input('Tag to add: ')
-            tags[key].add(user_input)
-        if user_input == 'd':
-            user_input = input('Tag to delete: ')
-            if user_input in tags[key]:
-                tags[key].remove(user_input)
-        if user_input == 'b':
-            break
-    # TODO(LuHa): save tags
-    utils.set_database('tags.secret', tags)
+    subprocess.run(['python3', 'tag_editor.py', source])
+#    # TODO(LuHa): junction loop
+#    while(True):
+#        print('\n----+----+ Edit {0} tags ----+----+'.format(key))
+#        print('Current tag list')
+#        print(tags[key])
+#        print('a. Add tag')
+#        print('d. Delete tag')
+#        print('b. back')
+#        print('----+----+----+----+')
+#        user_input = input('User input: ')
+#        user_input = user_input.lower()
+#        # TODO(LuHa): processing user's input
+#        if user_input == 'a':
+#            user_input = input('Tag to add: ')
+#            tags[key].add(user_input)
+#        if user_input == 'd':
+#            user_input = input('Tag to delete: ')
+#            if user_input in tags[key]:
+#                tags[key].remove(user_input)
+#        if user_input == 'b':
+#            break
+#    # TODO(LuHa): save tags
+#    utils.set_database('tags.secret', tags)
 
 
 
-def start_download():
+def start_download(mode = 'sequential'):
     """
     start download image from site each.
     if we use subprocess.Popen, then we can execute it parallel.
     if we do not want mixing the standard output, 
       then we have to use subprocess.run
     """
-    # global_variable
-    sources = IMAGESOURCES
+    if mode == 'parallel':
+        # global_variable
+        sources = IMAGESOURCES
 
-    # execute downloader
-    for index in range(1, len(sources)):
-        downloader = (sources[index] + '_downloader.py')
-        subprocess.Popen(['python3', downloader])
+        # execute downloader
+        for index in range(0, len(sources)):
+            downloader = (sources[index] + '_downloader.py')
+            subprocess.Popen(['python3', downloader])
+    elif mode == 'sequential':
+        print('\n----+----+ Sequential download menu ----+----+')
+        print('1. Danbooru')
+        print('2. Yandere')
+        print('3. Wallhaven')
+        print('4. Pixiv')
+        print('Input the sequence between space(ex. 1 2 3')
+        print('----+----+----+----+----+----+')
+        user_input = input('User input :')
+        user_input = user_input.strip()
+        user_input = user_input.lower()
+        user_input = user_input.split(' ')
+
+        for cursor in user_input:
+            if cursor == '1':
+                subprocess.run(['python3', 'danbooru_downloader.py'])
+            elif cursor == '2':
+                subprocess.run(['python3', 'yandere_downloader.py'])
+            elif cursor == '3':
+                subprocess.run(['python3', 'wallhaven_downloader.py'])
+            elif cursor == '4':
+                subprocess.run(['python3', 'pixiv_downloader.py'])
+    print('End download')
 
 
 
@@ -131,11 +159,13 @@ def delete_file_size0():
     delete file size 0
     """
     # TODO(LuHa): delete file size 0
+    counter = 0
     if sys.version_info.minor < 6:
         for entry in os.scandir('./downloads'):
             if entry.is_file():
                 if os.path.getsize(os.path.abspath(entry.path)) == 0:
                     os.remove(os.path.abspath(entry.path))
+                    counter = counter + 1
                     
     else:
         with os.scandir('./downloads') as it:
@@ -143,6 +173,8 @@ def delete_file_size0():
                 if entry.is_file():
                     if os.path.getsize(os.path.abspath(entry.path)) == 0:
                         os.remove(os.path.abspath(entry.path))
+                        counter = counter + 1
+    print('Delete {0} files complete'.format(counter))
 
 
 

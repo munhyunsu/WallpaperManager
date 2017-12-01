@@ -70,7 +70,10 @@ def get_database(db_name):
     read database
     """
     # global variable
-    sources = IMAGESOURCES
+    sources = ['danbooru',
+               'yandere',
+               'wallhaven',
+               'pixiv']
 
     # initialize
     database = dict()
