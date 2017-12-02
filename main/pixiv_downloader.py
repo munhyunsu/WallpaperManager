@@ -12,12 +12,16 @@ import urllib.parse
 import urllib.request
 # html.parser
 import html.parser
+# cookie
+import http.cookiejar
 # timeout
 import socket
 # shuffle
 import random
 # pickle
 import pickle
+# copy
+import copy
 
 # utils
 import utils
@@ -72,15 +76,15 @@ def main(argv):
         return
 
     # TODO(LuHa): load cookie from file
+    cookie_jar = http.cookiejar.LWPCookieJar('pixiv_cookie.secret')
     if os.path.exists('pixiv_cookie.secret'):
-        with open('pixiv_cookie.secret', 'rb') as f_cookie:
-            cookie = pickle.load(f_cookie)
-    else:
-        cookie = urllib.request.HTTPCookieProcessor()
+        cookie_jar.load()
+    cookie = urllib.request.HTTPCookieProcessor(cookie_jar)
 
     # TODO(LuHa): create opener
     opener = urllib.request.build_opener(cookie)
-    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    opener.addheaders = [('User-agent', 'Mozilla/5.0'),
+                         ('Accept', 'text/html')]
 
     # TODO(LuHa) get hidden value for login
     hidden_parser = LoginTagParser()
@@ -92,78 +96,89 @@ def main(argv):
     auth = hidden_parser.get_hidden()
 
     # TODO(LuHa): if the cookie is not login, login with cookie
-    if 'post_key' in auth.keys():
-        auth['pixiv_id'] = user_id
-        auth['password'] = user_passwd
-        auth = urllib.parse.urlencode(auth)
-        auth = auth.encode('ascii')
-        opener.open(request_url, data = auth)
-
-    # TODO(LuHa): query to daily rank
-    # rank start url:
-    #    https://www.pixiv.net/ranking.php?mode=daily&date=20070913
-    for tag in tags:
-        base_url = 'https://www.pixiv.net/'
-        page_url = 'ranking.php?mode=' + tag
-        request_url = base_url + page_url
-        response = opener.open(request_url)
-
-        # TODO(LuHa): get page uri
-        image_page_parser = ImagePageParser()
-        image_page_parser.feed(response.read().decode('utf-8'))
-
-        # TODO(LuHa): get image uri, but remain multiple page
-        image_url_parser = ImageURLParser()
-        for image_page in image_page_parser.get_pages():
-            request_url = base_url + image_page
+    try:
+        if 'post_key' in auth.keys():
+            auth['pixiv_id'] = user_id
+            auth['password'] = user_passwd
+            auth = urllib.parse.urlencode(auth)
+            auth = auth.encode('ascii')
+            opener.open(request_url, data = auth)
+    
+        # TODO(LuHa): query to daily rank
+        # rank start url:
+        #    https://www.pixiv.net/ranking.php?mode=daily&date=20070913
+        for tag in tags:
+            base_url = 'https://www.pixiv.net/'
+            page_url = 'ranking.php?mode=' + tag
+            request_url = base_url + page_url
             response = opener.open(request_url)
-            image_url_parser.feed(response.read().decode('utf-8'))
-            #print('[P] image url ready {0}'.format(len(image_url_parser.get_urls())))
-        print('[Pixiv] Get ranking page')
-
-        # TODO(LuHa): get multiple image uri
-        image_urls = image_url_parser.get_urls() 
-        multi_page_parser = MultiPageParser()
-        multi_url_parser = MultiURLParser()
-        final_urls = list()
-        for image_url in image_urls:
-            #print('[P] final URL ready {0}'.format(len(final_urls)))
-            if image_url.startswith('https://'):
-                final_urls.append(image_url)
-                continue
-            multi_url_parser.clear_urls()
-            multi_page_parser.clear_pages()
-            request_url = 'https://www.pixiv.net/' + image_url
-            response = opener.open(request_url)
-            multi_page_parser.feed(response.read().decode('utf-8'))
-            for multi_page in multi_page_parser.get_pages():
-                request_url = 'https://www.pixiv.net' + multi_page
+    
+            # TODO(LuHa): get page uri
+            image_page_parser = ImagePageParser()
+            image_page_parser.feed(response.read().decode('utf-8'))
+    
+            # TODO(LuHa): get image uri, but remain multiple page
+            image_url_parser = ImageURLParser()
+            for image_page in image_page_parser.get_pages():
+                request_url = base_url + image_page
                 response = opener.open(request_url)
-                multi_url_parser.feed(response.read().decode('utf-8'))
-            final_urls.extend(multi_url_parser.get_urls())
-        print('[Pixiv] Get URLs of all images in ranking')
-
-        # TODO(LuHa): download image
-        for image_url in final_urls:
-            file_name = ('./downloads'
-                       + '/pixiv-'
-                       + image_url.split('/')[-1])
-            if os.path.exists(file_name):
-                print('[Pixiv] Already downloaded {0}'.format(file_name))
-                continue
-            with open(file_name, 'wb') as f:
-                referer = 'https://www.pixiv.net/member_illust.php'
-                referer = referer + '?mode=medium&illust_id='
-                referer = referer + file_name.split('_')[0]
-                opener.addheaders = [('User-agent', 'Mozilla/5.0'),
-                                     ('Referer', referer)]
-                response = opener.open(image_url)
-                f.write(response.read())
-            print('[Pixiv] Downloaded {0}'.format(file_name))
+                image_url_parser.feed(response.read().decode('utf-8'))
+                #print('[P] image url ready {0}'.format(len(image_url_parser.get_urls())))
+            print('[Pixiv] Get ranking page')
+    
+            # TODO(LuHa): get multiple image uri
+            image_urls = image_url_parser.get_urls() 
+            multi_page_parser = MultiPageParser()
+            multi_url_parser = MultiURLParser()
+            final_urls = list()
+            for image_url in image_urls:
+                #print('[P] final URL ready {0}'.format(len(final_urls)))
+                if image_url.startswith('https://'):
+                    final_urls.append(image_url)
+                    continue
+                multi_url_parser.clear_urls()
+                multi_page_parser.clear_pages()
+                request_url = 'https://www.pixiv.net/' + image_url
+                response = opener.open(request_url)
+                multi_page_parser.feed(response.read().decode('utf-8'))
+                for multi_page in multi_page_parser.get_pages():
+                    request_url = 'https://www.pixiv.net' + multi_page
+                    response = opener.open(request_url)
+                    multi_url_parser.feed(response.read().decode('utf-8'))
+                final_urls.extend(multi_url_parser.get_urls())
+            print('[Pixiv] Get URLs of all images in ranking')
+    
+            # TODO(LuHa): download image
+            for image_url in final_urls:
+                file_name = ('./downloads'
+                           + '/pixiv-'
+                           + image_url.split('/')[-1])
+                if os.path.exists(file_name):
+                    print('[Pixiv] Already downloaded {0}'.format(file_name))
+                    continue
+                with open(file_name, 'wb') as f:
+                    referer = 'https://www.pixiv.net/member_illust.php'
+                    referer = referer + '?mode=medium&illust_id='
+                    referer = referer + file_name.split('_')[0]
+                    opener.addheaders = [('User-agent', 'Mozilla/5.0'),
+                                         ('Referer', referer)]
+                    response = opener.open(image_url)
+                    f.write(response.read())
+                print('[Pixiv] Downloaded {0}'.format(file_name))
+    except KeyboardInterrupt:
+        print('[Pixiv] Keyboard Interrupt')
 
     # TODO(LuHa): save cookie to file
-    with open('pixiv_cookie.secret', 'wb') as f_cookie:
-        pickle.dump(cookie, f_cookie)
+    cookie_jar.save()
+    #try:
+    #    with open('pixiv_cookie.secret', 'wb') as f_cookie:
+    #        print(type(cookie))
+    #        pickle.dump(cookie, f_cookie)
+    #except TypeError:
+    #    with open('pixiv_cookie.secret', 'wb') as f_cookie:
+    #        pickle.dump(old_cookie, f_cookie)
+    #    print('[Pixiv] Pickle TypeError')
+
 
     # TODO(LuHa): print message about program termination
     print('\x1B[38;5;5m[Pixiv] Terminate pixiv downloader\x1B[0m')

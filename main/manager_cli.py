@@ -124,7 +124,7 @@ def start_download(mode = 'sequential'):
         print('2. Yandere')
         print('3. Wallhaven')
         print('4. Pixiv')
-        print('Input the sequence between space(ex. 1 2 3')
+        print('Input the sequence between space(ex. 1 2 3 4')
         print('----+----+----+----+----+----+')
         user_input = input('User input :')
         user_input = user_input.strip()
