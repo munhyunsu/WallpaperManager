@@ -170,15 +170,6 @@ def main(argv):
 
     # TODO(LuHa): save cookie to file
     cookie_jar.save()
-    #try:
-    #    with open('pixiv_cookie.secret', 'wb') as f_cookie:
-    #        print(type(cookie))
-    #        pickle.dump(cookie, f_cookie)
-    #except TypeError:
-    #    with open('pixiv_cookie.secret', 'wb') as f_cookie:
-    #        pickle.dump(old_cookie, f_cookie)
-    #    print('[Pixiv] Pickle TypeError')
-
 
     # TODO(LuHa): print message about program termination
     print('\x1B[38;5;5m[Pixiv] Terminate pixiv downloader\x1B[0m')

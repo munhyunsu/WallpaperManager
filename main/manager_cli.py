@@ -77,29 +77,6 @@ def edit_tags(source):
     edit tag function
     """
     subprocess.run(['python3', 'tag_editor.py', source])
-#    # TODO(LuHa): junction loop
-#    while(True):
-#        print('\n----+----+ Edit {0} tags ----+----+'.format(key))
-#        print('Current tag list')
-#        print(tags[key])
-#        print('a. Add tag')
-#        print('d. Delete tag')
-#        print('b. back')
-#        print('----+----+----+----+')
-#        user_input = input('User input: ')
-#        user_input = user_input.lower()
-#        # TODO(LuHa): processing user's input
-#        if user_input == 'a':
-#            user_input = input('Tag to add: ')
-#            tags[key].add(user_input)
-#        if user_input == 'd':
-#            user_input = input('Tag to delete: ')
-#            if user_input in tags[key]:
-#                tags[key].remove(user_input)
-#        if user_input == 'b':
-#            break
-#    # TODO(LuHa): save tags
-#    utils.set_database('tags.secret', tags)
 
 
 
