@@ -37,7 +37,6 @@ def get_downloaded_images(source):
                     if (entry.name).startswith(source):
                         image_id = (entry.name).split('-')[1]
                         image_id = (image_id).split('.')[0]
-                        image_id = int(image_id)
                         downloaded.add(image_id)
     else:
         for path in paths:
@@ -47,7 +46,6 @@ def get_downloaded_images(source):
                         if (entry.name).startswith(source):
                             image_id = (entry.name).split('-')[1]
                             image_id = (image_id).split('.')[0]
-                            image_id = int(image_id)
                             downloaded.add(image_id)
 
     return downloaded

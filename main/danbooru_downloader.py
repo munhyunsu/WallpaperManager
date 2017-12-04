@@ -89,17 +89,17 @@ def main(argv):
         # get 20 images at one time in dandooru
         for post in posts:
             # skip target image is already downloaded
-            if int(post['id']) in downloaded:
+            if post['id'] in downloaded:
                 print('[Danbooru] Already downloaded {0}'.format(post['id']))
                 continue
-            elif int(post['id']) in ban_db['danbooru']:
+            elif post['id'] in ban_db['danbooru']:
                 print('[Danbooru] Ban downloaded {0}'.format(post['id']))
                 continue
-            elif int(post['id']) in mute_db['danbooru']:
+            elif post['id'] in mute_db['danbooru']:
                 print('[Danbooru] Mute downloaded {0}'.format(post['id']))
                 continue
             else:
-                downloaded.add(int(post['id']))
+                downloaded.add(post['id'])
 
             request_url = (base_url
                          + post['file_url'])

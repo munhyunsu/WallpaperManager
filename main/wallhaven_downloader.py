@@ -107,17 +107,17 @@ def main(argv):
         print('[Wallhaven] Search image path')
         for image_id in id_parser.get_ids():
             # skip target image is already downloaded
-            if int(image_id) in downloaded:
+            if image_id in downloaded:
                 print('[Wallhaven] Already downloaded {0}'.format(image_id))
                 continue
-            elif int(image_id) in ban_db['wallhaven']:
+            elif image_id in ban_db['wallhaven']:
                 print('[Wallhaven] Ban downloaded {0}'.format(image_id))
                 continue
-            elif int(image_id) in mute_db['wallhaven']:
+            elif image_id in mute_db['wallhaven']:
                 print('[Wallhaven] Mute downloaded {0}'.format(image_id))
                 continue
             else:
-                downloaded.add(int(image_id))
+                downloaded.add(image_id)
 
             request_url = (base_url
                          + '/wallpaper/'

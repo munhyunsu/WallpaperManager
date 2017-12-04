@@ -154,7 +154,7 @@ def main(argv):
             print('[Changer] Ban image {0}'.format(image_name))
             [site, number] = image_name.split('-')
             number = number.split('.')[0]
-            ban_db[site].add(int(number))
+            ban_db[site].add(number)
             os.remove(cursor)
         elif user_input == 'd':
             print('[Changer] Delete image {0}'.format(image_name))
@@ -163,7 +163,7 @@ def main(argv):
             print('[Changer] Mute image {0}'.format(image_name))
             [site, number] = image_name.split('-')
             number = number.split('.')[0]
-            mute_db[site].add(int(number))
+            mute_db[site].add(number)
             os.remove(cursor)
         elif user_input == 's':
             print('[Changer] Save image {0}'.format(image_name))

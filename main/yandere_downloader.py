@@ -90,17 +90,17 @@ def main(argv):
         # get 40 images at one time in yandere
         for post in posts:
             # skip target image is already downloaded
-            if int(post['id']) in downloaded:
+            if post['id'] in downloaded:
                 print('[Yandere] Already downloaded {0}'.format(post['id']))
                 continue
-            elif int(post['id']) in ban_db['yandere']:
+            elif post['id'] in ban_db['yandere']:
                 print('[Yandere] Ban downloaded {0}'.format(post['id']))
                 continue
-            elif int(post['id']) in mute_db['yandere']:
+            elif post['id'] in mute_db['yandere']:
                 print('[Yandere] Mute downloaded {0}'.format(post['id']))
                 continue
             else:
-                downloaded.add(int(post['id']))
+                downloaded.add(post['id'])
 
             request_url = post['file_url']
             try:

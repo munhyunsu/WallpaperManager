@@ -41,13 +41,13 @@ def main(argv):
     os.makedirs('./save', exist_ok = True)
 
     # TODO(LuHa): load ban database
-    #ban_db = utils.get_database('ban.secret')
+    ban_db = utils.get_database('ban.secret')
 
     # TODO(LuHa): load mute database
-    #mute_db = utils.get_database('mute.secret')
+    mute_db = utils.get_database('mute.secret')
 
     # TODO(LuHa): read pre-downloaded image
-    #downloaded = utils.get_downloaded_images('pixiv')
+    downloaded = utils.get_downloaded_images('pixiv')
 
     # TODO(LuHa): load tags
     if os.path.exists('tags.secret'):
@@ -150,12 +150,21 @@ def main(argv):
     
             # TODO(LuHa): download image
             for image_url in final_urls:
+                image_id = image_url.split('.')[-1]
+                if image_id in downloaded:
+                    print('[Pixiv] Already downloaded {0}'format(image_id))
+                    continue
+                elif image_id in ban_db['pixiv']:
+                    print('[Pixiv] Ban downloaded {0}'format(image_id))
+                    continue
+                elif image_id in mute_db['pixiv']:
+                    print('[Pixiv] Mute downloaded {0}'format(image_id))
+                    continue
+                else:
+                    downloaded.add(image_id)
                 file_name = ('./downloads'
                            + '/pixiv-'
                            + image_url.split('/')[-1])
-                if os.path.exists(file_name):
-                    print('[Pixiv] Already downloaded {0}'.format(file_name))
-                    continue
                 with open(file_name, 'wb') as f:
                     referer = 'https://www.pixiv.net/member_illust.php'
                     referer = referer + '?mode=medium&illust_id='
