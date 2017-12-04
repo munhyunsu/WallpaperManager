@@ -152,13 +152,13 @@ def main(argv):
             for image_url in final_urls:
                 image_id = image_url.split('.')[-1]
                 if image_id in downloaded:
-                    print('[Pixiv] Already downloaded {0}'format(image_id))
+                    print('[Pixiv] Already downloaded {0}'.format(image_id))
                     continue
                 elif image_id in ban_db['pixiv']:
-                    print('[Pixiv] Ban downloaded {0}'format(image_id))
+                    print('[Pixiv] Ban downloaded {0}'.format(image_id))
                     continue
                 elif image_id in mute_db['pixiv']:
-                    print('[Pixiv] Mute downloaded {0}'format(image_id))
+                    print('[Pixiv] Mute downloaded {0}'.format(image_id))
                     continue
                 else:
                     downloaded.add(image_id)
