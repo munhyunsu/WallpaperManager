@@ -136,3 +136,27 @@ def change_wallpaper(image_path):
                     'org.cinnamon.desktop.background',
                     'picture-options',
                     'scaled'])
+
+
+
+def delete_file_size0():
+    """
+    delete file size 0
+    """
+    # TODO(LuHa): delete file size 0
+    counter = 0
+    if sys.version_info.minor < 6:
+        for entry in os.scandir('./downloads'):
+            if entry.is_file():
+                if os.path.getsize(os.path.abspath(entry.path)) == 0:
+                    os.remove(os.path.abspath(entry.path))
+                    counter = counter + 1
+                    
+    else:
+        with os.scandir('./downloads') as it:
+            for entry in it:
+                if entry.is_file():
+                    if os.path.getsize(os.path.abspath(entry.path)) == 0:
+                        os.remove(os.path.abspath(entry.path))
+                        counter = counter + 1
+    return counter

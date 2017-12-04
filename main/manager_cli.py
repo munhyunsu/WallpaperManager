@@ -18,15 +18,12 @@ from global_variable import IMAGESOURCES
 def main(argv):
     """
     main loop
+    This function show that all of tags as well as menu in initial version 
+    but, since 1.1.3 it do not show tags of image sources
+    for source code simplity and menu visibility, tag privacy.
     """
     # TODO(LuHa): print message about program execution
     print('[WallpaperManagerCLI] Execute wallpaper manager')
-
-    # TODO(LuHa): image source of global variable
-    sources = IMAGESOURCES
-
-    # TODO(LuHa): restore tags
-    tags = utils.get_database('tags.secret')
 
     # TODO(LuHa): junction loop according users' input
     while True:
@@ -95,6 +92,7 @@ def start_download(mode = 'sequential'):
         for index in range(0, len(sources)):
             downloader = (sources[index] + '_downloader.py')
             subprocess.Popen(['python3', downloader])
+
     elif mode == 'sequential':
         print('\n----+----+ Sequential download menu ----+----+')
         print('1. Danbooru')
@@ -136,21 +134,7 @@ def delete_file_size0():
     delete file size 0
     """
     # TODO(LuHa): delete file size 0
-    counter = 0
-    if sys.version_info.minor < 6:
-        for entry in os.scandir('./downloads'):
-            if entry.is_file():
-                if os.path.getsize(os.path.abspath(entry.path)) == 0:
-                    os.remove(os.path.abspath(entry.path))
-                    counter = counter + 1
-                    
-    else:
-        with os.scandir('./downloads') as it:
-            for entry in it:
-                if entry.is_file():
-                    if os.path.getsize(os.path.abspath(entry.path)) == 0:
-                        os.remove(os.path.abspath(entry.path))
-                        counter = counter + 1
+    counter = utils.delete_file_size0()
     print('Delete {0} files complete'.format(counter))
 
 
