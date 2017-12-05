@@ -150,7 +150,7 @@ def main(argv):
     
             # TODO(LuHa): download image
             for image_url in final_urls:
-                image_id = image_url.split('.')[-1]
+                image_id = image_url.split('/')[-1]
                 if image_id in downloaded:
                     print('[Pixiv] Already downloaded {0}'.format(image_id))
                     continue
