@@ -101,8 +101,13 @@ def edit_wallhaven(tags):
         user_input = input('User input: ')
         user_input = user_input.strip()
         user_input = user_input.lower()
-        
+
         if user_input == 'a':
+            print('----+ Combine query mode ----+')
+            print('ex1. ?q=pokemon&categories=010&purity=111&sorting=random&order=desc')
+            print('ex2. ?q=&categories=010&purity=111&sorting=date_added&order=desc')
+            print('ex3. ?q=&categories=010&purity=111&topRange=1M&sorting=toplist&order=desc')
+            print('ex4. topRange={1d|3d|1w|1M|3M|6M|1y}')
             user_input = input('Tag to add: ')
             user_input = user_input.strip()
             tags['wallhaven'].add(user_input)

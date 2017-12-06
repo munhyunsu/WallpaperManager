@@ -81,7 +81,7 @@ def main(argv):
     opener.open(base_url, data = auth)
 
     # TODO(LuHa): loop search by tags
-    base_url = 'https://alpha.wallhaven.cc'
+    base_url = 'https://alpha.wallhaven.cc/search'
     id_parser = ImageIdParser()
     uri_parser = ImageURIParser()
     # for fun
@@ -90,10 +90,7 @@ def main(argv):
         id_parser.clear_ids()
         uri_parser.clear_uris()
 
-        request_url = (base_url
-                     + '/search?q='
-                     + tag
-                     + '&categories=010&purity=111&sorting=random')
+        request_url = base_url + tag
         response = opener.open(request_url, timeout = 60)
         try:
             id_parser.feed(response.read().decode('utf-8'))
