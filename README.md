@@ -21,7 +21,7 @@
 - (Optimization) The common code like load tags, search downloaded images, and so on are functionalized.
 - (Optimization) Move current working directory from execution location to source code location.
 - (Feature) Add a pixiv to the image source.
-  - The user can select artist, daily/monthly/yealy rank. tag as image search keyword
+  - (Not yet) The user can select artist, daily/monthly/yealy rank. tag as image search keyword
 
 ### The contributed feature(or incoming)
 - None
@@ -39,6 +39,7 @@
 - (Optimization) The change wallpaper function is moved to utils.py
 - (Feature) The feature that delete file size 0
   - This feature implemented in manager\_cli.py
+- (Feature) Add a pixiv to the image source.
 
 ### 171103: 1.1.2
 - (Bugfix) Exception handling
