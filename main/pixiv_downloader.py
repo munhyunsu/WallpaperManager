@@ -91,8 +91,12 @@ def main(argv):
     base_url = 'https://accounts.pixiv.net/'
     page_url = 'login'
     request_url = base_url + page_url
-    response = opener.open(request_url)
-    hidden_parser.feed(response.read().decode('utf-8'))
+    response = opener.open(request_url, timeout = 60)
+    try:
+        hidden_parser.feed(response.read().decode('utf-8'))
+    except socket.timeout:
+        print('\x1B[38;5;5m[Pixiv] Response timeout\x1B[0m')
+        return
     auth = hidden_parser.get_hidden()
 
     # TODO(LuHa): if the cookie is not login, login with cookie
@@ -102,7 +106,7 @@ def main(argv):
             auth['password'] = user_passwd
             auth = urllib.parse.urlencode(auth)
             auth = auth.encode('ascii')
-            opener.open(request_url, data = auth)
+            opener.open(request_url, data = auth, timeout = 60)
     
         # TODO(LuHa): query to daily rank
         # rank start url:
@@ -111,18 +115,26 @@ def main(argv):
             base_url = 'https://www.pixiv.net/'
             page_url = 'ranking.php?mode=' + tag
             request_url = base_url + page_url
-            response = opener.open(request_url)
+            response = opener.open(request_url, timeout = 60)
     
             # TODO(LuHa): get page uri
             image_page_parser = ImagePageParser()
-            image_page_parser.feed(response.read().decode('utf-8'))
+            try:
+                image_page_parser.feed(response.read().decode('utf-8'))
+            except socket.timeout:
+                print('\x1B[38;5;5m[Pixiv] Response timeout\x1B[0m')
+                return
     
             # TODO(LuHa): get image uri, but remain multiple page
             image_url_parser = ImageURLParser()
             for image_page in image_page_parser.get_pages():
                 request_url = base_url + image_page
-                response = opener.open(request_url)
-                image_url_parser.feed(response.read().decode('utf-8'))
+                response = opener.open(request_url, timeout = 60)
+                try:
+                    image_url_parser.feed(response.read().decode('utf-8'))
+                except socket.timeout:
+                    print('\x1B[38;5;5m[Pixiv] Response timeout\x1B[0m')
+                    return
                 #print('[P] image url ready {0}'.format(len(image_url_parser.get_urls())))
             print('[Pixiv] Get ranking page')
     
@@ -139,12 +151,20 @@ def main(argv):
                 multi_url_parser.clear_urls()
                 multi_page_parser.clear_pages()
                 request_url = 'https://www.pixiv.net/' + image_url
-                response = opener.open(request_url)
-                multi_page_parser.feed(response.read().decode('utf-8'))
+                response = opener.open(request_url, timeout = 60)
+                try:
+                    multi_page_parser.feed(response.read().decode('utf-8'))
+                except socket.timeout:
+                    print('\x1B[38;5;5m[Pixiv] Response timeout\x1B[0m')
+                    return
                 for multi_page in multi_page_parser.get_pages():
                     request_url = 'https://www.pixiv.net' + multi_page
-                    response = opener.open(request_url)
-                    multi_url_parser.feed(response.read().decode('utf-8'))
+                    response = opener.open(request_url, timeout = 60)
+                    try:
+                        multi_url_parser.feed(response.read().decode('utf-8'))
+                    except socket.timeout:
+                        print('\x1B[38;5;5m[Pixiv] Response timeout\x1B[0m')
+                        return
                 final_urls.extend(multi_url_parser.get_urls())
             print('[Pixiv] Get URLs of all images in ranking')
     
@@ -171,8 +191,12 @@ def main(argv):
                     referer = referer + file_name.split('_')[0]
                     opener.addheaders = [('User-agent', 'Mozilla/5.0'),
                                          ('Referer', referer)]
-                    response = opener.open(image_url)
-                    f.write(response.read())
+                    response = opener.open(image_url, timeout = 60)
+                    try:
+                        f.write(response.read())
+                    except socket.timeout:
+                        print('\x1B[38;5;5m[Pixiv] Response timeout\x1B[0m')
+                        return
                 print('[Pixiv] Downloaded {0}'.format(file_name))
     except KeyboardInterrupt:
         print('[Pixiv] Keyboard Interrupt')
