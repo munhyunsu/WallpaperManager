@@ -69,6 +69,8 @@ def main(argv):
         print('}')
         return
 
+    # TODO(LuHa): load cookie
+
     # TODO(LuHa): create opener
     cookie = urllib.request.HTTPCookieProcessor()
     opener = urllib.request.build_opener(cookie)
@@ -144,6 +146,8 @@ def main(argv):
             print('[Wallhaven] Downloaded {0}'.format(image_path))
             # sleep for prevent blocking
             utils.dynamic_sleep()
+
+    # TODO(LuHa): save cookie
 
     # TODO(Luha): print message about program termination
     print('\x1B[38;5;5m[Wallhaven] Terminate wallhaven downloader\x1B[0m')
