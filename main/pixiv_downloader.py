@@ -18,10 +18,6 @@ import http.cookiejar
 import socket
 # shuffle
 import random
-# pickle
-import pickle
-# copy
-import copy
 
 # utils
 import utils
@@ -198,6 +194,9 @@ def main(argv):
                         print('\x1B[38;5;5m[Pixiv] Response timeout\x1B[0m')
                         return
                 print('[Pixiv] Downloaded {0}'.format(file_name))
+                # sleep for prevent blocking
+                utils.dynamic_sleep()
+
     except KeyboardInterrupt:
         print('[Pixiv] Keyboard Interrupt')
 

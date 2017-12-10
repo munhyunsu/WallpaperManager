@@ -12,6 +12,8 @@ import urllib.parse
 import urllib.request
 # html.parser
 import html.parser
+# html.cookie
+import http.cookiejar
 # timeout
 import socket
 # shuffle
@@ -82,7 +84,7 @@ def main(argv):
 
     # TODO(LuHa): check logined or not logined
     request_url = 'https://alpha.wallhaven.cc/auth/login'
-    response = opener.open(request_url, timeout)
+    response = opener.open(request_url, timeout = 10)
     login_parser = LoginParser()
     try:
         login_parser.feed(response.read().decode('utf-8'))
@@ -109,22 +111,40 @@ def main(argv):
 
     # TODO(LuHa): loop search by tags
     base_url = 'https://alpha.wallhaven.cc/search'
+    max_page_parser = MaxPageParser()
     id_parser = ImageIdParser()
     uri_parser = ImageURIParser()
     # for fun
     random.shuffle(tags)
     for tag in tags:
+        max_page_parser.clear_data()
         id_parser.clear_ids()
         uri_parser.clear_uris()
 
+        # TODO(LuHa): get max page
+        opener.addheaders = [('User-agent', 'Mozilla/5.0'),
+                             ('Accept', 'text/html')]
         request_url = base_url + tag
+        response = opener.open(request_url, timeout = 60)
+        try:
+            max_page_parser.feed(response.read().decode('utf-8'))
+        except socket.timeout:
+            print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
+            return
+        max_page = max_page_parser.get_data()
+        max_page = max_page.split()
+        max_page = int(max_page[3])
+
+        # TODO(LuHa): get image id
+        random_page = random.randint(0, max_page)
+        random_page = '&page=' + str(random_page)
+        request_url = base_url + tag + random_page
         response = opener.open(request_url, timeout = 60)
         try:
             id_parser.feed(response.read().decode('utf-8'))
         except socket.timeout:
             print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
             return
-
 
         # TODO(LuHa): loop parse image path
         # get 24 images at one time in wallhaven
@@ -156,6 +176,7 @@ def main(argv):
             utils.dynamic_sleep()
 
         # TODO(LuHa): loop download by posts
+        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
         for image_uri in uri_parser.get_uris():
             request_url = ('https:'
                          + image_uri)
@@ -173,6 +194,7 @@ def main(argv):
             utils.dynamic_sleep()
 
     # TODO(LuHa): save cookie
+    cookie_jar.save()
 
     # TODO(Luha): print message about program termination
     print('\x1B[38;5;5m[Wallhaven] Terminate wallhaven downloader\x1B[0m')
@@ -204,6 +226,36 @@ class LoginParser(html.parser.HTMLParser):
 
 
 class MaxPageParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.in_header_tag = False
+        self.in_h2_tag = False
+        self.data = ''
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'header':
+            self.in_header_tag = True
+        elif tag == 'h2':
+            self.in_h2_tag = True
+
+    def handle_endtag(self, tag):
+        if tag == 'header':
+            self.in_header_tag = False
+        elif tag == 'h2':
+            self.in_h2_tag = False
+            self.data = self.data + '\n'
+
+    def handle_data(self, data):
+        if self.in_header_tag and self.in_h2_tag:
+            self.data = self.data + data
+
+    def get_data(self):
+        return self.data
+
+    def clear_data(self):
+        self.in_header_tag = False
+        self.in_h2_tag = False
+        self.data = ''
 
 
 
