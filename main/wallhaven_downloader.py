@@ -69,18 +69,43 @@ def main(argv):
         print('}')
         return
 
-    # TODO(LuHa): load cookie
+    # TODO(LuHa): load cookie from file
+    cookie_jar = http.cookiejar.LWPCookieJar('wallhaven_cookie.secret')
+    if os.path.exists('wallhaven_cookie.secret'):
+        cookie_jar.load()
+    cookie = urllib.request.HTTPCookieProcessor(cookie_jar)
 
     # TODO(LuHa): create opener
-    cookie = urllib.request.HTTPCookieProcessor()
     opener = urllib.request.build_opener(cookie)
-    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-    base_url = 'http://alpha.wallhaven.cc/auth/login'
-    auth = {'username': user_id,
-            'password': user_passwd}
-    auth = urllib.parse.urlencode(auth)
-    auth = auth.encode('ascii')
-    opener.open(base_url, data = auth)
+    opener.addheaders = [('User-agent', 'Mozilla/5.0'),
+                         ('Accept', 'text/html')]
+
+    # TODO(LuHa): check logined or not logined
+    request_url = 'https://alpha.wallhaven.cc/auth/login'
+    response = opener.open(request_url, timeout)
+    login_parser = LoginParser()
+    try:
+        login_parser.feed(response.read().decode('utf-8'))
+    except socket.timeout:
+        print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
+        return
+
+    if login_parser.get_logined() == False:
+        request_url = 'https://alpha.wallhaven.cc/auth/login'
+        auth = {'username': user_id,
+                'password': user_passwd}
+        auth = urllib.parse.urlencode(auth)
+        auth = auth.encode('ascii')
+        opener.open(request_url, data = auth)
+#    cookie = urllib.request.HTTPCookieProcessor()
+#    opener = urllib.request.build_opener(cookie)
+#    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+#    base_url = 'http://alpha.wallhaven.cc/auth/login'
+#    auth = {'username': user_id,
+#            'password': user_passwd}
+#    auth = urllib.parse.urlencode(auth)
+#    auth = auth.encode('ascii')
+#    opener.open(base_url, data = auth)
 
     # TODO(LuHa): loop search by tags
     base_url = 'https://alpha.wallhaven.cc/search'
@@ -151,6 +176,35 @@ def main(argv):
 
     # TODO(Luha): print message about program termination
     print('\x1B[38;5;5m[Wallhaven] Terminate wallhaven downloader\x1B[0m')
+
+
+
+class LoginParser(html.parser.HTMLParser):
+    def __init__(self):
+        html.parser.HTMLParser.__init__(self)
+        self.username = False
+        self.password = False
+
+    def handle_starttag(self, tag, attrs):
+        if tag != 'input':
+            return
+        if len(attrs) < 1:
+            return
+        if (('id', 'username') == attrs[0]):
+            self.username = True
+        if (('id', 'password') == attrs[0]):
+            self.password = True
+
+    def get_logined(self):
+        return (self.username) and (self.password)
+
+    def clear_logined(self):
+        self.username = False
+        self.password = False
+
+
+class MaxPageParser(html.parser.HTMLParser):
+
 
 
 class ImageIdParser(html.parser.HTMLParser):
