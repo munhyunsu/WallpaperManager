@@ -92,107 +92,107 @@ def main(argv):
         print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
         return
 
-    if login_parser.get_logined() == False:
-        request_url = 'https://alpha.wallhaven.cc/auth/login'
-        auth = {'username': user_id,
-                'password': user_passwd}
-        auth = urllib.parse.urlencode(auth)
-        auth = auth.encode('ascii')
-        opener.open(request_url, data = auth)
-#    cookie = urllib.request.HTTPCookieProcessor()
-#    opener = urllib.request.build_opener(cookie)
-#    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-#    base_url = 'http://alpha.wallhaven.cc/auth/login'
-#    auth = {'username': user_id,
-#            'password': user_passwd}
-#    auth = urllib.parse.urlencode(auth)
-#    auth = auth.encode('ascii')
-#    opener.open(base_url, data = auth)
-
-    # TODO(LuHa): loop search by tags
-    base_url = 'https://alpha.wallhaven.cc/search'
-    max_page_parser = MaxPageParser()
-    id_parser = ImageIdParser()
-    uri_parser = ImageURIParser()
-    # for fun
-    random.shuffle(tags)
-    for tag in tags:
-        max_page_parser.clear_data()
-        id_parser.clear_ids()
-        uri_parser.clear_uris()
-
-        # TODO(LuHa): get max page
-        opener.addheaders = [('User-agent', 'Mozilla/5.0'),
-                             ('Accept', 'text/html')]
-        request_url = base_url + tag
-        response = opener.open(request_url, timeout = 60)
-        try:
-            max_page_parser.feed(response.read().decode('utf-8'))
-        except socket.timeout:
-            print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
-            return
-        max_page = max_page_parser.get_data()
-        max_page = max_page.split()
-        max_page = int(max_page[3])
-
-        # TODO(LuHa): get image id
-        random_page = random.randint(0, max_page)
-        random_page = '&page=' + str(random_page)
-        request_url = base_url + tag + random_page
-        response = opener.open(request_url, timeout = 60)
-        try:
-            id_parser.feed(response.read().decode('utf-8'))
-        except socket.timeout:
-            print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
-            return
-
-        # TODO(LuHa): loop parse image path
-        # get 24 images at one time in wallhaven
-        print('[Wallhaven] Search image path')
-        for image_id in id_parser.get_ids():
-            # skip target image is already downloaded
-            if image_id in downloaded:
-                print('[Wallhaven] Already downloaded {0}'.format(image_id))
-                continue
-            elif image_id in ban_db['wallhaven']:
-                print('[Wallhaven] Ban downloaded {0}'.format(image_id))
-                continue
-            elif image_id in mute_db['wallhaven']:
-                print('[Wallhaven] Mute downloaded {0}'.format(image_id))
-                continue
-            else:
-                downloaded.add(image_id)
-
-            request_url = (base_url
-                         + '/wallpaper/'
-                         + image_id)
+    # TODO(LuHa): if the cookie is not login, login with cookie
+    try:
+        if login_parser.get_logined() == False:
+            request_url = 'https://alpha.wallhaven.cc/auth/login'
+            auth = {'username': user_id,
+                    'password': user_passwd}
+            auth = urllib.parse.urlencode(auth)
+            auth = auth.encode('ascii')
+            opener.open(request_url, data = auth)
+    
+        # TODO(LuHa): loop search by tags
+        base_url = 'https://alpha.wallhaven.cc/search'
+        max_page_parser = MaxPageParser()
+        id_parser = ImageIdParser()
+        uri_parser = ImageURIParser()
+        # for fun
+        random.shuffle(tags)
+        for tag in tags:
+            base_url = 'https://alpha.wallhaven.cc/search'
+            max_page_parser.clear_data()
+            id_parser.clear_ids()
+            uri_parser.clear_uris()
+    
+            # TODO(LuHa): get max page
+            opener.addheaders = [('User-agent', 'Mozilla/5.0'),
+                                 ('Accept', 'text/html')]
+            request_url = base_url + tag
             response = opener.open(request_url, timeout = 60)
             try:
-                uri_parser.feed(response.read().decode('utf-8'))
+                max_page_parser.feed(response.read().decode('utf-8'))
             except socket.timeout:
                 print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
                 return
-            # sleep for prevent blocking
-            utils.dynamic_sleep()
-
-        # TODO(LuHa): loop download by posts
-        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-        for image_uri in uri_parser.get_uris():
-            request_url = ('https:'
-                         + image_uri)
+            max_page = max_page_parser.get_data()
+            max_page = max_page.split()
+            max_page = int(max_page[3])
+    
+            # TODO(LuHa): get image id
+            random_page = random.randint(0, max_page)
+            random_page = '&page=' + str(random_page)
+            request_url = base_url + tag + random_page
             response = opener.open(request_url, timeout = 60)
-            image_path = ('./downloads/'
-                        + image_uri.split('/')[-1])
-            with open(image_path, 'wb') as f:
+            try:
+                id_parser.feed(response.read().decode('utf-8'))
+            except socket.timeout:
+                print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
+                return
+    
+            # TODO(LuHa): loop parse image path
+            # get 24 images at one time in wallhaven
+            print('[Wallhaven] Search image path')
+            for image_id in id_parser.get_ids():
+                # skip target image is already downloaded
+                if image_id in downloaded:
+                    print('[Wallhaven] Already downloaded {0}'.format(image_id))
+                    continue
+                elif image_id in ban_db['wallhaven']:
+                    print('[Wallhaven] Ban downloaded {0}'.format(image_id))
+                    continue
+                elif image_id in mute_db['wallhaven']:
+                    print('[Wallhaven] Mute downloaded {0}'.format(image_id))
+                    continue
+                else:
+                    downloaded.add(image_id)
+    
+                base_url = 'https://alpha.wallhaven.cc/'
+                request_url = (base_url
+                             + 'wallpaper/'
+                             + image_id)
+                response = opener.open(request_url, timeout = 60)
                 try:
-                    f.write(response.read())
+                    uri_parser.feed(response.read().decode('utf-8'))
                 except socket.timeout:
                     print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
                     return
-            print('[Wallhaven] Downloaded {0}'.format(image_path))
-            # sleep for prevent blocking
-            utils.dynamic_sleep()
+                # sleep for prevent blocking
+                utils.dynamic_sleep()
+    
+            # TODO(LuHa): loop download by posts
+            opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+            for image_uri in uri_parser.get_uris():
+                request_url = ('https:'
+                             + image_uri)
+                response = opener.open(request_url, timeout = 60)
+                image_path = ('./downloads/'
+                            + image_uri.split('/')[-1])
+                with open(image_path, 'wb') as f:
+                    try:
+                        f.write(response.read())
+                    except socket.timeout:
+                        print('\x1B[38;5;5m[Wallhaven] Response timeout\x1B[0m')
+                        return
+                print('[Wallhaven] Downloaded {0}'.format(image_path))
+                # sleep for prevent blocking
+                utils.dynamic_sleep()
 
+    except KeyboardInterrupt:
+        print('[Wallhaven] keyboard Interrupt')
+    except:
+        print('[Wallhaven] Some Interrupt')
+    
     # TODO(LuHa): save cookie
     cookie_jar.save()
 
