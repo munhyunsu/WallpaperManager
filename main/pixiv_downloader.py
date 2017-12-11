@@ -109,8 +109,10 @@ def main(argv):
         #    https://www.pixiv.net/ranking.php?mode=daily&date=20070913
         for tag in tags:
             base_url = 'https://www.pixiv.net/'
-            page_url = 'ranking.php?mode=' + tag
+            page_url = 'ranking.php' + tag
             request_url = base_url + page_url
+            if tag.endswith('date='):
+                request_url = request_url + get_random_date()
             response = opener.open(request_url, timeout = 60)
     
             # TODO(LuHa): get page uri
@@ -325,6 +327,18 @@ class MultiURLParser(html.parser.HTMLParser):
     def clear_urls(self):
         self.urls.clear()
 
+
+
+def get_random_date():
+    max_days = datetime.date.fromtimestamp(time.time())
+    max_days = max_days - datetime.date(2007, 9, 13)
+    max_days = max_days.days
+
+    random_day = random.randint(0, max_days)
+    random_day = datetime.timedelta(days = random_day)
+    target_day = datetime.date(2007, 9, 13) + random_day
+    
+    return target_day.strftime('%Y%m%d')
 
 
 # Maybe it is good, right?
