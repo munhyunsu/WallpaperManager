@@ -18,6 +18,8 @@ import http.cookiejar
 import socket
 # shuffle
 import random
+# datetime
+import datetime
 
 # utils
 import utils
@@ -201,8 +203,8 @@ def main(argv):
 
     except KeyboardInterrupt:
         print('[Pixiv] Keyboard Interrupt')
-    except:
-        print('[Pixiv] Some Interrupt')
+    except Exception as e:
+        print('[Pixiv] Some Interrupt', e)
 
     # TODO(LuHa): save cookie to file
     cookie_jar.save()
