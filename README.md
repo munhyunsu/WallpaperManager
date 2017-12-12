@@ -40,6 +40,7 @@
 - (Feature) The feature that delete file size 0
   - This feature implemented in manager\_cli.py
 - (Feature) Add a pixiv to the image source.
+  - The user can select daily rank.
 
 ### 171103: 1.1.2
 - (Bugfix) Exception handling

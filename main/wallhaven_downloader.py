@@ -190,8 +190,8 @@ def main(argv):
 
     except KeyboardInterrupt:
         print('[Wallhaven] keyboard Interrupt')
-    except:
-        print('[Wallhaven] Some Interrupt')
+    except Exception as e:
+        print('[Wallhaven] Some Interrupt', e)
     
     # TODO(LuHa): save cookie
     cookie_jar.save()
