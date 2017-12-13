@@ -17,6 +17,8 @@ import random
 
 # utils
 import utils
+# global variable
+from global_variable import TIMEOUT
 
 def main(argv):
     """
@@ -78,7 +80,7 @@ def main(argv):
                      + '/posts.json?tags='
                      + tag
                      + '&random=true')
-        response = opener.open(request_url, timeout = 60)
+        response = opener.open(request_url, timeout = TIMEOUT)
         try:
             posts = json.loads(response.read().decode('utf-8'))
         except socket.timeout:
@@ -104,7 +106,7 @@ def main(argv):
             request_url = (base_url
                          + post['file_url'])
             try:
-                response = opener.open(request_url, timeout = 60)
+                response = opener.open(request_url, timeout = TIMEOUT)
             except socket.timeout:
                 print('[Danbooru] Request timeout')
                 return

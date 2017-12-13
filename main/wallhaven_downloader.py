@@ -21,6 +21,8 @@ import random
 
 # utils
 import utils
+# global variable
+from global_variable import TIMEOUT
 
 def main(argv):
     """
@@ -84,7 +86,7 @@ def main(argv):
 
     # TODO(LuHa): check logined or not logined
     request_url = 'https://alpha.wallhaven.cc/auth/login'
-    response = opener.open(request_url, timeout = 10)
+    response = opener.open(request_url, timeout = TIMEOUT)
     login_parser = LoginParser()
     try:
         login_parser.feed(response.read().decode('utf-8'))
@@ -119,7 +121,7 @@ def main(argv):
             opener.addheaders = [('User-agent', 'Mozilla/5.0'),
                                  ('Accept', 'text/html')]
             request_url = base_url + tag
-            response = opener.open(request_url, timeout = 60)
+            response = opener.open(request_url, timeout = TIMEOUT)
             try:
                 max_page_parser.feed(response.read().decode('utf-8'))
             except socket.timeout:
@@ -133,7 +135,7 @@ def main(argv):
             random_page = random.randint(0, max_page)
             random_page = '&page=' + str(random_page)
             request_url = base_url + tag + random_page
-            response = opener.open(request_url, timeout = 60)
+            response = opener.open(request_url, timeout = TIMEOUT)
             try:
                 id_parser.feed(response.read().decode('utf-8'))
             except socket.timeout:
@@ -161,7 +163,7 @@ def main(argv):
                 request_url = (base_url
                              + 'wallpaper/'
                              + image_id)
-                response = opener.open(request_url, timeout = 60)
+                response = opener.open(request_url, timeout = TIMEOUT)
                 try:
                     uri_parser.feed(response.read().decode('utf-8'))
                 except socket.timeout:
@@ -175,7 +177,7 @@ def main(argv):
             for image_uri in uri_parser.get_uris():
                 request_url = ('https:'
                              + image_uri)
-                response = opener.open(request_url, timeout = 60)
+                response = opener.open(request_url, timeout = TIMEOUT)
                 image_path = ('./downloads/'
                             + image_uri.split('/')[-1])
                 with open(image_path, 'wb') as f:

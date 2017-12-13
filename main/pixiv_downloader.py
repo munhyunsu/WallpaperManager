@@ -25,6 +25,8 @@ import datetime
 
 # utils
 import utils
+# global variable
+from global_variable import TIMEOUT
 
 def main(argv):
     """
@@ -91,7 +93,7 @@ def main(argv):
     base_url = 'https://accounts.pixiv.net/'
     page_url = 'login'
     request_url = base_url + page_url
-    response = opener.open(request_url, timeout = 60)
+    response = opener.open(request_url, timeout = TIMEOUT)
     try:
         hidden_parser.feed(response.read().decode('utf-8'))
     except socket.timeout:
@@ -106,7 +108,7 @@ def main(argv):
             auth['password'] = user_passwd
             auth = urllib.parse.urlencode(auth)
             auth = auth.encode('ascii')
-            opener.open(request_url, data = auth, timeout = 60)
+            opener.open(request_url, data = auth, timeout = TIMEOUT)
     
         # TODO(LuHa): query to daily rank
         # rank start url:
@@ -117,7 +119,7 @@ def main(argv):
             request_url = base_url + page_url
             if tag.endswith('date='):
                 request_url = request_url + get_random_date()
-            response = opener.open(request_url, timeout = 60)
+            response = opener.open(request_url, timeout = TIMEOUT)
     
             # TODO(LuHa): get page uri
             image_page_parser = ImagePageParser()
@@ -131,7 +133,7 @@ def main(argv):
             image_url_parser = ImageURLParser()
             for image_page in image_page_parser.get_pages():
                 request_url = base_url + image_page
-                response = opener.open(request_url, timeout = 60)
+                response = opener.open(request_url, timeout = TIMEOUT)
                 try:
                     image_url_parser.feed(response.read().decode('utf-8'))
                 except socket.timeout:
@@ -153,7 +155,7 @@ def main(argv):
                 multi_url_parser.clear_urls()
                 multi_page_parser.clear_pages()
                 request_url = 'https://www.pixiv.net/' + image_url
-                response = opener.open(request_url, timeout = 60)
+                response = opener.open(request_url, timeout = TIMEOUT)
                 try:
                     multi_page_parser.feed(response.read().decode('utf-8'))
                 except socket.timeout:
@@ -161,7 +163,7 @@ def main(argv):
                     return
                 for multi_page in multi_page_parser.get_pages():
                     request_url = 'https://www.pixiv.net' + multi_page
-                    response = opener.open(request_url, timeout = 60)
+                    response = opener.open(request_url, timeout = TIMEOUT)
                     try:
                         multi_url_parser.feed(response.read().decode('utf-8'))
                     except socket.timeout:
@@ -193,7 +195,7 @@ def main(argv):
                     referer = referer + file_name.split('_')[0]
                     opener.addheaders = [('User-agent', 'Mozilla/5.0'),
                                          ('Referer', referer)]
-                    response = opener.open(image_url, timeout = 60)
+                    response = opener.open(image_url, timeout = TIMEOUT)
                     try:
                         f.write(response.read())
                     except socket.timeout:

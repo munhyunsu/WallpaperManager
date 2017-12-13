@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
-import random
-
 # image source
 IMAGESOURCES = ['danbooru',
                 'yandere',
                 'wallhaven',
                 'pixiv']
+
+# timeout
+TIMEOUT = 30
