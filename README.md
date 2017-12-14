@@ -28,6 +28,9 @@
 
 ## Version history
 
+### Scheduled: 1.1.4
+- (Optimization) Remove unsed code (commented already) in wallchanger.py
+
 ### 171214: 1.1.3
 - (Refactoring) The list of image source disttach from each sources.
   - It can more efficient management using global\_variable
