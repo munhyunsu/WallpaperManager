@@ -28,7 +28,7 @@
 
 ## Version history
 
-### scheduled: 1.1.3
+### 171214: 1.1.3
 - (Refactoring) The list of image source disttach from each sources.
   - It can more efficient management using global\_variable
 - (Optimization) Set sleep interval beteen image request
