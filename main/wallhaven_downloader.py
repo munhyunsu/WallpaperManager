@@ -129,10 +129,13 @@ def main(argv):
                 return
             max_page = max_page_parser.get_data()
             max_page = max_page.split()
-            max_page = int(max_page[3])
+            if len(max_page) > 3:
+                max_page = int(max_page[3])
+            else:
+                max_page = 1
     
             # TODO(LuHa): get image id
-            random_page = random.randint(0, max_page)
+            random_page = random.randint(1, max_page)
             random_page = '&page=' + str(random_page)
             request_url = base_url + tag + random_page
             response = opener.open(request_url, timeout = TIMEOUT)
