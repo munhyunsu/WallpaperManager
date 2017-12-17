@@ -34,7 +34,7 @@ def main(argv):
         print('1. Edit danbooru search tags')
         print('2. Edit yandere search tags')
         print('3. Edit wallhaven search tags')
-        print('4. Edit pixiv search tags(not available now)')
+        print('4. Edit pixiv search tags')
         print('c. Check downloaded wallpaper')
         print('d. Delete file with size 0')
         print('p. Start wallpaper downloading in parallel')
