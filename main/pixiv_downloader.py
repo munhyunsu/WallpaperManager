@@ -119,6 +119,7 @@ def main(argv):
             request_url = base_url + page_url
             if tag.endswith('date='):
                 request_url = request_url + get_random_date()
+            print('\x1B[38;5;5m[Pixiv] Request: {0}\x1B[0m'.format(request_url))
             response = opener.open(request_url, timeout = TIMEOUT)
     
             # TODO(LuHa): get page uri

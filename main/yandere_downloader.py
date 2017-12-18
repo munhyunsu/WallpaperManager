@@ -80,11 +80,11 @@ def main(argv):
                      + '/post.json?tags='
                      + tag
                      + '+order:random')
+        print('\x1B[38;5;5m[Yandere] Request: {0}\x1B[0m'.format(request_url))
         response = opener.open(request_url, timeout = TIMEOUT)
         try:
             posts = json.loads(response.read().decode('utf-8'))
         except socket.timeout:
-            print('[Yandere] Response timeout')
             print('\x1B[38;5;5m[Yandere] Response timeout\x1B[0m')
             return
 

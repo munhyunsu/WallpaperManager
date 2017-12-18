@@ -80,6 +80,7 @@ def main(argv):
                      + '/posts.json?tags='
                      + tag
                      + '&random=true')
+        print('\x1B[38;5;5m[Danbooru] Request: {0}\x1B[0m'.format(request_url))
         response = opener.open(request_url, timeout = TIMEOUT)
         try:
             posts = json.loads(response.read().decode('utf-8'))

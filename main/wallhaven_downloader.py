@@ -121,6 +121,7 @@ def main(argv):
             opener.addheaders = [('User-agent', 'Mozilla/5.0'),
                                  ('Accept', 'text/html')]
             request_url = base_url + tag
+            print('\x1B[38;5;5m[Wallhaven] Request: {0}\x1B[0m'.format(request_url))
             response = opener.open(request_url, timeout = TIMEOUT)
             try:
                 max_page_parser.feed(response.read().decode('utf-8'))
