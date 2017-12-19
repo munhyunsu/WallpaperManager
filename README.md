@@ -31,6 +31,7 @@
 
 ### Scheduled: 1.1.4
 - (Optimization) Remove unsed code (commented already) in wallchanger.py
+- (GUI) Print message about request url for give user opportunity more information.
 
 ### 171214: 1.1.3
 - (Refactoring) The list of image source disttach from each sources.
