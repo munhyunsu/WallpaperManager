@@ -63,6 +63,8 @@ def main(argv):
             start_download(mode = 'sequential')
         elif user_input == 'q':
             break
+        elif user_input == 'exit':
+            break
 
     # TODO(LuHa): print message about program termination
     print('[WallpaperManagerCLI] Terminate wallpaper manager')
