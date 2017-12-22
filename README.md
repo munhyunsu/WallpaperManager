@@ -23,6 +23,8 @@
 - (Feature) Add a pixiv to the image source.
   - (Not yet) The user can select artist, daily/monthly/yealy rank. tag as image search keyword.
 - (GUI) Cut-off log for getting information easily.
+  - The cut-off option need.
+- (Feature) Option function in manager.
 
 ### The contributed feature(or incoming)
 - None
