@@ -37,6 +37,7 @@ def main(argv):
         print('4. Edit pixiv search tags')
         print('c. Check downloaded wallpaper')
         print('d. Delete file with size 0')
+        print('o. Configuration(not available now)')
         print('p. Start wallpaper downloading in parallel')
         print('s. Start wallpaper downloading in sequential')
         print('q. Terminate programm')
@@ -57,6 +58,8 @@ def main(argv):
             check_wallpaper()
         elif user_input == 'd':
             delete_file_size0()
+        elif user_input == 'o':
+            pass
         elif user_input == 'p':
             start_download(mode = 'parallel')
         elif user_input == 's':
