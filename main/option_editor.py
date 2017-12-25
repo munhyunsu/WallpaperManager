@@ -3,7 +3,8 @@
 import sys
 
 def main(argv):
-    pass
+    print('[Option] Excute option editor')
+    print('[Option] Terminate option editor')
 
 # is it good, right?
 if __name__ == '__main__':

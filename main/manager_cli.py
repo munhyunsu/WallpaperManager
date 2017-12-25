@@ -59,7 +59,7 @@ def main(argv):
         elif user_input == 'd':
             delete_file_size0()
         elif user_input == 'o':
-            pass
+            edit_option()
         elif user_input == 'p':
             start_download(mode = 'parallel')
         elif user_input == 's':
@@ -141,6 +141,15 @@ def delete_file_size0():
     # TODO(LuHa): delete file size 0
     counter = utils.delete_file_size0()
     print('Delete {0} files complete'.format(counter))
+
+
+
+def edit_option():
+    """
+    edit options
+    """
+    # TODO(LuHa): edit options
+    subprocess.run(['python3', 'option_editor.py'])
 
 
 
