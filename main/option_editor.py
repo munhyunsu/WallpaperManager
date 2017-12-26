@@ -3,6 +3,14 @@
 import sys
 
 def main(argv):
+    # TODO(LuHa): load options
+
+    # TODO(LuHa): print emnu
+
+    # TODO(LuHa): handle user input
+
+    # TODO(LuHa): save options
+
     print('[Option] Excute option editor')
     print('[Option] Terminate option editor')
 
