@@ -25,6 +25,7 @@
 - (GUI) Cut-off log for getting information easily.
   - The cut-off option need.
 - (Feature) Option function in manager.
+- (Feature) Tag set.
 
 ### The contributed feature(or incoming)
 - None
