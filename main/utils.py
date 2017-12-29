@@ -158,3 +158,11 @@ def delete_file_size0():
                         os.remove(os.path.abspath(entry.path))
                         counter = counter + 1
     return counter
+
+
+
+def log(data):
+    """
+    print data
+    """
+    print(data)
