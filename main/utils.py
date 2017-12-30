@@ -165,4 +165,9 @@ def log(data):
     """
     print data
     """
+    # TODO(LuHa): restore options
+    #           : how can we adjust option in globaly without re-read files.
+
+    # TODO(LuHa): split by options
     print(data)
+
