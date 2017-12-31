@@ -26,6 +26,7 @@
   - The cut-off option need.
 - (Feature) Option function in manager.
 - (Feature) Tag set.
+  - We need old tag function for compatibility.
 
 ### The contributed feature(or incoming)
 - None
