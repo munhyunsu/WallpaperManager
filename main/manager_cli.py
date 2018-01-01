@@ -31,6 +31,7 @@ def main(argv):
             + '\n----+----+ Wallpaper Manager CLI ----+----+'
             + '\x1B[0m')
         print('----+----+----+ Main menu ----+----+----+')
+        print('0. Change tags set(not available now)')
         print('1. Edit danbooru search tags')
         print('2. Edit yandere search tags')
         print('3. Edit wallhaven search tags')
@@ -46,7 +47,9 @@ def main(argv):
         user_input = user_input.strip()
         user_input = user_input.lower()
         # TODO(LuHa): jump to function
-        if user_input == '1':
+        if user_input == '0':
+            pass
+        elif user_input == '1':
             edit_tags('danbooru')
         elif user_input == '2':
             edit_tags('yandere')
