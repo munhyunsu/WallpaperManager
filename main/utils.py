@@ -167,7 +167,7 @@ def log(data):
     """
     # TODO(LuHa): restore options
     #           : how can we adjust option in globaly without re-read files.
-
+    get_database('options.secret')
     # TODO(LuHa): split by options
     print(data)
 
