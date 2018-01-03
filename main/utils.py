@@ -161,6 +161,11 @@ def delete_file_size0():
 
 
 
+# TODO(LuHa): This variable is shared across program.
+options = get_database('options.secret')
+
+
+
 def log(data):
     """
     print data
