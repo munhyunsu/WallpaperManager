@@ -38,7 +38,7 @@ def main(argv):
         print('4. Edit pixiv search tags')
         print('c. Check downloaded wallpaper')
         print('d. Delete file with size 0')
-        print('o. Configuration(not available now)')
+        print('o. Configuration')
         print('p. Start wallpaper downloading in parallel')
         print('s. Start wallpaper downloading in sequential')
         print('q. Terminate programm')

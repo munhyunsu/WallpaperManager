@@ -16,9 +16,6 @@ import subprocess
 # global variable
 from global_variable import IMAGESOURCES
 
-# TODO(LuHa): This variable is shared across program.
-options = get_database('options.secret', across = True)
-
 
 
 def get_downloaded_images(source):
@@ -106,11 +103,13 @@ def set_database(db_name, db_object, across = False):
     sources = IMAGESOURCES
 
     # initialize
-    db_target = dict()
     if across == False:
+        db_target = dict()
         for source in sources:
             db_target[source] = list(db_object[source])
             db_target[source].sort()
+    else:
+        db_target = db_object
 
     # save database
     with open(db_name, 'w') as f_database:
@@ -173,8 +172,10 @@ def log(data):
     """
     print data
     """
-    print(options)
-    # TODO(LuHa): restore options
-    #           : how can we adjust option in globaly without re-read files.
-#    get_database('options.secret')
-    # TODO(LuHa): split by options
+    if options['log'] == True:
+        print(data)
+
+
+
+# TODO(LuHa): This variable is shared across program.
+options = get_database('options.secret', across = True)
