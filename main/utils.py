@@ -16,6 +16,9 @@ import subprocess
 # global variable
 from global_variable import IMAGESOURCES
 
+# TODO(LuHa): This variable is shared across program.
+options = get_database('options.secret', across = True)
+
 
 
 def get_downloaded_images(source):
@@ -63,9 +66,10 @@ def dynamic_sleep(minimum = 0, maximum = 5):
 
 
 # TODO(LuHa): the function to load database
-def get_database(db_name):
+def get_database(db_name, across = False):
     """
     read database
+    if across is True, it do not divide by image source.
     """
     # global variable
     sources = ['danbooru',
@@ -75,15 +79,17 @@ def get_database(db_name):
 
     # initialize
     database = dict()
-    for source in sources:
-        database[source] = set()
+    if across == False:
+        for source in sources:
+            database[source] = set()
 
     # load database
     if os.path.exists(db_name):
         with open(db_name, 'r') as f_database:
             database = json.load(f_database)
-            for source in sources:
-                database[source] = set(database.get(source, list()))
+            if across == False:
+                for source in sources:
+                    database[source] = set(database.get(source, list()))
 
     # return
     return database
@@ -91,18 +97,20 @@ def get_database(db_name):
 
 
 # TODO(LuHa): the function to save database
-def set_database(db_name, db_object):
+def set_database(db_name, db_object, across = False):
     """
     write database
+    if across is True, it do not divide by image source.
     """
     # global variable
     sources = IMAGESOURCES
 
     # initialize
     db_target = dict()
-    for source in sources:
-        db_target[source] = list(db_object[source])
-        db_target[source].sort()
+    if across == False:
+        for source in sources:
+            db_target[source] = list(db_object[source])
+            db_target[source].sort()
 
     # save database
     with open(db_name, 'w') as f_database:
@@ -161,9 +169,6 @@ def delete_file_size0():
 
 
 
-# TODO(LuHa): This variable is shared across program.
-options = get_database('options.secret')
-
 def log(data):
     """
     print data
@@ -173,24 +178,3 @@ def log(data):
     #           : how can we adjust option in globaly without re-read files.
 #    get_database('options.secret')
     # TODO(LuHa): split by options
-    print(data)
-
-
-
-def get_options():
-    """
-    This function is that retrieving options from file.
-    almost same code to get_database,
-    but it is not divided by image sources.
-    """
-    pass
-
-
-
-def set_options():
-    """
-    This function is that achiving options to file.
-    almost same code to set_database,
-    but it is not divided by image sources.
-    """
-    pass
