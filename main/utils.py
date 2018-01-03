@@ -164,15 +164,33 @@ def delete_file_size0():
 # TODO(LuHa): This variable is shared across program.
 options = get_database('options.secret')
 
-
-
 def log(data):
     """
     print data
     """
+    print(options)
     # TODO(LuHa): restore options
     #           : how can we adjust option in globaly without re-read files.
-    get_database('options.secret')
+#    get_database('options.secret')
     # TODO(LuHa): split by options
     print(data)
 
+
+
+def get_options():
+    """
+    This function is that retrieving options from file.
+    almost same code to get_database,
+    but it is not divided by image sources.
+    """
+    pass
+
+
+
+def set_options():
+    """
+    This function is that achiving options to file.
+    almost same code to set_database,
+    but it is not divided by image sources.
+    """
+    pass
