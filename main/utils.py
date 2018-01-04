@@ -69,10 +69,7 @@ def get_database(db_name, across = False):
     if across is True, it do not divide by image source.
     """
     # global variable
-    sources = ['danbooru',
-               'yandere',
-               'wallhaven',
-               'pixiv']
+    sources = IMAGESOURCES
 
     # initialize
     database = dict()
