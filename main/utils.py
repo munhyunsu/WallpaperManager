@@ -12,6 +12,8 @@ import random
 import json
 # subprocess
 import subprocess
+# logging
+import logging
 
 # global variable
 from global_variable import IMAGESOURCES
@@ -176,3 +178,4 @@ def log(data):
 
 # TODO(LuHa): This variable is shared across program.
 options = get_database('options.secret', across = True)
+# TODO(LuHa): set logger level
