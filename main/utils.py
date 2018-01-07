@@ -167,9 +167,10 @@ def delete_file_size0():
 
 
 
-def log(data):
+def log(data, level):
     """
     print data
+
     """
     if options['log'] == True:
         print(data)
