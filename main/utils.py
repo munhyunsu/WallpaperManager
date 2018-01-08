@@ -172,8 +172,8 @@ def log(data, level):
     print data
 
     """
-    if options['log'] == True:
-        print(data)
+    if level == logging.info:
+        logging.info(data)
 
 
 
