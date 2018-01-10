@@ -174,6 +174,8 @@ def log(data, level):
     """
     if level == logging.info:
         logging.info(data)
+    elif level == logging.debug:
+        pass
 
 
 
