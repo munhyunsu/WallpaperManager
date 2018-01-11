@@ -22,12 +22,27 @@ def main(argv):
         user_input = user_input.strip()
         # TODO(LuHa): handle user input
         if user_input == '1':
-            options['log'] = not options.get('log', False)
+            options['log'] = get_logging_level_from_user()
         elif user_input == 'b':
             break
 
     # TODO(LuHa): save options
     utils.set_database('options.secret', options, across = True)
+
+
+
+def get_logging_level_from_user():
+    print('Input the logging level you want')
+    print('  CRITICAL: 50')
+    print('  ERROR   : 40')
+    print('  WARNING : 30')
+    print('  INFO    : 20')
+    print('  DEBUG   : 10')
+    print('  NOTSET  : 0')
+    level = input('User input(logging level):')
+
+    return int(level)
+
 
 
 # maybe it is good thing, right?

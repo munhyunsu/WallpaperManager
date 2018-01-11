@@ -182,3 +182,13 @@ def log(data, level):
 # TODO(LuHa): This variable is shared across program.
 options = get_database('options.secret', across = True)
 # TODO(LuHa): set logger level
+# CRITICAL 50
+# ERROR 40
+# WARNING 30
+# INFO 20
+# DEBUG 10
+# NOTSET 0
+FORMAT = '%(created)s:%(levelno)s:%(message)s'
+logging.basicConfig(stream = sys.stdout,
+                    format = FORMAT,
+                    level = options['log'])
