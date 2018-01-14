@@ -167,6 +167,35 @@ def delete_file_size0():
 
 
 
+class WMFormatter(logging.Formatter):
+    """
+    ref: https://stackoverflow.com/questions/14844970/modifying-logging-message-format-based-on-message-logging-level-in-python3
+    """
+    def format(self, record):
+        fmt_original = self._style._fmt
+
+        if record.levelno == logging.CRITICAL:
+            self._style._fmt = fmt_critical
+            pass
+        elif record.levelno == logging.ERROR:
+            pass
+        elif record.levelno == logging.WARNING:
+            pass
+        elif record.levelno == logging.INFO:
+            pass
+        elif record.levelno == logging.DEBUG:
+            pass
+        else:
+            self._style._fmt = fmt_original
+
+        result logging.Formatter.format(self, record)
+
+        self._style._fmt = fmt_original
+
+        return result
+            
+
+
 def log(data, level):
     """
     print data
