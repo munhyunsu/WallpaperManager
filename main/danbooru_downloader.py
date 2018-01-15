@@ -25,7 +25,8 @@ def main(argv):
     main flow
     """
     # TODO(LuHa): print message about program execution
-    print('\x1B[38;5;5m[Danbooru] Execute danbooru downloader\x1B[0m')
+    utils.logger.info(
+            '\x1B[38;5;5m[Danbooru] Execute danbooru downloader\x1B[0m')
 
     # TODO(LuHa): create downloads directory
     # actually, this code use only downloads directory.
@@ -49,18 +50,20 @@ def main(argv):
             tags = json.load(f_tags)
             tags = tags['danbooru']
     else:
-        print('[Danbooru] Need tags in file named tags.secret')
+        utils.logger.error(
+                '[Danbooru] Need tags in file named tags.secret')
         return
 
     # TODO(LuHa): load API keys
     if os.path.exists('danbooru_api.secret'):
-        print('[Danbooru] API key exists')
+        utils.logger.debug('[Danbooru] API key exists')
         with open('danbooru_api.secret', 'r') as f_api:
             api_key = f_api.read()
             api_key = api_key.strip()
     else:
-        print('[Danbooru] Need API key in file named danbooru_api.secret')
-        print('[Danbooru] The format is ID:APIKEY')
+        utils.logger.error(
+                '[Danbooru] Need API key in file named danbooru_api.secret')
+        utils.logger.error(('[Danbooru] The format is ID:APIKEY')
         return
 
     # TODO(LuHa): create opener
@@ -80,12 +83,15 @@ def main(argv):
                      + '/posts.json?tags='
                      + tag
                      + '&random=true')
-        print('\x1B[38;5;5m[Danbooru] Request: {0}\x1B[0m'.format(request_url))
+        utils.logger.info(
+                '\x1B[38;5;5m[Danbooru] Request: {0}\x1B[0m'.format(
+                request_url))
         response = opener.open(request_url, timeout = TIMEOUT)
         try:
             posts = json.loads(response.read().decode('utf-8'))
         except socket.timeout:
-            print('\x1B[38;5;5m[Danbooru] Response timeout\x1B[0m')
+            utils.logger.info(
+                    '\x1B[38;5;5m[Danbooru] Response timeout\x1B[0m')
             return
 
         # TODO(LuHa): loop download by posts
@@ -93,13 +99,17 @@ def main(argv):
         for post in posts:
             # skip target image is already downloaded
             if post['id'] in downloaded:
-                print('[Danbooru] Already downloaded {0}'.format(post['id']))
+                utils.logger.debug(
+                        '[Danbooru] Already downloaded {0}'.format(
+                        post['id']))
                 continue
             elif post['id'] in ban_db['danbooru']:
-                print('[Danbooru] Ban downloaded {0}'.format(post['id']))
+                utils.logger.debug(
+                        '[Danbooru] Ban downloaded {0}'.format(post['id']))
                 continue
             elif post['id'] in mute_db['danbooru']:
-                print('[Danbooru] Mute downloaded {0}'.format(post['id']))
+                utils.logger.debug(
+                        '[Danbooru] Mute downloaded {0}'.format(post['id']))
                 continue
             else:
                 downloaded.add(post['id'])
@@ -109,7 +119,7 @@ def main(argv):
             try:
                 response = opener.open(request_url, timeout = TIMEOUT)
             except socket.timeout:
-                print('[Danbooru] Request timeout')
+                utils.logger.info('[Danbooru] Request timeout')
                 return
             image_path = ('./downloads'
                         + '/danbooru-'
@@ -120,19 +130,23 @@ def main(argv):
                 try:
                     f.write(response.read())
                 except socket.timeout:
-                    print('\x1B[38;5;5m[Danbooru] Response timeout\x1B[0m')
+                    utils.logger.info(
+                            ( '\x1B[38;5;5m[Danbooru] '
+                            + 'Response timeout\x1B[0m'))
                     return
-            print('[Danbooru] Downloaded {0}'.format(image_path))
+            utils.logger.debug(
+                    '[Danbooru] Downloaded {0}'.format(image_path))
             # sleep for prevent block
             utils.dynamic_sleep()
 
     # TODO(LuHa): print message about program terminaion
-    print('\x1B[38;5;5m[Danbooru] Terminate danbooru downloader\x1B[0m')
+    utils.logger.info(
+            '\x1B[38;5;5m[Danbooru] Terminate danbooru downloader\x1B[0m')
 
 
 # Maybe it is good, right?
 if __name__ == '__main__':
     if sys.version_info.major != 3:
-        print('[Danbooru] Need python3')
+        utils.logger.critical('[Danbooru] Need python3')
         sys.exit()
     sys.exit(main(sys.argv))

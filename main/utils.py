@@ -177,7 +177,12 @@ options = get_database('options.secret', across = True)
 # INFO 20
 # DEBUG 10
 # NOTSET 0
-FORMAT = '%(created)s:%(levelno)s:%(message)s'
-logging.basicConfig(stream = sys.stdout,
-                    format = FORMAT,
-                    level = options['log'])
+logging.basicConfig(format = 
+        '%(asctime):%(created)s:%(levelno)s:%(message)s')
+logger = logging.getLogger('WM')
+file_handler = logging.FileHandler('wm.log')
+file_handler.setLevel(logging.ERROR)
+console_handler = logging.StreamHandler()
+console_handler.setLevel(options['log'])
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
