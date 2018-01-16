@@ -63,7 +63,7 @@ def main(argv):
     else:
         utils.logger.error(
                 '[Danbooru] Need API key in file named danbooru_api.secret')
-        utils.logger.error(('[Danbooru] The format is ID:APIKEY')
+        utils.logger.error('[Danbooru] The format is ID:APIKEY')
         return
 
     # TODO(LuHa): create opener
