@@ -39,7 +39,7 @@ def get_logging_level_from_user():
     print('  INFO    : 20')
     print('  DEBUG   : 10')
     print('  NOTSET  : 0')
-    level = input('User input(logging level):')
+    level = input('User input(logging level): ')
 
     return int(level)
 
