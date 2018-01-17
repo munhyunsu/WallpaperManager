@@ -185,7 +185,6 @@ logger.propagate = False
 file_handler = logging.FileHandler('wm.log')
 file_handler.setLevel(logging.ERROR)
 console_handler = logging.StreamHandler(sys.stdout)
-#console_handler.setLevel(options['log'])
-console_handler.setLevel(logging.DEBUG)
+console_handler.setLevel(options['log'])
 logger.addHandler(file_handler)
 logger.addHandler(console_handler)
