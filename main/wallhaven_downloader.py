@@ -29,7 +29,8 @@ def main(argv):
     main flow
     """
     # TODO(LuHa): print message about program execution
-    print('\x1B[38;5;5m[Wallhaven] Execute wallhaven downloader\x1B[0m')
+    utils.logger.info(
+            '\x1B[38;5;5m[Wallhaven] Execute wallhaven downloader\x1B[0m')
 
     # TODO(LuHa): create downloads directory
     # actually, this code use only downloads directory.
