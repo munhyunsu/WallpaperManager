@@ -204,7 +204,8 @@ def main(argv):
     cookie_jar.save()
 
     # TODO(Luha): print message about program termination
-    print('\x1B[38;5;5m[Wallhaven] Terminate wallhaven downloader\x1B[0m')
+    utils.logger.info(
+            '\x1B[38;5;5m[Wallhaven] Terminate wallhaven downloader\x1B[0m')
 
 
 
