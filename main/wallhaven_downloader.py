@@ -54,7 +54,7 @@ def main(argv):
             tags = json.load(f_tags)
             tags = tags['wallhaven']
     else:
-        print('[Wallhaven] Need tags in file named tags.secret')
+        utils.logger.error('[Wallhaven] Need tags in file named tags.secret')
         return
 
     # TODO(LuHa): load API keys
