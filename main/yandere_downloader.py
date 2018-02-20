@@ -50,7 +50,7 @@ def main(argv):
             tags = json.load(f_tags)
             tags = tags['yandere']
     else:
-        print('[Yandere] Need tags in file named tags.secret')
+        utils.logger.error('[Yandere] Need tags in file named tags.secret')
         return
 
     # TODO(LuHa): load API keys
