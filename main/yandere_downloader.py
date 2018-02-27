@@ -127,7 +127,8 @@ def main(argv):
             utils.dynamic_sleep()
 
     # TODO(LuHa): print message about program terminaion
-    print('\x1B[38;5;5m[Yandere] Terminate yandere downloader\x1B[0m')
+    utils.logger.info(
+            '\x1B[38;5;5m[Yandere] Terminate yandere downloader\x1B[0m')
 
 
 # Maybe it is good, right?
