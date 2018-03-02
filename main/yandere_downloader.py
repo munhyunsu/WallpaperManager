@@ -55,13 +55,14 @@ def main(argv):
 
     # TODO(LuHa): load API keys
     if os.path.exists('yandere_api.secret'):
-        print('[Yandere] API key exists')
+        utils.logger.debug('[Yandere] API key exists')
         with open('yandere_api.secret', 'r') as f_api:
             api_key = f_api.read()
             api_key = api_key.strip()
     else:
-        print('[Yandere] Need API key in file named yandere_api.secret')
-        print('[Yandere] The format is ID:APIKEY')
+        utils.logger.debug(
+                '[Yandere] Need API key in file named yandere_api.secret')
+        utils.logger.debug('[Yandere] The format is ID:APIKEY')
         return
 
     # TODO(LuHa): create opener
