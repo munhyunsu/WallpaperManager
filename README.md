@@ -29,6 +29,7 @@
   - We need old tag function for compatibility.
 - (Refactoring) The print log function needed.
   - print message with log level.
+- (Refactoring) MVC model
 
 ### The contributed feature(or incoming)
 - None
