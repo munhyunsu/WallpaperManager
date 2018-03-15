@@ -30,6 +30,9 @@
 - (Refactoring) The print log function needed.
   - print message with log level.
 - (Refactoring) MVC model
+  - Model: Database
+  - View: What
+  - Control: CLI
 
 ### The contributed feature(or incoming)
 - None
