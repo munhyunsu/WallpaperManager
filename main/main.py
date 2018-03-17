@@ -3,6 +3,11 @@
 import sys
 
 def main(argv):
+    # TODO(LuHa): Create controller
+
+    # TODO(LuHa): Create Model
+
+    # TODO(LuHa): Create View
     pass
 
 
