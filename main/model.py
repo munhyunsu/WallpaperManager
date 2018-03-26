@@ -2,6 +2,10 @@
 
 import sys
 
+class WallpaperModel(object):
+    def __init__(self):
+        pass
+
 def main(argv):
     # TODO(LuHa): Create controller
 
