@@ -20,6 +20,8 @@ import utils
 # global variable
 from global_variable import TIMEOUT
 
+import pdb
+
 def main(argv):
     """
     main flow
@@ -86,7 +88,6 @@ def main(argv):
         utils.logger.info(
                 '\x1B[38;5;5m[Danbooru] Request: {0}\x1B[0m'.format(
                 request_url))
-
         response = opener.open(request_url, timeout = 30)
         try:
             posts = json.loads(response.read().decode('utf-8'))
@@ -114,9 +115,11 @@ def main(argv):
                 continue
             else:
                 downloaded.add(post['id'])
-
-            request_url = (base_url
-                         + post['file_url'])
+            
+            # Change url rule at 180410
+            #request_url = (base_url
+            #             + post['file_url'])
+            request_url = post['file_url']
             try:
                 response = opener.open(request_url, timeout = TIMEOUT)
             except socket.timeout:
