@@ -117,8 +117,6 @@ def main(argv):
                 downloaded.add(post['id'])
             
             # Change url rule at 180410
-            #request_url = (base_url
-            #             + post['file_url'])
             request_url = post['file_url']
             try:
                 response = opener.open(request_url, timeout = TIMEOUT)
