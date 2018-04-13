@@ -33,6 +33,7 @@
   - Model: Database
   - View: What
   - Control: CLI
+- (Refactoring) Chnage logging method
 
 ### The contributed feature(or incoming)
 - None
