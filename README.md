@@ -33,7 +33,8 @@
   - Model: Database
   - View: What
   - Control: CLI
-- (Refactoring) Chnage logging method
+- (Refactoring) Change logging method
+  - logging module globalization
 
 ### The contributed feature(or incoming)
 - None
