@@ -35,6 +35,7 @@
   - Control: CLI
 - (Refactoring) Change logging method
   - logging module globalization
+  - global module needs
 
 ### The contributed feature(or incoming)
 - None
