@@ -20,8 +20,6 @@ import utils
 # global variable
 from global_variable import TIMEOUT
 
-import pdb
-
 def main(argv):
     """
     main flow
