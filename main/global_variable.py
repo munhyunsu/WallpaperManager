@@ -9,8 +9,6 @@ IMAGESOURCES = ['danbooru',
 # timeout
 TIMEOUT = 30
 
-# Global
-class Global(object):
-    pass
+# 
+import logging
 
-G = Global()
