@@ -8,7 +8,3 @@ IMAGESOURCES = ['danbooru',
 
 # timeout
 TIMEOUT = 30
-
-# 
-import logging
-
