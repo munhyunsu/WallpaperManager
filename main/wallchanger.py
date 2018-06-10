@@ -75,6 +75,7 @@ def main(argv):
     sleep_time = int(sleep_time)
     
     # TODO(LuHa): get user preference about enable or disable auto delete
+    auto_remove = False
     if sleep_time > 0:
         print('If you want to enable auto-delete at auto-changing')
         print('input the y or press any key')
@@ -82,8 +83,6 @@ def main(argv):
         auto_remove = auto_remove.lower()
         if auto_remove == 'y':
             auto_remove = True
-        else:
-            auto_remove = False
 
     # TODO(LuHa): print messages about user preference for convinient
     print('[Changer] Setup complete: '
