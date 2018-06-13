@@ -1,10 +1,5 @@
 # python venv
-/bin
-/include
-/lib
-/lib64
-pip-selfcheck.json
-pyvenv.cfg
+venv/
 
 # Danbooru image directory
 image/
