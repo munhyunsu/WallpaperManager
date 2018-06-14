@@ -29,7 +29,7 @@ def main(argv):
     elif source == 'wallhaven':
         edit_wallhaven(tags)
     elif source == 'pixiv':
-        edit_wallhaven(tags)
+        edit_pixiv(tags)
     else:
         print('[TagEditor] Unknown image source')
         return

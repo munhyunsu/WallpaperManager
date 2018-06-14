@@ -2,7 +2,7 @@
 
 import sys
 
-class WallpaperModel(object):
+class WallpaperDatabase(object):
     def __init__(self):
         pass
 
