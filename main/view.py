@@ -3,16 +3,30 @@
 import sys
 
 class WallpaperViewer(object):
-    def __init__(self):
-        pass
+    def start(self):
+        print('\x1B[38;5;3m'
+            + '\n----+----+ Wallpaper Manager CLI ----+----+'
+            + '\x1B[0m')
 
-def main(argv):
-    # TODO(LuHa): Create controller
+    def main(self):
+        print('----+----+----+ Main menu ----+----+----+')
+        print('0. Change tags set(not available now)')
+        print('1. Edit danbooru search tags')
+        print('2. Edit yandere search tags')
+        print('3. Edit wallhaven search tags')
+        print('4. Edit pixiv search tags')
+        print('c. Check downloaded wallpaper')
+        print('d. Delete file with size 0')
+        print('o. Configuration')
+        print('p. Start wallpaper downloading in parallel')
+        print('s. Start wallpaper downloading in sequential')
+        print('q. Terminate programm')
+        print('----+----+----+----+----+----+----+----+')
 
-    # TODO(LuHa): Create Model
-
-    # TODO(LuHa): Create View
-    pass
+    def end(self):
+        print('\x1B[38;5;3m'
+            + '\n[WallpaperManagerCLI] Terminate wallpaper manager'
+            + '\x1B[0m')
 
 
 if __name__ == '__main__':
