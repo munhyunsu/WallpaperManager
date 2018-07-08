@@ -2,10 +2,9 @@
 
 import sys
 
-class WallpaperController(object):
+class WallpaperViewer(object):
     def __init__(self):
         pass
-
 
 def main(argv):
     # TODO(LuHa): Create controller
