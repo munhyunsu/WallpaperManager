@@ -28,6 +28,10 @@ class WallpaperViewer(object):
             + '\n[WallpaperManagerCLI] Terminate wallpaper manager'
             + '\x1B[0m')
 
+    def tag(self, target, tags):
+        print(target)
+        print(tags)
+
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
