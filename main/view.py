@@ -29,8 +29,13 @@ class WallpaperViewer(object):
             + '\x1B[0m')
 
     def tag(self, target, tags):
-        print(target)
+        print('\n----+----+ Edit {0} tags ----+----+'.format(target))
+        print('Current tag list')
         print(tags)
+        print('a. Add tag')
+        print('d. delete tag')
+        print('b. back')
+
 
 
 if __name__ == '__main__':
