@@ -2,8 +2,14 @@
 
 import sys
 
-class WallpaperDatabase(object):
-    def __init__(self):
+class WallpaperModel(object):
+    def add_tags(self, target, tag):
+        pass
+
+    def delete_tags(self, target, tag):
+        pass
+
+    def downloaded_image(self):
         pass
 
 def main(argv):
