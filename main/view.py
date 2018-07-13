@@ -37,6 +37,8 @@ class WallpaperViewer(object):
         print('b. back')
 
 
+wviewer = WallpaperViewer()
+
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
