@@ -37,6 +37,8 @@
   - logging module globalization
   - global module needs
 - GUI using TK
+  - Viewer needed
+
 
 ### The contributed feature(or incoming)
 - None
