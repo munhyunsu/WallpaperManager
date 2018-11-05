@@ -38,6 +38,7 @@
   - global module needs
 - GUI using TK
   - Viewer needed
+- Parameter passing
 
 
 ### The contributed feature(or incoming)
