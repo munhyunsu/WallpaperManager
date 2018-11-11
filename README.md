@@ -31,7 +31,7 @@
   - print message with log level.
 - (Refactoring) MVC model
   - Model: Database
-  - View: What
+  - View: Message to user
   - Control: CLI
 - (Refactoring) Change logging method
   - logging module globalization
