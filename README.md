@@ -40,6 +40,8 @@
   - Viewer needed
 - Parameter passing
   - argparse
+- Class based scrapper
+  - On going
 
 ### The contributed feature(or incoming)
 - None
