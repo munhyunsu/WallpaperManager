@@ -41,6 +41,7 @@ python3 manager\_cli.py
   - global module needs
 - GUI using TK or GTK3+
   - Viewer needed
+  - Keyboard bind
 - Small functions
   - Split command by command for current working flow
 - Change wallhaven URL
