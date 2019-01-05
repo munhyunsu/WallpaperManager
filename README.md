@@ -33,13 +33,7 @@ python3 manager\_cli.py
 - (Feature) Option function in manager.
 - (Feature) Tag set.
   - We need old tag function for compatibility.
-- (Refactoring) The print log function needed.
-  - print message with log level.
-- (Refactoring) MVC model
-- (Refactoring) Change logging method
-  - logging module globalization
-  - global module needs
-- GUI using TK or GTK3+
+- GUI using TK
   - Viewer needed
   - Keyboard bind
 - Small functions
