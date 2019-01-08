@@ -36,7 +36,7 @@
 - (Refactoring) Change logging method
   - logging module globalization
   - global module needs
-- GUI using TK
+- GUI using TK or GTK3+
   - Viewer needed
 - Parameter passing
   - argparse
