@@ -2,6 +2,8 @@
 
 import sys
 
+
+# Need input in here?
 class WallpaperViewer(object):
     def start(self):
         print('\x1B[38;5;3m'
