@@ -48,7 +48,7 @@
 
 ## Version history
 
-### Scheduled: 1.1.4
+### 190128: 1.1.4
 - (Optimization) Remove unsed code (commented already) in wallchanger.py
 - (GUI) Print message about request url for give user opportunity more information.
 - (Feature) Add command `exit' to terminate program.
