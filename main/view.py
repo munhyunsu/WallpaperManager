@@ -11,6 +11,7 @@ class WallpaperViewer(object):
             + '\x1B[0m')
 
     def main(self):
+        user = dict()
         print('----+----+----+ Main menu ----+----+----+')
         print('0. Change tags set(not available now)')
         print('1. Edit danbooru search tags')
@@ -24,6 +25,16 @@ class WallpaperViewer(object):
         print('s. Start wallpaper downloading in sequential')
         print('q. Terminate programm')
         print('----+----+----+----+----+----+----+----+')
+        user_input = input('Main menu select: ')
+        user_input = user_input.strip().lower()
+        # TODO(LuHa): convert string to global variables(state)
+        if user_input == '0':
+            user['intent'] = 'change_tag_set'
+        elif user_input == '1':
+            user['intent'] = 'edit_danbooru_tag'
+        elif user_input == '2':
+            user['intent'] = 'edit_yandere_tag'
+            
 
     def end(self):
         print('\x1B[38;5;3m'
