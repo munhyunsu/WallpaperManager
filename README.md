@@ -30,6 +30,7 @@
 - (Refactoring) The print log function needed.
   - print message with log level.
 - (Refactoring) MVC model
+  - Observer: https://en.wikipedia.org/wiki/Observer_pattern
   - Model: Database
   - View: Message to user
   - Control: CLI
