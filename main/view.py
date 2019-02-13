@@ -27,7 +27,6 @@ class WallpaperViewer(object):
         print('----+----+----+----+----+----+----+----+')
         user_input = input('Main menu select: ')
         user_input = user_input.strip().lower()
-        # TODO(LuHa): convert string to global variables(state)
         if user_input == '0':
             user['intent'] = 'change_tag_set'
         elif user_input == '1':
