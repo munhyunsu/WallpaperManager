@@ -30,17 +30,11 @@
 - (Refactoring) The print log function needed.
   - print message with log level.
 - (Refactoring) MVC model
-  - Observer: https://en.wikipedia.org/wiki/Observer\_pattern
-  - Model: Database
-  - View: Message to user
-  - Control: CLI
 - (Refactoring) Change logging method
   - logging module globalization
   - global module needs
 - GUI using TK or GTK3+
   - Viewer needed
-- Parameter passing
-  - argparse
 - Class based scrapper
   - On going
 
