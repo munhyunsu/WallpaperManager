@@ -37,6 +37,7 @@
   - Viewer needed
 - Class based scrapper
   - On going
+  - Selenium?
 
 ### The contributed feature(or incoming)
 - None
