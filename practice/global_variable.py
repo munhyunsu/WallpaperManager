@@ -1,1 +1,0 @@
-../main/global_variable.py

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cd ${HOME}/Github/WallpaperManager
-source ./bin/activate
-cd ./WallpaperChanger
-rm change.log
-python3 random_changer_mint_cinnamon.py $@
