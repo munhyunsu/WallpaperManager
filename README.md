@@ -38,6 +38,9 @@
 - Class based scrapper
   - On going
   - Selenium?
+- Small functions
+  - Split command by command for current working flow
+
 
 ### The contributed feature(or incoming)
 - None
