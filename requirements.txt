@@ -1,2 +1,7 @@
-##### Requirements without Version Specifiers #####
+# Upgrade
+pip
+setup-tools
+
+# Parser
 bs4
+
