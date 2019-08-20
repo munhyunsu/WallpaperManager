@@ -37,6 +37,7 @@
   - Viewer needed
 - Small functions
   - Split command by command for current working flow
+- Change wallhaven URL
 
 ### The contributed feature(or incoming)
 - None
