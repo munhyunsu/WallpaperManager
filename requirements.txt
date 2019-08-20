@@ -1,6 +1,6 @@
 # Upgrade
 pip
-setup-tools
+setuptools
 
 # Parser
 bs4
