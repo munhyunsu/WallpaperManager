@@ -12,10 +12,9 @@
 ### main/manager\_cli.py
 - python3 manager\_cli.py
 
-## The feature that need contributon
-
 ### The TODO feature
 - The wallpaper manager GUI version
+  - HTML with socket
 - (Pending) Display the number of images in downloads directory
   - It has some performance issue, so it pend until someone request it.
 - (Optimization) The common code like load tags, search downloaded images, and so on are functionalized.
