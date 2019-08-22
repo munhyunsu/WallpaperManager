@@ -9,8 +9,12 @@
 
 ## Usage
 
+### main/manager\_web.py
+
 ### main/manager\_cli.py
-- python3 manager\_cli.py
+```bash
+python3 manager\_cli.py
+```
 
 ### The TODO feature
 - The wallpaper manager GUI version
