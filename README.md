@@ -41,6 +41,7 @@ python3 manager\_cli.py
 - Small functions
   - Split command by command for current working flow
 - Change wallhaven URL
+  - Now, It is no alpha
 
 ### The contributed feature(or incoming)
 - None
