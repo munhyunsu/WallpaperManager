@@ -1,6 +1,6 @@
-#!/usr/bin/env python
-
 import sys
+# GUI!
+
 
 class WallpaperController(object):
     def __init__(self):
