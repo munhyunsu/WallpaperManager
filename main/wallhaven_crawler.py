@@ -305,10 +305,14 @@ class ImageURIParser(html.parser.HTMLParser):
         self.uris.clear()
 
 
-
-# Maybe it is good, right?
 if __name__ == '__main__':
+    # Check the python version is 3
     if sys.version_info.major != 3:
         print('[Wallhaven] Need python3')
         sys.exit()
-    sys.exit(main(sys.argv))
+    
+    # Argument parse
+
+    # Excute main
+    main()
+
