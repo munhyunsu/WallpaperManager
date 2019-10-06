@@ -312,6 +312,21 @@ if __name__ == '__main__':
         sys.exit()
     
     # Argument parse
+    import argparse
+    parser = argparse.ArgumentParser()
+    
+    parser.add_arguments('-q', '--query', type=str,
+                         required=True,
+                         help='Search keyword')
+    parser.add_arguments('-p', '--purity', type=int,
+                         default=6,
+                         help='The purity of images for downloading')
+    parser.add_arguments('-n' '--nums', type=int,
+                         default=24,
+                         help='The number of images for downloading')
+
+
+                         
 
     # Excute main
     main()
