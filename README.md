@@ -41,8 +41,7 @@ python3 manager\_cli.py
 - Small functions
   - Split command by command for current working flow
 - Change wallhaven URL
-  - Now, It is no alpha
-  - Use APIs
+  - Use [APIv1](https://wallhaven.cc/help/api)
 
 ### The contributed feature(or incoming)
 - None
