@@ -1,27 +1,14 @@
-#!/usr/bin/env python3
-
-# exit, argv
 import sys
-# json
 import json
-# exists, makedirs, path
 import os
-# urlencode
 import urllib.parse
-# openner
 import urllib.request
-# html.parser
 import html.parser
-# html.cookie
 import http.cookiejar
-# timeout
 import socket
-# shuffle
 import random
 
-# utils
 import utils
-# global variable
 from global_variable import TIMEOUT
 
 def main(argv):
@@ -324,9 +311,6 @@ if __name__ == '__main__':
     parser.add_arguments('-n' '--nums', type=int,
                          default=24,
                          help='The number of images for downloading')
-
-
-                         
 
     # Excute main
     main()
