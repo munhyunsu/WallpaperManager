@@ -42,6 +42,7 @@ python3 manager\_cli.py
   - Split command by command for current working flow
 - Change wallhaven URL
   - Now, It is no alpha
+  - Use APIs
 
 ### The contributed feature(or incoming)
 - None
