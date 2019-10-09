@@ -292,18 +292,36 @@ class ImageURIParser(html.parser.HTMLParser):
         self.uris.clear()
 
 
+import config
+
+
 FLAGS = None
 _ = None
 
 
-def get_openner():
+def get_opener(jar_path):
+    jar = http.cookiejar.LWPCookieJar(jar_path)
+    if os.path.exists(jar_path):
+        jar.load()
+    cookie = urllib.request.HTTPCookieProcessor(jar)
     
+    opener = urllib.request.build_opener(cookie)
+    ## If we needed, then add header to opener at here
+    ### opener.addheaders = [(,)]
+
+    return opener
+
+
+def read_config():
+    config = configparser.ConfigParser()
+    config.read(FLAGS.config)
+
+    return config
 
 
 def main():
     print(f'Parsed: {FLAGS}')
     print(f'Unparsed: {_}')
-
 
 
 if __name__ == '__main__':
@@ -319,9 +337,6 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--config', type=str,
                         default='config.ini',
                         help='The configuration file path')
-    parser.add_argument('-j', '--jar', type=str,
-                        default='wallhaven.jar',
-                        help='The cookie jar path')
     parser.add_argument('-q', '--query', type=str,
                         required=True,
                         help='Search keyword')
@@ -335,7 +350,6 @@ if __name__ == '__main__':
 
     # Preprocessing for some arguments
     FLAGS.config = os.path.abspath(os.path.expanduser(FLAGS.config))
-    FLAGS.jar = os.path.abspath(os.path.expanduser(FLAGS.jar))
 
     # Excute main
     main()
