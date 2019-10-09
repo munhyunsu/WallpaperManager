@@ -8,10 +8,10 @@ import http.cookiejar
 import socket
 import random
 
-import utils
-from global_variable import TIMEOUT
+#import utils
+#from global_variable import TIMEOUT
 
-def main(argv):
+def main2(argv):
     """
     main flow
     """
@@ -292,6 +292,20 @@ class ImageURIParser(html.parser.HTMLParser):
         self.uris.clear()
 
 
+FLAGS = None
+_ = None
+
+
+def get_openner():
+    
+
+
+def main():
+    print(f'Parsed: {FLAGS}')
+    print(f'Unparsed: {_}')
+
+
+
 if __name__ == '__main__':
     # Check the python version is 3
     if sys.version_info.major != 3:
@@ -301,16 +315,27 @@ if __name__ == '__main__':
     # Argument parse
     import argparse
     parser = argparse.ArgumentParser()
-    
-    parser.add_arguments('-q', '--query', type=str,
-                         required=True,
-                         help='Search keyword')
-    parser.add_arguments('-p', '--purity', type=int,
-                         default=6,
-                         help='The purity of images for downloading')
-    parser.add_arguments('-n' '--nums', type=int,
-                         default=24,
-                         help='The number of images for downloading')
+ 
+    parser.add_argument('-c', '--config', type=str,
+                        default='config.ini',
+                        help='The configuration file path')
+    parser.add_argument('-j', '--jar', type=str,
+                        default='wallhaven.jar',
+                        help='The cookie jar path')
+    parser.add_argument('-q', '--query', type=str,
+                        required=True,
+                        help='Search keyword')
+    parser.add_argument('-p', '--purity', type=int,
+                        default=6,
+                        help='The purity of images for downloading')
+    parser.add_argument('-n' '--nums', type=int,
+                        default=24,
+                        help='The number of images for downloading')
+    FLAGS, _ = parser.parse_known_args()
+
+    # Preprocessing for some arguments
+    FLAGS.config = os.path.abspath(os.path.expanduser(FLAGS.config))
+    FLAGS.jar = os.path.abspath(os.path.expanduser(FLAGS.jar))
 
     # Excute main
     main()
