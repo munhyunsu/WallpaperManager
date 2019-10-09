@@ -1,6 +1,9 @@
 # Wallhaven
 config.ini
 
+# Cookie jar
+*.jar
+
 # python venv
 venv/
 
