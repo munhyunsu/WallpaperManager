@@ -8,8 +8,6 @@ import http.cookiejar
 import socket
 import random
 
-#import utils
-#from global_variable import TIMEOUT
 
 def main2(argv):
     """
@@ -317,6 +315,10 @@ def read_config():
     config.read(FLAGS.config)
 
     return config
+
+
+def get_images(opener):
+    pass
 
 
 def main():
