@@ -10,9 +10,6 @@ import random
 
 
 def main2(argv):
-    """
-    main flow
-    """
     # TODO(LuHa): print message about program execution
     utils.logger.info(
             '\x1B[38;5;5m[Wallhaven] Execute wallhaven downloader\x1B[0m')
@@ -318,6 +315,7 @@ def read_config():
 
 
 def get_images(opener):
+    # TODO(LuHa): yeild list of images
     pass
 
 
