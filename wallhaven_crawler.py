@@ -323,6 +323,9 @@ def main():
     print(f'Parsed: {FLAGS}')
     print(f'Unparsed: {_}')
 
+    config = read_config()
+    print(f'Config: {config.sections()}')
+
 
 if __name__ == '__main__':
     # Check the python version is 3
