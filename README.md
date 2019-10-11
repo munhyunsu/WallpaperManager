@@ -42,6 +42,7 @@ python3 manager\_cli.py
   - Split command by command for current working flow
 - Change wallhaven URL
   - Use [APIv1](https://wallhaven.cc/help/api)
+  - Change wallhaven downloader architecture
 
 ### The contributed feature(or incoming)
 - None
