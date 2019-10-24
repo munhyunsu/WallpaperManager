@@ -287,22 +287,25 @@ class ImageURIParser(html.parser.HTMLParser):
         self.uris.clear()
 
 
-import config
+import configparser
 
 
 FLAGS = None
 _ = None
-
-
-def get_opener(jar_path):
+def get_cookiejar(jar_path):
     jar = http.cookiejar.LWPCookieJar(jar_path)
     if os.path.exists(jar_path):
         jar.load()
+    return jar
+
+
+def get_opener(jar, api_key):
     cookie = urllib.request.HTTPCookieProcessor(jar)
-    
     opener = urllib.request.build_opener(cookie)
     ## If we needed, then add header to opener at here
-    ### opener.addheaders = [(,)]
+    opener.addheaders = [('X-API-Key', api_key),
+                        # ('User-agent', 'Mozilla/5.0'),
+                        ]
 
     return opener
 
@@ -315,16 +318,44 @@ def read_config():
 
 
 def get_images(opener):
-    # TODO(LuHa): yeild list of images
-    pass
+    # build request URI
+    request_url = 'https://wallhaven.cc/api/v1/search'
+    params = {'categories': '010',
+              'purity': '111',
+              'sorting': 'random',
+             }
+    params_encoded = urllib.parse.urlencode(params)
+    url = f'{request_url}?{params_encoded}'
+
+    # send requests
+    response = opener.open(url)
+    bdata = response.read()
+
+    # parse response
+    jdata = json.loads(bdata.decode('utf-8'))
+
+    for data in jdata['data']:
+        yield data['path']
 
 
 def main():
+    # Print Parameters
     print(f'Parsed: {FLAGS}')
     print(f'Unparsed: {_}')
 
+    # Load configuration
     config = read_config()
-    print(f'Config: {config.sections()}')
+
+    # Build opener
+    jar = get_cookiejar(config['Wallhaven']['jar'])
+    opener = get_opener(jar,
+                        config['Wallhaven']['api_key'])
+
+    for image_path in get_images(opener):
+        print(image_path)
+
+    # Terminate
+    jar.save()
 
 
 if __name__ == '__main__':
@@ -341,7 +372,6 @@ if __name__ == '__main__':
                         default='config.ini',
                         help='The configuration file path')
     parser.add_argument('-q', '--query', type=str,
-                        required=True,
                         help='Search keyword')
     parser.add_argument('-p', '--purity', type=int,
                         default=6,
