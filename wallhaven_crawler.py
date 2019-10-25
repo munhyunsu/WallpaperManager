@@ -41,6 +41,7 @@ def read_config():
 
 def get_images(opener):
     # build request URI
+    ## TODO(LuHa): Need parse Arguments
     request_url = 'https://wallhaven.cc/api/v1/search'
     params = {'categories': '010',
               'purity': '111',
