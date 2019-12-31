@@ -42,7 +42,6 @@ def refresh(root, images):
     global IMAGE
     ## Grid containner
     my_img = resized_image(images.pop(0))
-    IMAGE = my_img
     my_label = Label(image=my_img)
     my_label.grid(row=0, column=0, columnspan=3)
     
@@ -55,8 +54,11 @@ def refresh(root, images):
     button_addfav.grid(row=1, column=1)
     button_ban.grid(row=1, column=2)
     
-    my_label.after(1000, refresh, root, images)
-
+    if images:
+        IMAGE = my_img
+        my_label.after(100, refresh, root, images)
+    else:
+        root.quit()
 
 def main():
     ## Prepare excution
