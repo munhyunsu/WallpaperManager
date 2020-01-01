@@ -45,8 +45,6 @@ def refresh(root, images):
     global IMAGE
     ## Grid containner
     my_img = resized_image(images.pop(0))
-    #my_label = Label(image=my_img)
-    #my_label.grid(row=0, column=0, columnspan=3)
     my_canvas = Canvas(width=IMAGE_SIZE[0], height=IMAGE_SIZE[1])
     my_canvas.create_image(IMAGE_SIZE[0]/2, IMAGE_SIZE[1]/2, image=my_img)
     my_canvas.grid(row=0, column=0, columnspan=3)
@@ -60,11 +58,11 @@ def refresh(root, images):
     button_addfav.grid(row=1, column=1)
     button_ban.grid(row=1, column=2)
     
+    IMAGE = my_img
     if images:
-        IMAGE = my_img
         my_canvas.after(100*10, refresh, root, images)
     else:
-        root.quit()
+        my_canvas.after(100*10, root.quit)
 
 #def configure(event):
 #    global IMAGE_SIZE
