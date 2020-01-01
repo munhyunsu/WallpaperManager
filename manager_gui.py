@@ -1,12 +1,14 @@
 import os
 import random
 
-from tkinter import Tk, PhotoImage, Label, Button
+from tkinter import Tk, Label, Button, Canvas
 from PIL import ImageTk, Image
 
 IMAGE_DIR = os.path.abspath(os.path.expanduser('~/.slideshow'))
 IMAGE_SIZE = ((1366, 768))
+ROOT = None
 IMAGE = None
+IMAGES = None
 
 def download():
     print('clicked download')
@@ -33,6 +35,7 @@ def get_images():
                 if entry.is_file():
                     images.append(entry.path)
                 elif entry.is_dir():
+                    continue # TODO(LuHa): Need to change
                     dirs.append(entry.path)
 
     random.shuffle(images)
@@ -42,8 +45,11 @@ def refresh(root, images):
     global IMAGE
     ## Grid containner
     my_img = resized_image(images.pop(0))
-    my_label = Label(image=my_img)
-    my_label.grid(row=0, column=0, columnspan=3)
+    #my_label = Label(image=my_img)
+    #my_label.grid(row=0, column=0, columnspan=3)
+    my_canvas = Canvas(width=IMAGE_SIZE[0], height=IMAGE_SIZE[1])
+    my_canvas.create_image(IMAGE_SIZE[0]/2, IMAGE_SIZE[1]/2, image=my_img)
+    my_canvas.grid(row=0, column=0, columnspan=3)
     
     ## Button
     button_download = Button(root, text='Download', command=download)
@@ -56,23 +62,37 @@ def refresh(root, images):
     
     if images:
         IMAGE = my_img
-        my_label.after(100, refresh, root, images)
+        my_canvas.after(100*10, refresh, root, images)
     else:
         root.quit()
+
+#def configure(event):
+#    global IMAGE_SIZE
+#    global ROOT
+#    global IMAGES
+#    ROOT.update()
+#    if event.x == 0 and event.y ==0:
+#        if IMAGE_SIZE != (ROOT.winfo_width()-2, ROOT.winfo_height()-33):
+#            IMAGE_SIZE = (ROOT.winfo_width()-2, ROOT.winfo_height()-33)
+#            for slave in ROOT.grid_slaves():
+#                slave.grid_forget()
 
 def main():
     ## Prepare excution
     os.makedirs(IMAGE_DIR, mode=0o766, exist_ok=True)
     images = get_images()
     root = Tk()
+    root.resizable(False, False)
 
     ## Window title and icon
     root.title('Wallpaper Manager GUI')
-    icon = PhotoImage(file=os.path.abspath(
+    icon = ImageTk.PhotoImage(file=os.path.abspath(
                            os.path.expanduser('./icon.png')))
     root.tk.call('wm', 'iconphoto', root._w, icon)
 
     refresh(root, images)
+
+#    root.bind('<Configure>', configure)
 
     ## Tkinter mainloop
     root.mainloop()
