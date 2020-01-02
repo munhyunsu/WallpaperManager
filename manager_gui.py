@@ -62,16 +62,8 @@ def refresh(root, images):
     else:
         my_canvas.after(100*10, root.quit)
 
-#def configure(event):
-#    global IMAGE_SIZE
-#    global ROOT
-#    global IMAGES
-#    ROOT.update()
-#    if event.x == 0 and event.y ==0:
-#        if IMAGE_SIZE != (ROOT.winfo_width()-2, ROOT.winfo_height()-33):
-#            IMAGE_SIZE = (ROOT.winfo_width()-2, ROOT.winfo_height()-33)
-#            for slave in ROOT.grid_slaves():
-#                slave.grid_forget()
+def configure(event):
+    pass
 
 def main():
     global IMAGE_SIZE
@@ -92,7 +84,7 @@ def main():
 
     refresh(root, images)
 
-#    root.bind('<Configure>', configure)
+    root.bind('<Configure>', configure)
 
     ## Tkinter mainloop
     root.mainloop()
