@@ -5,10 +5,8 @@ from tkinter import Tk, Label, Button, Canvas
 from PIL import ImageTk, Image
 
 IMAGE_DIR = os.path.abspath(os.path.expanduser('~/.slideshow'))
-IMAGE_SIZE = ((1366, 768))
-ROOT = None
+IMAGE_SIZE = ([1366, 768])
 IMAGE = None
-IMAGES = None
 
 def download():
     print('clicked download')
@@ -76,11 +74,15 @@ def refresh(root, images):
 #                slave.grid_forget()
 
 def main():
+    global IMAGE_SIZE
     ## Prepare excution
     os.makedirs(IMAGE_DIR, mode=0o766, exist_ok=True)
     images = get_images()
     root = Tk()
     root.resizable(False, False)
+    IMAGE_SIZE[0] = root.winfo_screenwidth()/1.5
+    IMAGE_SIZE[1] = root.winfo_screenheight()/1.5
+    IMAGE_SIZE = tuple(IMAGE_SIZE)
 
     ## Window title and icon
     root.title('Wallpaper Manager GUI')
