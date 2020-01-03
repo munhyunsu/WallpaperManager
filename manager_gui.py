@@ -1,12 +1,30 @@
 import os
 import random
 
-from tkinter import Tk, Label, Button, Canvas
+from tkinter import Frame, Tk, Label, Button, Canvas
 from PIL import ImageTk, Image
 
 IMAGE_DIR = os.path.abspath(os.path.expanduser('~/.slideshow'))
 IMAGE_SIZE = ([1366, 768])
 IMAGE = None
+
+
+class Application(Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.pack()
+        self.create_widgets()
+
+    def create_widgets(self):
+        pass
+
+    def update_image(self):
+        pass
+
+    def configure(self, event):
+        pass
+
 
 def download():
     print('clicked download')
