@@ -9,7 +9,10 @@
 
 ## Usage
 
-### main/manager\_web.py
+### main/manager\_gui.py
+```bash
+python3 manager\_gui.py
+```
 
 ### main/manager\_cli.py
 ```bash
