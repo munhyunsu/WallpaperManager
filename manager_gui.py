@@ -15,6 +15,7 @@ class Application(Frame):
         self.master = master
         #self.pack()
         self.create_widgets()
+        self.bind_shortcut()
 
     def create_widgets(self):
         self._get_images()
@@ -52,11 +53,11 @@ class Application(Frame):
     def _create_buttons(self):
         self.buttons = dict()
         self.buttons['Download'] = Button(root, text='Download', 
-                                          command=download)
+                                          command=self.download)
         self.buttons['AddFav'] = Button(root, text='Add to favorite', 
-                                        command=addfav)
+                                        command=self.addfav)
         self.buttons['Ban'] = Button(root, text='Ban', 
-                                     command=ban)
+                                     command=self.ban)
     
         self.buttons['Download'].grid(row=1, column=0)
         self.buttons['AddFav'].grid(row=1, column=1)
@@ -70,19 +71,24 @@ class Application(Frame):
     def _configure(self, event):
         print(event)
 
+    def bind_shortcut(self):
+        self.master.bind('a', self.addfav)
 
-def download():
-    print('clicked download')
-    return
+    def download(self):
+        print('clicked download')
+        return
 
+    def delete(self):
+        print('clicked delete')
+        return
 
-def ban():
-    print('clicked ban')
-    return
+    def ban(self):
+        print('clicked ban')
+        return
 
-def addfav():
-    print('clicked addfav')
-    return
+    def addfav(self):
+        print('clicked addfav')
+        return
 
 
 if __name__ == '__main__':
