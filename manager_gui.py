@@ -54,6 +54,8 @@ class Application(Frame):
         self.buttons = dict()
         self.buttons['Download'] = Button(root, text='Download', 
                                           command=self.download)
+        self.buttons['Delete'] = Button(root, text='Delete',
+                                        command=self.delete)
         self.buttons['AddFav'] = Button(root, text='Add to favorite', 
                                         command=self.addfav)
         self.buttons['Ban'] = Button(root, text='Ban', 
