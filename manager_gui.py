@@ -62,8 +62,9 @@ class Application(Frame):
                                      command=self.ban)
     
         self.buttons['Download'].grid(row=1, column=0)
-        self.buttons['AddFav'].grid(row=1, column=1)
-        self.buttons['Ban'].grid(row=1, column=2)
+        self.buttons['Delete'].grid(row=1, column=1)
+        self.buttons['AddFav'].grid(row=1, column=2)
+        self.buttons['Ban'].grid(row=1, column=3)
 
     def _update_image(self):
         img = Image.open(self.images.pop(0))
