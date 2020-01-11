@@ -48,7 +48,7 @@ class Application(Frame):
         self.my_canvas = Canvas(width=IMAGE_SIZE[0], height=IMAGE_SIZE[1])
         self.my_canvas.create_image(IMAGE_SIZE[0]/2, IMAGE_SIZE[1]/2, 
                                     image=self.my_img)
-        self.my_canvas.grid(row=0, column=0, columnspan=3)
+        self.my_canvas.grid(row=0, column=0, columnspan=4)
 
     def _create_buttons(self):
         self.buttons = dict()
