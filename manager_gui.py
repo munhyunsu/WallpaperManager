@@ -13,7 +13,6 @@ class Application(Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        #self.pack()
         self.create_widgets()
         self.bind_shortcut()
 
@@ -76,6 +75,8 @@ class Application(Frame):
 
     def bind_shortcut(self):
         self.master.bind('a', self.addfav)
+        self.master.bind('d', self.delete)
+        self.master.bind('b', self.ban)
 
     def download(self):
         print('clicked download')
