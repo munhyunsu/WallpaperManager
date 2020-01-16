@@ -2,6 +2,9 @@
 pip
 setuptools
 
+# Manager
+Pillow
+
 # Parser
 bs4
 
