@@ -13,6 +13,7 @@ class Application(Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
+        # TODO(LuHa): Setting icon
         self.create_widgets()
         self.bind_shortcut()
 
@@ -39,7 +40,7 @@ class Application(Frame):
                     if entry.is_file():
                         self.images.append(entry.path)
                     elif entry.is_dir():
-                        continue # TODO(LuHa): Need to change
+                        continue # TODO(LuHa): Config file
                         dirs.append(entry.path)
         random.shuffle(self.images)
 
