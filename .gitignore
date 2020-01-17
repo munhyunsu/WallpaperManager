@@ -1,3 +1,6 @@
+# GUI icon
+*.png
+
 # Wallhaven
 config.ini
 
