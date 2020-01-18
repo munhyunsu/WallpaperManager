@@ -10,14 +10,14 @@
 ## Usage
 
 ### main/manager\_gui.py
-```bash
-python3 manager\_gui.py
-```
+  ```bash
+  python3 manager_gui.py
+  ```
 
 ### main/manager\_cli.py
-```bash
-python3 manager\_cli.py
-```
+  ```bash
+  python3 manager_cli.py
+  ```
 
 ### The TODO feature
 - The wallpaper manager GUI version
