@@ -20,24 +20,6 @@
   ```
 
 ### The TODO feature
-- The wallpaper manager GUI version
-  - HTML with socket
-- (Pending) Display the number of images in downloads directory
-  - It has some performance issue, so it pend until someone request it.
-- (Optimization) The common code like load tags, search downloaded images, and so on are functionalized.
-- (Optimization) Move current working directory from execution location to source code location.
-- (Feature) Add a pixiv to the image source.
-  - (Not yet) The user can select artist, daily/monthly/yealy rank. tag as image search keyword.
-- (GUI) Cut-off log for getting information easily.
-  - The cut-off option need.
-- (Feature) Option function in manager.
-- (Feature) Tag set.
-  - We need old tag function for compatibility.
-- GUI using TK
-  - Viewer needed
-  - Keyboard bind
-- Small functions
-  - Split command by command for current working flow
 - Change wallhaven URL
   - Use [APIv1](https://wallhaven.cc/help/api)
   - Change wallhaven downloader architecture
@@ -46,6 +28,9 @@
 - None
 
 ## Version history
+
+### 2001xx: 2.0.0a
+- GUI version!
 
 ### 190128: 1.1.4
 - (Optimization) Remove unsed code (commented already) in wallchanger.py
