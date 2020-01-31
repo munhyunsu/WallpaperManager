@@ -30,7 +30,7 @@ class Application(Frame):
         if self.images:
             self.my_canvas.after(100*10, self.next_image)
         else:
-            self.my_canvas.after(100*10, root.quit)
+            self.my_canvas.after(100*10, self.master.quit)
 
     def _get_images(self):
         self.images = list()
@@ -54,13 +54,13 @@ class Application(Frame):
 
     def _create_buttons(self):
         self.buttons = dict()
-        self.buttons['Download'] = Button(root, text='Download', 
+        self.buttons['Download'] = Button(root, text='[S] Download', 
                                           command=self.download)
-        self.buttons['Delete'] = Button(root, text='Delete',
+        self.buttons['Delete'] = Button(root, text='[D] Delete',
                                         command=self.delete)
-        self.buttons['AddFav'] = Button(root, text='Add to favorite', 
+        self.buttons['AddFav'] = Button(root, text='[F] Add to favorite', 
                                         command=self.addfav)
-        self.buttons['Ban'] = Button(root, text='Ban', 
+        self.buttons['Ban'] = Button(root, text='[B] Ban', 
                                      command=self.ban)
     
         self.buttons['Download'].grid(row=1, column=0)
@@ -77,24 +77,31 @@ class Application(Frame):
         print(event)
 
     def bind_shortcut(self):
+        self.master.bind('s', self.download)
         self.master.bind('a', self.addfav)
         self.master.bind('d', self.delete)
         self.master.bind('b', self.ban)
+        self.master.bind('q', self.quit)
 
-    def download(self):
-        print('clicked download')
+    def download(self, event):
+        print(f'clicked download {event}')
         return
 
-    def delete(self):
-        print('clicked delete')
+    def delete(self, event):
+        print(f'clicked delete {event}')
         return
 
-    def ban(self):
-        print('clicked ban')
+    def ban(self, event):
+        print(f'clicked ban {event}')
         return
 
-    def addfav(self):
-        print('clicked addfav')
+    def addfav(self, event):
+        print(f'clicked addfav {event}')
+        return
+
+    def quit(self, event):
+        print(f'clicked quit {event}')
+        self.master.quit()
         return
 
 
