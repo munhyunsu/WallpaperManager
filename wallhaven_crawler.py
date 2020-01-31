@@ -61,6 +61,18 @@ def get_images(opener):
         yield data['path']
 
 
+def download_images(opener, url):
+    response = opener.open(url)
+    bdata = response.read()
+    opath = os.path.join(os.path.abspath(os.path.expanduser('./images')),
+                         os.path.basename(response.url))
+
+    with open(opath, 'wb') as f:
+        f.write(bdata)
+
+    return
+
+
 def main():
     # Print Parameters
     print(f'Parsed: {FLAGS}')
@@ -69,6 +81,10 @@ def main():
     # Load configuration
     config = read_config()
 
+    # make saved directory
+    os.makedirs(os.path.abspath(os.path.expanduser('./images')),
+                exist_ok=True)
+
     # Build opener
     jar = get_cookiejar(config['Wallhaven']['jar'])
     opener = get_opener(jar,
@@ -76,6 +92,8 @@ def main():
 
     for image_path in get_images(opener):
         print(image_path)
+        download_images(opener, image_path)
+        break
 
     # Terminate
     jar.save()
