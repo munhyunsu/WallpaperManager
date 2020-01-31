@@ -29,7 +29,7 @@
 
 ## Version history
 
-### 2001xx: 2.0.0a
+### 2002xx: 2.0.0a
 - GUI version!
 
 ### 190128: 1.1.4
