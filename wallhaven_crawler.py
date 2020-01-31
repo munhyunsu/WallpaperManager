@@ -7,70 +7,75 @@ import html.parser
 import http.cookiejar
 import socket
 import random
+import yaml
 import configparser
+import time
+import random
 
 
 FLAGS = None
 _ = None
+CFG = None
+OPENER = None
+JAR = None
 
 
-def get_cookiejar(jar_path):
-    jar = http.cookiejar.LWPCookieJar(jar_path)
-    if os.path.exists(jar_path):
-        jar.load()
-    return jar
+def load_config():
+    global CFG
+    with open(FLAGS.config, 'r') as f:
+        CFG = yaml.safe_load(f)
 
 
-def get_opener(jar, api_key):
-    cookie = urllib.request.HTTPCookieProcessor(jar)
-    opener = urllib.request.build_opener(cookie)
-    ## If we needed, then add header to opener at here
-    opener.addheaders = [('X-API-Key', api_key),
-                        # ('User-agent', 'Mozilla/5.0'),
-                        ]
+def get_images():
+    global CFG
+    global OPENER
+    base_url = 'https://wallhaven.cc/api/v1/search'
 
-    return opener
-
-
-def read_config():
-    config = configparser.ConfigParser()
-    config.read(FLAGS.config)
-
-    return config
+    for params in CFG['wallhaven']['tags']:
+        params_encoded = urllib.parse.urlencode(params)
+        url = f'{base_url}?{params_encoded}'
+        response = OPENER.open(url)
+        jdata = json.loads(response.read().decode('utf-8'))
+        for data in jdata['data']:
+            yield data['path']
 
 
-def get_images(opener):
-    # build request URI
-    ## TODO(LuHa): Need parse Arguments
-    request_url = 'https://wallhaven.cc/api/v1/search'
-    params = {'categories': '010',
-              'purity': '111',
-              'sorting': 'random',
-             }
-    params_encoded = urllib.parse.urlencode(params)
-    url = f'{request_url}?{params_encoded}'
-
-    # send requests
-    response = opener.open(url)
-    bdata = response.read()
-
-    # parse response
-    jdata = json.loads(bdata.decode('utf-8'))
-
-    for data in jdata['data']:
-        yield data['path']
-
-
-def download_images(opener, url):
-    response = opener.open(url)
-    bdata = response.read()
-    opath = os.path.join(os.path.abspath(os.path.expanduser('./images')),
+def download_images(url):
+    global CFG
+    global OPENER
+    response = OPENER.open(url)
+    opath = os.path.join(os.path.abspath(os.path.expanduser(CFG['output'])),
                          os.path.basename(response.url))
 
     with open(opath, 'wb') as f:
-        f.write(bdata)
+        f.write(response.read())
 
-    return
+
+def before_job():
+    global CFG
+    global OPENER
+    global JAR
+    os.makedirs(os.path.abspath(os.path.expanduser(CFG['output'])),
+                exist_ok=True)
+    JAR = http.cookiejar.LWPCookieJar(CFG['wallhaven']['jar'])
+    if os.path.exists(CFG['wallhaven']['jar']):
+        JAR.load()
+    cookie = urllib.request.HTTPCookieProcessor(JAR)
+    OPENER = urllib.request.build_opener(cookie)
+    OPENER.addheaders = [('X-API-Key', CFG['wallhaven']['api_key']),
+                        ]
+
+
+def after_job():
+    global JAR
+    JAR.save()
+
+
+def do_job():
+    for image_path in get_images():
+        download_images(image_path)
+        print(f'downloaded {image_path}')
+        time.sleep(random.randint(0, 3))
 
 
 def main():
@@ -79,24 +84,13 @@ def main():
     print(f'Unparsed: {_}')
 
     # Load configuration
-    config = read_config()
+    load_config()
 
-    # make saved directory
-    os.makedirs(os.path.abspath(os.path.expanduser('./images')),
-                exist_ok=True)
+    before_job()
 
-    # Build opener
-    jar = get_cookiejar(config['Wallhaven']['jar'])
-    opener = get_opener(jar,
-                        config['Wallhaven']['api_key'])
+    do_job()
 
-    for image_path in get_images(opener):
-        print(image_path)
-        download_images(opener, image_path)
-        break
-
-    # Terminate
-    jar.save()
+    after_job()
 
 
 if __name__ == '__main__':
@@ -110,16 +104,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
  
     parser.add_argument('-c', '--config', type=str,
-                        default='config.ini',
+                        default='config.yaml',
                         help='The configuration file path')
-    parser.add_argument('-q', '--query', type=str,
-                        help='Search keyword')
-    parser.add_argument('-p', '--purity', type=int,
-                        default=6,
-                        help='The purity of images for downloading')
-    parser.add_argument('-n' '--nums', type=int,
-                        default=24,
-                        help='The number of images for downloading')
     FLAGS, _ = parser.parse_known_args()
 
     # Preprocessing for some arguments
