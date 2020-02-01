@@ -1,11 +1,10 @@
 # GUI icon
 *.png
 
-# Wallhaven
-config.ini
-
-# Cookie jar
+# Configuration
 *.jar
+*.ini
+*.yaml
 
 # python venv
 venv/
