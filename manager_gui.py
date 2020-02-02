@@ -3,19 +3,25 @@ import random
 
 from tkinter import Frame, Tk, Label, Button, Canvas, PhotoImage
 from PIL import ImageTk, Image
+import yaml
 
-ICON = os.path.abspath(os.path.expanduser('./icon.png'))
-IMAGE_DIR = os.path.abspath(os.path.expanduser('~/.slideshow'))
+from config_manager import load_config
+
+FLAGS = None
+_ = None
+CFG = None
 IMAGE_SIZE = ([1366, 768])
 IMAGE = None
 
 
 class Application(Frame):
     def __init__(self, master=None):
+        global CFG
         super().__init__(master)
         self.master = master
         self.master.tk.call('wm', 'iconphoto', 
-                            self.master._w, PhotoImage(file=ICON))
+                            self.master._w, 
+                            PhotoImage(file=CFG['icon']))
         self.create_widgets()
         self.bind_shortcut()
 
@@ -28,13 +34,13 @@ class Application(Frame):
         self._update_image()
         self._create_canvas()
         if self.images:
-            self.my_canvas.after(100*10, self.next_image)
+            self.my_canvas.after(100*CFG['timeout'], self.next_image)
         else:
-            self.my_canvas.after(100*10, self.master.quit)
+            self.my_canvas.after(100*CFG['timeout'], self.master.quit)
 
     def _get_images(self):
         self.images = list()
-        dirs = [IMAGE_DIR]
+        dirs = [CFG['output']]
         while dirs:
             path = dirs.pop(0)
             with os.scandir(path) as it:
@@ -47,20 +53,22 @@ class Application(Frame):
         random.shuffle(self.images)
 
     def _create_canvas(self):
-        self.my_canvas = Canvas(width=IMAGE_SIZE[0], height=IMAGE_SIZE[1])
-        self.my_canvas.create_image(IMAGE_SIZE[0]/2, IMAGE_SIZE[1]/2, 
+        self.my_canvas = Canvas(width=CFG['size']['width'],
+                                height=CFG['size']['height'])
+        self.my_canvas.create_image(CFG['size']['width']/2,
+                                    CFG['size']['height']/2,
                                     image=self.my_img)
         self.my_canvas.grid(row=0, column=0, columnspan=4)
 
     def _create_buttons(self):
         self.buttons = dict()
-        self.buttons['Download'] = Button(root, text='[S] Download', 
+        self.buttons['Download'] = Button(self.master, text='[S] Download', 
                                           command=self.download)
-        self.buttons['Delete'] = Button(root, text='[D] Delete',
+        self.buttons['Delete'] = Button(self.master, text='[D] Delete',
                                         command=self.delete)
-        self.buttons['AddFav'] = Button(root, text='[F] Add to favorite', 
+        self.buttons['AddFav'] = Button(self.master, text='[F] Add to favorite', 
                                         command=self.addfav)
-        self.buttons['Ban'] = Button(root, text='[B] Ban', 
+        self.buttons['Ban'] = Button(self.master, text='[B] Ban', 
                                      command=self.ban)
     
         self.buttons['Download'].grid(row=1, column=0)
@@ -70,7 +78,7 @@ class Application(Frame):
 
     def _update_image(self):
         img = Image.open(self.images.pop(0))
-        img.thumbnail(IMAGE_SIZE)
+        img.thumbnail((CFG['size']['width'], CFG['size']['height']))
         self.my_img = ImageTk.PhotoImage(img)
 
     def _configure(self, event):
@@ -105,8 +113,33 @@ class Application(Frame):
         return
 
 
-if __name__ == '__main__':
+def main():
+    global CFG
+    # Print Parameters
+    print(f'Parsed: {FLAGS}')
+    print(f'Unparsed: {_}')
+
+    # load configuration
+    CFG = load_config(FLAGS.config)
+
+    # Create Tk Application
     root = Tk()
     app = Application(master=root)
     app.mainloop()
+
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+ 
+    parser.add_argument('-c', '--config', type=str,
+                        default='config.yaml',
+                        help='The configuration file path')
+    FLAGS, _ = parser.parse_known_args()
+
+    # Preprocessing for some arguments
+    FLAGS.config = os.path.abspath(os.path.expanduser(FLAGS.config))
+
+    # Excute main
+    main()
 
