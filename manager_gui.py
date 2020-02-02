@@ -1,5 +1,6 @@
 import os
 import random
+import csv
 
 from tkinter import Frame, Tk, Label, Button, Canvas, PhotoImage
 from PIL import ImageTk, Image
@@ -10,8 +11,6 @@ from config_manager import load_config
 FLAGS = None
 _ = None
 CFG = None
-IMAGE_SIZE = ([1366, 768])
-IMAGE = None
 
 
 class Application(Frame):
@@ -24,6 +23,8 @@ class Application(Frame):
                             PhotoImage(file=CFG['icon']))
         self.create_widgets()
         self.bind_shortcut()
+        # member variables
+        self.ban = set()
 
     def create_widgets(self):
         self._get_images()
@@ -31,12 +32,14 @@ class Application(Frame):
         self._create_buttons()
 
     def next_image(self):
+        if not self.images:
+            self.quit()
+            return
         self._update_image()
         self._create_canvas()
-        if self.images:
-            self.my_canvas.after(100*CFG['timeout'], self.next_image)
-        else:
-            self.my_canvas.after(100*CFG['timeout'], self.master.quit)
+        self.my_canvas.after_cancel(self.after)
+        self.after = self.my_canvas.after(100*CFG['timeout'], 
+                                          self.next_image)
 
     def _get_images(self):
         self.images = list()
@@ -77,7 +80,8 @@ class Application(Frame):
         self.buttons['Ban'].grid(row=1, column=3)
 
     def _update_image(self):
-        img = Image.open(self.images.pop(0))
+        self.my_path = self.images.pop(0)
+        img = Image.open(self.my_path)
         img.thumbnail((CFG['size']['width'], CFG['size']['height']))
         self.my_img = ImageTk.PhotoImage(img)
 
@@ -85,32 +89,51 @@ class Application(Frame):
         print(event)
 
     def bind_shortcut(self):
+        self.master.protocol('WM_DELETE_WINDOW', self.quit)
         self.master.bind('s', self.download)
         self.master.bind('a', self.addfav)
+        self.master.bind('<Return>', self.addfav)
         self.master.bind('d', self.delete)
+        self.master.bind('<space>', self.delete)
         self.master.bind('b', self.ban)
         self.master.bind('q', self.quit)
 
-    def download(self, event):
+    def download(self, event=None):
         print(f'clicked download {event}')
-        return
 
-    def delete(self, event):
-        print(f'clicked delete {event}')
-        return
+    def delete(self, event=None):
+        if os.path.exists(self.my_path):
+            os.remove(self.my_path)
+            self.next_image()
+            print(f'Deleted image {self.my_path}')
 
-    def ban(self, event):
-        print(f'clicked ban {event}')
-        return
+    def ban(self, event=None):
+        bname = os.path.basename(self.my_path)
+        self.ban.add(bname)
+        self.delete()
 
-    def addfav(self, event):
-        print(f'clicked addfav {event}')
-        return
+    def addfav(self, event=None):
+        os.makedirs(os.path.abspath(os.path.expanduser(CFG['fav'])),
+                    exist_ok=True)
+        if os.path.exists(self.my_path):
+            fname = os.path.basename(self.my_path)
+            dst = os.path.join(CFG['fav'], fname)
+            os.rename(self.my_path, dst)
+            self.next_image()
+            print(f'Add {self.my_path} to fav')
 
-    def quit(self, event):
-        print(f'clicked quit {event}')
+    def quit(self, event=None):
+        if os.path.exists(CFG['ban']):
+            with open(CFG['ban'], 'r') as f:
+                reader = csv.reader(f)
+                for row in reader:
+                    self.ban.add(row[0])
+        with open(CFG['ban'], 'w') as f:
+            writer = csv.writer(f)
+            for entry in sorted(list(self.ban)):
+                writer.writerow([entry])
         self.master.quit()
-        return
+        print(f'Save ban list and quit')
 
 
 def main():
