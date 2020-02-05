@@ -4,6 +4,7 @@ setuptools
 
 # Manager
 Pillow
+Send2Trash
 
 # Parser
 bs4

@@ -1,10 +1,12 @@
 import os
 import random
 import csv
+import subprocess
 
 from tkinter import Frame, Tk, Label, Button, Canvas, PhotoImage
 from PIL import ImageTk, Image
 import yaml
+from send2trash import send2trash
 
 from config_manager import load_config
 
@@ -99,11 +101,12 @@ class Application(Frame):
         self.master.bind('q', self.quit)
 
     def download(self, event=None):
+        print(os.path.abspath(os.path.expanduser(__file__)))
         print(f'clicked download {event}')
 
     def delete(self, event=None):
         if os.path.exists(self.my_path):
-            os.remove(self.my_path)
+            send2trash(self.my_path)
             self.next_image()
             print(f'Deleted image {self.my_path}')
 
