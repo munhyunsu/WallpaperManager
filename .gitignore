@@ -5,6 +5,8 @@
 *.jar
 *.ini
 *.yaml
+ban.csv
+images/
 
 # python venv
 venv/
