@@ -54,6 +54,7 @@ class Application(Frame):
                         self.images.append(entry.path)
                     elif entry.is_dir():
                         continue # TODO(LuHa): Config file
+                        # CFG['rec'] 
                         dirs.append(entry.path)
         random.shuffle(self.images)
 
