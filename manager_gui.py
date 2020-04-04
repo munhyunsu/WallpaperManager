@@ -2,6 +2,7 @@ import os
 import random
 import csv
 import subprocess
+import shlex
 
 from tkinter import Frame, Tk, Label, Button, Canvas, PhotoImage
 from PIL import ImageTk, Image
@@ -27,6 +28,7 @@ class Application(Frame):
         self.bind_shortcut()
         # member variables
         self.ban = set()
+        self.proc = None
 
     def create_widgets(self):
         self._get_images()
@@ -40,7 +42,7 @@ class Application(Frame):
         self._update_image()
         self._create_canvas()
         self.my_canvas.after_cancel(self.after)
-        self.after = self.my_canvas.after(100*CFG['timeout'], 
+        self.after = self.my_canvas.after(1000*CFG['timeout'], 
                                           self.next_image)
 
     def _get_images(self):
@@ -102,8 +104,21 @@ class Application(Frame):
         self.master.bind('q', self.quit)
 
     def download(self, event=None):
-        print(os.path.abspath(os.path.expanduser(__file__)))
-        print(f'clicked download {event}')
+        if self.proc is None:
+            cmd = 'python3 wallhaven_crawler.py'
+            cmd = shlex.split(cmd)
+            self.proc = subprocess.Popen(cmd)
+            self._check_proc()
+            print(f'Executed downloader {self.proc.pid}')
+        else:
+            print(f'Still running {self.proc.pid}')
+
+    def _check_proc(self):
+        if self.proc.poll() is None:
+            self.buttons['Download'].after(1000*CFG['timeout'],
+                                           self._check_proc)
+        else:
+            self.proc = None
 
     def delete(self, event=None):
         if os.path.exists(self.my_path):
@@ -127,6 +142,9 @@ class Application(Frame):
             print(f'Add {self.my_path} to fav')
 
     def quit(self, event=None):
+        while self.proc is not None:
+            print(f'Wait for terminating {self.proc.pid}')
+            time.sleep(1000*CFG['timeout'])
         if os.path.exists(CFG['ban']):
             with open(CFG['ban'], 'r') as f:
                 reader = csv.reader(f)
@@ -156,6 +174,10 @@ def main():
 
 
 if __name__ == '__main__':
+    root_path = os.path.abspath(__file__)
+    root_dir = os.path.dirname(root_path)
+    os.chdir(root_dir)
+
     import argparse
     parser = argparse.ArgumentParser()
  
