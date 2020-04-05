@@ -114,11 +114,13 @@ class Application(Frame):
             print(f'Still running {self.proc.pid}')
 
     def _check_proc(self):
-        if self.proc.poll() is None:
+        ret = self.proc.poll()
+        if ret is None:
             self.buttons['Download'].after(1000*CFG['timeout'],
                                            self._check_proc)
         else:
             self.proc = None
+            print(f'Terminated with return code {ret}')
 
     def delete(self, event=None):
         if os.path.exists(self.my_path):
