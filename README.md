@@ -14,22 +14,20 @@
   python3 manager_gui.py
   ```
 
-### main/manager\_cli.py
+#### (Legacy) main/manager\_cli.py
   ```bash
   python3 manager_cli.py
   ```
 
 ### The TODO feature
-- Change wallhaven URL
-  - Use [APIv1](https://wallhaven.cc/help/api)
-  - Change wallhaven downloader architecture
+- Configuration GUI
 
 ### The contributed feature(or incoming)
 - None
 
 ## Version history
 
-### 2002xx: 2.0.0a
+### 200205: 2.0.0
 - GUI version!
 
 ### 190128: 1.1.4
