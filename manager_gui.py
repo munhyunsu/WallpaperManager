@@ -3,6 +3,7 @@ import random
 import csv
 import subprocess
 import shlex
+import time
 
 from tkinter import Frame, Tk, Label, Button, Canvas, PhotoImage
 from PIL import ImageTk, Image
