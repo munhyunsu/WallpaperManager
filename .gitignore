@@ -7,6 +7,7 @@
 *.yaml
 ban.csv
 images/
+fav/
 
 # python venv
 venv/
