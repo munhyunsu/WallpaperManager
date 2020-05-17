@@ -14,13 +14,10 @@
   python3 manager_gui.py
   ```
 
-#### (Legacy) main/manager\_cli.py
-  ```bash
-  python3 manager_cli.py
-  ```
-
 ### The TODO feature
 - Configuration GUI
+
+- Download indecator
 
 ### The contributed feature(or incoming)
 - None
