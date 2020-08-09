@@ -22,8 +22,8 @@ class Application(Frame):
         global CFG
         super().__init__(master)
         self.master = master
-        self.master.tk.call('wm', 'iconphoto', 
-                            self.master._w, 
+        self.master.tk.call('wm', 'iconphoto',
+                            self.master._w,
                             PhotoImage(file=CFG['icon']))
         self.create_widgets()
         self.bind_shortcut()
@@ -43,7 +43,7 @@ class Application(Frame):
         self._update_image()
         self._create_canvas()
         self.my_canvas.after_cancel(self.after)
-        self.after = self.my_canvas.after(1000*CFG['timeout'], 
+        self.after = self.my_canvas.after(1000*CFG['timeout'],
                                           self.next_image)
 
     def _get_images(self):
@@ -57,7 +57,7 @@ class Application(Frame):
                         self.images.append(entry.path)
                     elif entry.is_dir():
                         continue # TODO(LuHa): Config file
-                        # CFG['rec'] 
+                        # CFG['rec']
                         dirs.append(entry.path)
         random.shuffle(self.images)
 
@@ -71,15 +71,15 @@ class Application(Frame):
 
     def _create_buttons(self):
         self.buttons = dict()
-        self.buttons['Download'] = Button(self.master, text='[S] Download', 
+        self.buttons['Download'] = Button(self.master, text='[S] Download',
                                           command=self.download)
         self.buttons['Delete'] = Button(self.master, text='[D] Delete',
                                         command=self.delete)
-        self.buttons['AddFav'] = Button(self.master, text='[F] Add to favorite', 
+        self.buttons['AddFav'] = Button(self.master, text='[F] Add to favorite',
                                         command=self.addfav)
-        self.buttons['Ban'] = Button(self.master, text='[B] Ban', 
+        self.buttons['Ban'] = Button(self.master, text='[B] Ban',
                                      command=self.ban)
-    
+
         self.buttons['Download'].grid(row=1, column=0)
         self.buttons['Delete'].grid(row=1, column=1)
         self.buttons['AddFav'].grid(row=1, column=2)
@@ -183,7 +183,7 @@ if __name__ == '__main__':
 
     import argparse
     parser = argparse.ArgumentParser()
- 
+
     parser.add_argument('-c', '--config', type=str,
                         default='config.yaml',
                         help='The configuration file path')
@@ -194,4 +194,3 @@ if __name__ == '__main__':
 
     # Excute main
     main()
-
