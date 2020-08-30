@@ -24,6 +24,9 @@
 
 ## Version history
 
+### 200829: 2.0.1
+- Wallpaper download and slideshow
+
 ### 200205: 2.0.0
 - GUI version!
 
