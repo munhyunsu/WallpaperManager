@@ -16,8 +16,8 @@
 
 ### The TODO feature
 - Configuration GUI
-
-- Download indecator
+- Download indicator
+- Auto resize image by windows
 
 ### The contributed feature(or incoming)
 - None
