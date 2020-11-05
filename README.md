@@ -1,5 +1,6 @@
 # Wallpaper manager
 
+
 ## Propose
 - Scrap image at Booru-site
 - Scrap image at Wallpaper haven
@@ -7,12 +8,13 @@
 - Manage downloaded image
   - Check downloaded image: Ban/Save image
 
+
 ## Usage
 
 ### main/manager\_gui.py
-  ```bash
-  python3 manager_gui.py
-  ```
+```bash
+python3 manager_gui.py
+```
 
 ### The TODO feature
 - Configuration GUI
@@ -21,6 +23,7 @@
 
 ### The contributed feature(or incoming)
 - None
+
 
 ## Version history
 
