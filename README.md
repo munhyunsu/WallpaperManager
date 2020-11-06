@@ -113,3 +113,7 @@ python3 manager_gui.py
 ### 170316: 1.0.0
 - Hobby 프로젝트에서 분리!
   - https://github.com/munhyunsu/Hobby.git
+
+
+## Coded by
+- LuHa (munhyunsu@gmail.com)
