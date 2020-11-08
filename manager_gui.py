@@ -12,8 +12,8 @@ from send2trash import send2trash
 
 from config_manager import load_config
 
-FLAGS = None
-_ = None
+FLAGS = _ = None
+DEBUG = False
 CFG = None
 
 
@@ -189,8 +189,8 @@ if __name__ == '__main__':
                         help='The configuration file path')
     FLAGS, _ = parser.parse_known_args()
 
-    # Preprocessing for some arguments
     FLAGS.config = os.path.abspath(os.path.expanduser(FLAGS.config))
 
     # Excute main
     main()
+
