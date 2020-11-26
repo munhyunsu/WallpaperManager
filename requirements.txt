@@ -1,6 +1,4 @@
-# Upgrade
 pip
-setuptools
 
 # Manager
 Pillow
