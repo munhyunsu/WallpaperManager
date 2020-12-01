@@ -185,12 +185,16 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
 
+    parser.add_argument('--debug', action='store_true',
+                        help='enable debug mode')
     parser.add_argument('-c', '--config', type=str,
                         default='config.yaml',
                         help='The configuration file path')
     FLAGS, _ = parser.parse_known_args()
 
     FLAGS.config = os.path.abspath(os.path.expanduser(FLAGS.config))
+
+    DEBUG = FLAGS.debug
 
     # Excute main
     main()
