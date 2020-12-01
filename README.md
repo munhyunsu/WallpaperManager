@@ -20,6 +20,7 @@ python3 manager_gui.py
 - Configuration GUI
 - Download indicator
 - Auto resize image by windows
+- Bug: Do not terminate program during downloads
 
 ### The contributed feature(or incoming)
 - None
