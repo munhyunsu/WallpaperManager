@@ -22,6 +22,7 @@ class Application(Frame):
         global CFG
         super().__init__(master)
         self.master = master
+        self.master.title('Wallpaper manager')
         self.master.tk.call('wm', 'iconphoto',
                             self.master._w,
                             PhotoImage(file=CFG['icon']))
