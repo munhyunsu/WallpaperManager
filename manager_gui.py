@@ -118,6 +118,8 @@ class Application(Frame):
     def _check_proc(self):
         ret = self.proc.poll()
         if ret is None:
+            if DEBUG:
+                print('re-after at _check_proc')
             self.buttons['Download'].after(1000*CFG['timeout'],
                                            self._check_proc)
         else:
@@ -147,7 +149,8 @@ class Application(Frame):
 
     def quit(self, event=None):
         while self.proc is not None:
-            print(f'Wait for terminating {self.proc.pid}')
+            if DEBUG:
+                print(f'Wait for terminating {self.proc.pid}')
             time.sleep(1000*CFG['timeout'])
         if os.path.exists(CFG['ban']):
             with open(CFG['ban'], 'r') as f:
