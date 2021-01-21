@@ -21,6 +21,7 @@ python3 manager_gui.py
 - Download indicator
 - Auto resize image by windows
 - Bug: Do not terminate program during downloads
+  - Tk event table bug?
 
 ### The contributed feature(or incoming)
 - None
