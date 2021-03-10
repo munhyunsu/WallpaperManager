@@ -1,6 +1,5 @@
 # Wallpaper manager
 
-
 ## Propose
 - Scrap image at Booru-site
 - Scrap image at Wallpaper haven
@@ -8,6 +7,10 @@
 - Manage downloaded image
   - Check downloaded image: Ban/Save image
 
+## Requirements
+```bash
+pip3 install -r requirements.txt
+```
 
 ## Usage
 
