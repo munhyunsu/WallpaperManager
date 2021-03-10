@@ -8,9 +8,12 @@
   - Check downloaded image: Ban/Save image
 
 ## Requirements
-```bash
-pip3 install -r requirements.txt
-```
+1. Tk-enabled Python 3
+
+1. requirements
+  ```bash
+  pip3 install -r requirements.txt
+  ```
 
 ## Usage
 
