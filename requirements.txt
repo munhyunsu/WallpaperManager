@@ -3,6 +3,8 @@ pip
 # Manager
 Pillow
 Send2Trash
+numpy
+pandas
 
 # Parser
 bs4
