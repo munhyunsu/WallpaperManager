@@ -56,10 +56,6 @@ class Application(Frame):
                 for entry in it:
                     if entry.is_file():
                         self.images.append(entry.path)
-                    elif entry.is_dir():
-                        continue # TODO(LuHa): Config file
-                        # CFG['rec']
-                        dirs.append(entry.path)
         random.shuffle(self.images)
 
     def _create_canvas(self):
