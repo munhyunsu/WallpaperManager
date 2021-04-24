@@ -28,6 +28,7 @@ python3 manager_gui.py
 - Auto resize image by windows
 - Bug: Do not terminate program during downloads
   - Tk event table bug?
+  - Reproduce: Click the download then quit program
 
 ### The contributed feature(or incoming)
 - None
