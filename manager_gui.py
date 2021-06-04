@@ -10,7 +10,7 @@ from PIL import ImageTk, Image
 import yaml
 from send2trash import send2trash
 
-from config_manager import load_config
+import config_manager
 
 FLAGS = _ = None
 DEBUG = False
@@ -168,7 +168,7 @@ def main():
     print(f'Unparsed: {_}')
 
     # load configuration
-    CFG = load_config(FLAGS.config)
+    CFG = config_manager.load_config(FLAGS.config)
 
     # Create Tk Application
     root = Tk()
