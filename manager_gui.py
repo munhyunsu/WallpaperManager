@@ -144,10 +144,11 @@ class Application(Frame):
             print(f'Add {self.my_path} to fav')
 
     def quit(self, event=None):
-        while self.proc is not None:
+        if self.proc is not None:
             if DEBUG:
                 print(f'Wait for terminating {self.proc.pid}')
-            time.sleep(1000*CFG['timeout'])
+            print('Wait for download completed')
+            return
         if os.path.exists(CFG['ban']):
             with open(CFG['ban'], 'r') as f:
                 reader = csv.reader(f)
