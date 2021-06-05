@@ -12,7 +12,7 @@ import configparser
 import time
 import random
 
-from config_manager import load_config
+import config_manager
 
 FLAGS = None
 _ = None
@@ -50,7 +50,7 @@ def before_job():
     global CFG
     global OPENER
     global JAR
-    CFG = load_config(FLAGS.config)
+    CFG = config_manager.load_config(FLAGS.config)
     os.makedirs(os.path.abspath(os.path.expanduser(CFG['output'])),
                 exist_ok=True)
     JAR = http.cookiejar.LWPCookieJar(CFG['wallhaven']['jar'])
