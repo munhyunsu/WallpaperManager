@@ -1,5 +1,5 @@
 # GUI icon
-*.png
+icon.png
 
 # Configuration
 *.jar
@@ -28,6 +28,9 @@ sqlite3
 *.secret
 save
 downloads
+
+# devs
+dev_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

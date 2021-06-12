@@ -11,9 +11,9 @@
 1. Tk-enabled Python 3
 
 1. requirements
-  ```bash
-  pip3 install -r requirements.txt
-  ```
+```bash
+pip3 install -r requirements.txt
+```
 
 ## Usage
 
@@ -23,6 +23,7 @@ python3 manager_gui.py
 ```
 
 ### The TODO feature
+- Main window detached from wallpaper window
 - Configuration GUI
 - Download indicator
 - Auto resize image by windows
