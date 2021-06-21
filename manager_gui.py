@@ -10,7 +10,6 @@ from PIL import ImageTk, Image
 import yaml
 from send2trash import send2trash
 
-import config_manager
 
 FLAGS = _ = None
 DEBUG = False
@@ -23,8 +22,7 @@ class Application(Frame):
         super().__init__(master)
         self.master = master
         self.master.title('Wallpaper manager')
-        self.master.tk.call('wm', 'iconphoto',
-                            self.master._w,
+        self.master.tk.call('wm', 'iconphoto', self.master._w,
                             PhotoImage(file=CFG['icon']))
         self.create_widgets()
         self.bind_shortcut()
@@ -162,6 +160,12 @@ class Application(Frame):
         print(f'Save ban list and quit')
 
 
+def load_config(cfg_path):
+    with open(cfg_path, 'r') as f:
+        cfg = yaml.safe_load(f)
+    return cfg
+
+
 def main():
     global CFG
     # Print Parameters
@@ -169,7 +173,7 @@ def main():
     print(f'Unparsed: {_}')
 
     # load configuration
-    CFG = config_manager.load_config(FLAGS.config)
+    CFG = load_config(FLAGS.config)
 
     # Create Tk Application
     root = Tk()
