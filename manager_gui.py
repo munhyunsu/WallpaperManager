@@ -5,6 +5,7 @@ import subprocess
 import shlex
 import time
 
+import tkinter as tk
 from tkinter import Frame, Tk, Label, Button, Canvas, PhotoImage
 from PIL import ImageTk, Image
 import yaml
@@ -32,19 +33,26 @@ class Application(Frame):
 #        self.bind_shortcut()
 
     def create_main(self):
-        self.object['bt_Download'] = Button(self.master, text='[S] Download',
+        self.object['fr_main'] = Frame(master=self.master, relief=tk.RAISED,
+                                       borderwidth=1)
+        self.object['fr_main'].grid_rowconfigure(0, weight=1)
+        self.object['fr_main'].grid_rowconfigure(1, weight=1)
+        self.object['fr_main'].grid_columnconfigure(0, weight=1)
+        self.object['fr_main'].grid_columnconfigure(1, weight=1)
+        self.object['fr_main'].grid_columnconfigure(2, weight=1)
+        self.object['bt_download'] = Button(self.object['fr_main'], text='[S] Download',
                                             command=self.download)
-        self.object['bt_Delete'] = Button(self.master, text='[D] Delete',
+        self.object['bt_download'].grid(row=0, column=0)
+        self.object['bt_delete'] = Button(self.object['fr_main'], text='[D] Delete',
                                           command=self.delete)
-        self.object['bt_AddFav'] = Button(self.master, text='[F] Add to favorite',
+        self.object['bt_delete'].grid(row=1, column=0)
+        self.object['bt_addFav'] = Button(self.object['fr_main'], text='[F] Add to favorite',
                                           command=self.addfav)
-        self.object['bt_Ban'] = Button(self.master, text='[B] Ban',
+        self.object['bt_addFav'].grid(row=1, column=1)
+        self.object['bt_ban'] = Button(self.object['fr_main'], text='[B] Ban',
                                        command=self.ban)
-
-        self.object['bt_Download'].grid(row=0, column=0)
-        self.object['bt_Delete'].grid(row=1, column=0)
-        self.object['bt_AddFav'].grid(row=1, column=1)
-        self.object['bt_Ban'].grid(row=1, column=2)
+        self.object['bt_ban'].grid(row=1, column=2)
+        self.object['fr_main'].pack(expand=2, fill='both', side=tk.LEFT)
 
 #    def create_widgets(self):
 #        self._get_images()
