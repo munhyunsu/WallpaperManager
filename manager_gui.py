@@ -24,16 +24,32 @@ class Application(Frame):
         self.master.title('Wallpaper manager')
         self.master.tk.call('wm', 'iconphoto', self.master._w,
                             PhotoImage(file=CFG['icon']))
-        self.create_widgets()
-        self.bind_shortcut()
         # member variables
+        self.object = dict()
         self.ban = set()
-        self.proc = None
+        # call
+        self.create_main()
+#        self.bind_shortcut()
 
-    def create_widgets(self):
-        self._get_images()
-        self.next_image()
-        self._create_buttons()
+    def create_main(self):
+        self.object['bt_Download'] = Button(self.master, text='[S] Download',
+                                            command=self.download)
+        self.object['bt_Delete'] = Button(self.master, text='[D] Delete',
+                                          command=self.delete)
+        self.object['bt_AddFav'] = Button(self.master, text='[F] Add to favorite',
+                                          command=self.addfav)
+        self.object['bt_Ban'] = Button(self.master, text='[B] Ban',
+                                       command=self.ban)
+
+        self.object['bt_Download'].grid(row=0, column=0)
+        self.object['bt_Delete'].grid(row=1, column=0)
+        self.object['bt_AddFav'].grid(row=1, column=1)
+        self.object['bt_Ban'].grid(row=1, column=2)
+
+#    def create_widgets(self):
+#        self._get_images()
+#        self.next_image()
+#        self._create_buttons()
 
     def next_image(self):
         if not self.images:
