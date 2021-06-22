@@ -40,9 +40,11 @@ class Application(Frame):
         self.object['fr_main'].grid_columnconfigure(0, weight=1)
         self.object['fr_main'].grid_columnconfigure(1, weight=1)
         self.object['fr_main'].grid_columnconfigure(2, weight=1)
+        self.object['bt_startshow'] = Button(self.object['fr_main'], text='Start show')
+        self.object['bt_startshow'].grid(row=0, column=0)
         self.object['bt_download'] = Button(self.object['fr_main'], text='[S] Download',
                                             command=self.download)
-        self.object['bt_download'].grid(row=0, column=0)
+        self.object['bt_download'].grid(row=0, column=1)
         self.object['bt_delete'] = Button(self.object['fr_main'], text='[D] Delete',
                                           command=self.delete)
         self.object['bt_delete'].grid(row=1, column=0)
