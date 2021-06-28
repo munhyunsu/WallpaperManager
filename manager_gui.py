@@ -40,7 +40,8 @@ class Application(Frame):
         self.object['fr_main'].grid_columnconfigure(0, weight=1)
         self.object['fr_main'].grid_columnconfigure(1, weight=1)
         self.object['fr_main'].grid_columnconfigure(2, weight=1)
-        self.object['bt_startshow'] = Button(self.object['fr_main'], text='Start show')
+        self.object['bt_startshow'] = Button(self.object['fr_main'], text='Start show',
+                                             command=self.start_show)
         self.object['bt_startshow'].grid(row=0, column=0)
         self.object['bt_download'] = Button(self.object['fr_main'], text='[S] Download',
                                             command=self.download)
@@ -56,10 +57,9 @@ class Application(Frame):
         self.object['bt_ban'].grid(row=1, column=2)
         self.object['fr_main'].pack(expand=2, fill='both', side=tk.LEFT)
 
-#    def create_widgets(self):
-#        self._get_images()
-#        self.next_image()
-#        self._create_buttons()
+    def start_show(self):
+        if DEBUG:
+            print('Clicked start show')
 
     def next_image(self):
         if not self.images:
