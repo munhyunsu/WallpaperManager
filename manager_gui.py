@@ -46,15 +46,15 @@ class Application(Frame):
         self.object['bt_download'] = Button(self.object['fr_main'], text='[S] Download',
                                             command=self.download)
         self.object['bt_download'].grid(row=0, column=1)
-        self.object['bt_delete'] = Button(self.object['fr_main'], text='[D] Delete',
-                                          command=self.delete)
-        self.object['bt_delete'].grid(row=1, column=0)
-        self.object['bt_addFav'] = Button(self.object['fr_main'], text='[F] Add to favorite',
-                                          command=self.addfav)
-        self.object['bt_addFav'].grid(row=1, column=1)
-        self.object['bt_ban'] = Button(self.object['fr_main'], text='[B] Ban',
-                                       command=self.ban)
-        self.object['bt_ban'].grid(row=1, column=2)
+#        self.object['bt_delete'] = Button(self.object['fr_main'], text='[D] Delete',
+#                                          command=self.delete)
+#        self.object['bt_delete'].grid(row=1, column=0)
+#        self.object['bt_addFav'] = Button(self.object['fr_main'], text='[F] Add to favorite',
+#                                          command=self.addfav)
+#        self.object['bt_addFav'].grid(row=1, column=1)
+#        self.object['bt_ban'] = Button(self.object['fr_main'], text='[B] Ban',
+#                                       command=self.ban)
+#        self.object['bt_ban'].grid(row=1, column=2)
         self.object['fr_main'].pack(expand=2, fill='both', side=tk.LEFT)
 
     def start_show(self):
