@@ -30,6 +30,8 @@ python3 manager_gui.py
 - Bug: Do not terminate program during downloads
   - Tk event table bug?
   - Reproduce: Click the download then quit program
+- We need to use database-like
+  - SQLite3 or Pandas
 
 ### The contributed feature(or incoming)
 - None
